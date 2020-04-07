@@ -21,12 +21,14 @@
                     <em>喵，欢迎来天猫</em>
                     <a href="${pageContext.request.contextPath}/login">请登录</a>
                     <a href="${pageContext.request.contextPath}/register">免费注册</a>
+                    <a href="${pageContext.request.contextPath}/login/logout">时事新闻</a>
                 </c:when>
                 <c:otherwise>
                     <em>Hi，</em>
                     <a href="${pageContext.request.contextPath}/userDetails" class="userName"
                        target="_blank">${requestScope.user.user_name}</a>
                     <a href="${pageContext.request.contextPath}/login/logout">退出</a>
+                    <a href="${pageContext.request.contextPath}/login/logout">时事新闻</a>
                 </c:otherwise>
             </c:choose>
         </p>

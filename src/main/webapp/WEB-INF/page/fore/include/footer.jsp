@@ -41,11 +41,9 @@
         <div class="copyright">
             <span>© 2019 XQ Team</span>
             <a href="https://license.coscl.org.cn/MulanPSL/" target="_blank">Mulan PSL v1</a>
-            <a href="https://xianqu.fun/" target="_blank" class="link_normal">关于XQ（贤趣）</a>
             <span>&nbsp;&nbsp;&nbsp;&nbsp;你知道什么是996.ICU吗？</span>
             <a href="https://996.icu"><img src="https://img.shields.io/badge/link-996.icu-red.svg" alt="996.icu"/></a>
             <br/>
-            <span style="font-weight: bold;">声明：此项目仅供个人学习、研究之用</span>
             <br/>
             <a href="http://www.beian.miit.gov.cn/" target="_blank" style="text-align: center;display: block;">
                 <img src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/TB1yEqRPXXXXXXPXpXXXXXXXXXX-20-20.png">
