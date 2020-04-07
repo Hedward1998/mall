@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * 类型实体类
- * @author Hedward
  */
 
 public class Category {

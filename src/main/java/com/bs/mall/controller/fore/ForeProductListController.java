@@ -23,7 +23,6 @@ import java.util.Map;
 
 /**
  * 产品列表页
- * @author Hedward
  */
 @Controller
 public class ForeProductListController extends BaseController {

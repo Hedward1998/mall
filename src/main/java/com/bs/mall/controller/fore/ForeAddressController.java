@@ -11,7 +11,6 @@ import java.util.List;
 
 /**
  * 地址信息管理
- * @author Hedward
  */
 @RestController
 public class ForeAddressController extends BaseController {

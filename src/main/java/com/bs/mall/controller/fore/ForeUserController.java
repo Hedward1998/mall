@@ -26,7 +26,6 @@ import java.util.UUID;
 
 /**
  * 用户信息管理
- * @author Hedward
  */
 @Controller
 public class ForeUserController extends BaseController{

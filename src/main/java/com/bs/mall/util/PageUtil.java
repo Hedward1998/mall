@@ -2,7 +2,6 @@ package com.bs.mall.util;
 
 /**
  * 查询分页工具
- * @author Hedward
  */
 public final class PageUtil {
     //当前页

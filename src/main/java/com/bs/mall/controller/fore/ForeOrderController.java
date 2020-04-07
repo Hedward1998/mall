@@ -23,7 +23,6 @@ import java.util.*;
 
 /**
  * 订单列表页
- * @author Hedward
  */
 @Controller
 public class ForeOrderController extends BaseController {

@@ -19,7 +19,6 @@ import java.util.UUID;
 
 /**
  * 后台管理-账户页
- * @author Hedward
  */
 @Controller
 public class AccountController extends BaseController{

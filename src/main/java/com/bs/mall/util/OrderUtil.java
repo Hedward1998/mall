@@ -2,7 +2,6 @@ package com.bs.mall.util;
 
 /**
  * 查询排序工具
- * @author Hedward
  */
 public final class OrderUtil {
     //排序字段

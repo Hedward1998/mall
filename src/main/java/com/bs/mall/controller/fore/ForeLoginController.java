@@ -16,7 +16,6 @@ import java.util.Map;
 
 /**
  * 登陆页
- * @author Hedward
  */
 @Controller
 public class ForeLoginController extends BaseController {

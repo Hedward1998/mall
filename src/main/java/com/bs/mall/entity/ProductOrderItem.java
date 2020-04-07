@@ -2,7 +2,6 @@ package com.bs.mall.entity;
 
 /**
  * 订单项实体类
- * @author Hedward
  */
 public class ProductOrderItem {
     private Integer productOrderItem_id/*订单项ID*/;

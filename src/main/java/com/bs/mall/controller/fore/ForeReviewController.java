@@ -17,7 +17,6 @@ import java.util.Map;
 
 /**
  * 评论信息管理
- * @author Hedward
  */
 @Controller
 public class ForeReviewController extends BaseController {

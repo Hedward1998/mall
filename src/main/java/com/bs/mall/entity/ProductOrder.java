@@ -7,7 +7,6 @@ import java.util.Locale;
 
 /**
  * 订单实体类
- * @author Hedward
  */
 public class ProductOrder {
     private Integer productOrder_id/*订单ID*/;

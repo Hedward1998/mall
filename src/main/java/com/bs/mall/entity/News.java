@@ -4,7 +4,6 @@ import java.util.Date;
 
 /**
  * 新闻类
- * @author Hedward
  */
 public class News {
     private Integer news_id/*新闻ID*/;

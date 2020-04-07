@@ -20,7 +20,6 @@ import java.util.Map;
 
 /**
  * 注册页
- * @author Hedward
  */
 @Controller
 public class ForeRegisterController extends BaseController{

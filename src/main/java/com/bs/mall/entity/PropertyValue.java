@@ -2,7 +2,6 @@ package com.bs.mall.entity;
 
 /**
  * 属性值实体类
- * @author Hedward
  */
 public class PropertyValue {
     private Integer propertyValue_id/*属性值ID*/;

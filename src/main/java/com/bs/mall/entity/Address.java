@@ -2,7 +2,6 @@ package com.bs.mall.entity;
 
 /**
  * 地址实体类
- * @author Hedward
  */
 public class Address {
     private String address_areaId/*地址ID*/;

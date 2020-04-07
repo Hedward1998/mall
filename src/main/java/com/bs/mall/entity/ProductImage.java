@@ -2,7 +2,6 @@ package com.bs.mall.entity;
 
 /**
  * 产品图片实体类
- * @author Hedward
  */
 public class ProductImage {
     private Integer productImage_id/*产品图片ID*/;

@@ -7,7 +7,6 @@ import java.util.Locale;
 
 /**
  * 产品实体类
- * @author Hedward
  */
 public class Product {
     private Integer product_id/*产品ID*/;

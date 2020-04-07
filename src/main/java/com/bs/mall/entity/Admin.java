@@ -2,7 +2,6 @@ package com.bs.mall.entity;
 
 /**
  * 管理员实体类
- * @author Hedward
  */
 public class Admin {
     private Integer admin_id/*管理员ID*/;
