@@ -1,4 +1,5 @@
 package com.bs.mall.service;
 
-public class NewsService {
+
+public interface NewsService {
 }

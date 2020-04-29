@@ -44,13 +44,13 @@
     <div class="header">
         <div id="mallLogo">
             <a href="${pageContext.request.contextPath}"><img
-                    src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/tmallLogoA.png"><span
+                    src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/mallLogoA.png"><span
                     class="span_mallBuyCar">购物车</span></a>
         </div>
         <div class="shopSearchHeader">
             <form action="${pageContext.request.contextPath}/product" method="get">
                 <div class="shopSearchInput">
-                    <input type="text" class="searchInput" name="product_name" placeholder="搜索 天猫 商品/品牌/店铺"
+                    <input type="text" class="searchInput" name="product_name" placeholder="搜索 商品/品牌"
                            value="${requestScope.searchValue}" maxlength="50">
                     <input type="submit" value="搜 索" class="searchBtn">
                 </div>
@@ -116,7 +116,7 @@
                 <c:forEach items="${requestScope.orderItemList}" var="orderItem">
                     <tr class="orderItem_category">
                         <td colspan="6"><span class="shop_logo"></span><span
-                                class="category_shop">店铺：贤趣${orderItem.productOrderItem_product.product_category.category_name}旗舰店</span>
+                                class="category_shop">店铺：Mall商城${orderItem.productOrderItem_product.product_category.category_name}店</span>
                         </td>
                     </tr>
                     <tr class="orderItem_info">

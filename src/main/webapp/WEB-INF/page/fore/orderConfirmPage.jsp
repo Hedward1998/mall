@@ -2,7 +2,7 @@
 <%@ include file="include/header.jsp" %>
 <head>
     <link href="${pageContext.request.contextPath}/res/css/fore/fore_orderConfirmPage.css" rel="stylesheet"/>
-    <title>确认收货 - Mall.com天猫-理想生活上天猫</title>
+    <title>确认收货 - Mall商城</title>
     <script>
 
     </script>
@@ -14,12 +14,12 @@
 <div class="header">
     <div id="mallLogo">
         <a href="${pageContext.request.contextPath}"><img
-                src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/tmallLogoA.png"></a>
+                src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/mallLogoA.png"></a>
     </div>
     <div class="shopSearchHeader">
         <form action="${pageContext.request.contextPath}/product" method="get">
             <div class="shopSearchInput">
-                <input type="text" class="searchInput" name="product_name" placeholder="搜索 天猫 商品/品牌/店铺"
+                <input type="text" class="searchInput" name="product_name" placeholder="搜索 商品/品牌"
                        maxlength="50">
                 <input type="submit" value="搜 索" class="searchBtn">
             </div>
@@ -110,7 +110,7 @@
             <tr>
                 <td colspan="4">
                     <span class="info_label">卖家商铺昵称：</span>
-                    <span class="info_value">贤趣模拟旗舰店</span>
+                    <span class="info_value">Mall商城${requestScope.product.product_category.category_name}店</span>
                 </td>
             </tr>
             <tr>
@@ -124,7 +124,6 @@
         <div class="order-dashboard">
             <div class="bd">
                 <ul>
-<%--                    <li>请收到货后，再确认收货！否则您可能钱货两空！</li>--%>
                     <li>提示：本系统不会进行真实交易，请放心测试</li>
                 </ul>
                 <script>

@@ -42,7 +42,7 @@ public class ForeProductListController extends BaseController {
     private ProductOrderItemService productOrderItemService;
 
 
-    //转到前台天猫-产品搜索列表页
+    //转到商城前台-产品搜索列表页
     @RequestMapping(value = "product", method = RequestMethod.GET)
     public String goToPage(HttpSession session, Map<String, Object> map,
                            @RequestParam(value = "category_id", required = false) Integer category_id/* 分类ID */,
@@ -112,7 +112,7 @@ public class ForeProductListController extends BaseController {
         map.put("searchValue", searchValue);
         map.put("searchType", searchType);
 
-        logger.info("转到前台天猫-产品搜索列表页");
+        logger.info("转到商城前台-产品搜索列表页");
         return "fore/productListPage";
     }
 

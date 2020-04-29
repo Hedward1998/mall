@@ -22,10 +22,10 @@ public class ForeLoginController extends BaseController {
     @Resource(name = "userService")
     private UserService userService;
 
-    //转到前台天猫-登录页
+    //转到商城前台-登录页
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String goToPage(HttpSession session, Map<String, Object> map) {
-        logger.info("转到前台天猫-登录页");
+        logger.info("转到商城前台-登录页");
         return "fore/loginPage";
     }
 

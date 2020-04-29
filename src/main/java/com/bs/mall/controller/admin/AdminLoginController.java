@@ -64,7 +64,6 @@ public class AdminLoginController extends BaseController {
             object.put("success",true);
             object.put("srcString",admin.getAdmin_profile_picture_src());
         }
-
         return object.toJSONString();
     }
 }

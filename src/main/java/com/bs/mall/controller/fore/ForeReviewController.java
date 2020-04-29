@@ -33,7 +33,7 @@ public class ForeReviewController extends BaseController {
     @Resource(name = "productImageService")
     private ProductImageService productImageService;
 
-    //转到前台天猫-评论添加页
+    //转到商城前台-评论添加页
     @RequestMapping(value = "review/{orderItem_id}", method = RequestMethod.GET)
     public String goToPage(HttpSession session, Map<String, Object> map,
                            @PathVariable("orderItem_id") Integer orderItem_id) {
@@ -77,7 +77,7 @@ public class ForeReviewController extends BaseController {
 
         map.put("orderItem", orderItem);
 
-        logger.info("转到前台天猫-评论添加页");
+        logger.info("转到商城前台-评论添加页");
         return "fore/addReview";
     }
 

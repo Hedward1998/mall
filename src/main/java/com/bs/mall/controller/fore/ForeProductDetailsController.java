@@ -39,7 +39,7 @@ public class ForeProductDetailsController extends BaseController {
     @Resource(name = "productOrderItemService")
     private ProductOrderItemService productOrderItemService;
 
-    //转到前台天猫-产品详情页
+    //转到商城前台-产品详情页
     @RequestMapping(value = "product/{pid}", method = RequestMethod.GET)
     public String goToPage(HttpSession session, Map<String, Object> map,
                            @PathVariable("pid") String pid /*产品ID*/) {

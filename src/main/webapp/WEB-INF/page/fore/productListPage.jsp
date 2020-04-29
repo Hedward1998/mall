@@ -5,18 +5,18 @@
 <body>
 <title><c:choose><c:when test="${requestScope.searchValue != null}">${requestScope.searchValue}</c:when>
     <c:otherwise><c:choose><c:when
-            test="${requestScope.productList != null && fn:length(requestScope.productList)>0}">${requestScope.productList[0].product_category.category_name}</c:when><c:otherwise>没找到相关商品</c:otherwise></c:choose></c:otherwise></c:choose>-Mall.com-理想生活上天猫</title>
+            test="${requestScope.productList != null && fn:length(requestScope.productList)>0}">${requestScope.productList[0].product_category.category_name}</c:when><c:otherwise>没找到相关商品</c:otherwise></c:choose></c:otherwise></c:choose>-Mall商城</title>
 <nav>
     <%@ include file="include/navigator.jsp" %>
     <div class="header">
         <div id="mallLogo">
             <a href="${pageContext.request.contextPath}"><img
-                    src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/tmallLogoA.png"></a>
+                    src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/mallLogoA.png"></a>
         </div>
         <div class="shopSearchHeader">
             <form action="${pageContext.request.contextPath}/product" method="get">
                 <div class="shopSearchInput">
-                    <input type="text" class="searchInput" name="product_name" placeholder="搜索 天猫 商品/品牌/店铺"
+                    <input type="text" class="searchInput" name="product_name" placeholder="搜索 商品/品牌/店铺"
                            value="${requestScope.searchValue}" maxlength="50">
                     <input type="submit" value="搜 索" class="searchBtn">
                 </div>
@@ -80,7 +80,7 @@
                             <p class="context_product_price"><span>¥</span>${product.product_sale_price}</p>
                             <p class="context_product_name"><a href="/mall/product/${product.product_id}"
                                                                target="_blank">${product.product_name}</a></p>
-                            <p class="context_product_shop"><span>贤趣${product.product_category.category_name}旗舰店</span>
+                            <p class="context_product_shop"><span>Mall商城${requestScope.product.product_category.category_name}店</span>
                             </p>
                             <p class="context_product_status">
                                 <span class="status_left">总成交<em><c:choose><c:when
@@ -96,7 +96,7 @@
         </c:when>
         <c:otherwise>
             <div class="error">
-                <h2>喵~没找到与“${requestScope.searchValue}”相关的 商品 哦，要不您换个关键词我帮您再找找看</h2>
+                <h2>没找到与“${requestScope.searchValue}”相关的 商品 哦，要不您换个关键词我帮您再找找看</h2>
                 <h3>建议您：</h3>
                 <ol>
                     <li>看看输入的文字是否有误</li>
@@ -105,7 +105,7 @@
                         <form action="${pageContext.request.contextPath}/product" method="get">
                             <input title="查询产品" type="text" class="errorInput" name="product_name"
                                    value="${requestScope.searchValue}">
-                            <input type="submit" value="去淘宝搜索" class="errorBtn">
+                            <input type="submit" value="去商城搜索" class="errorBtn">
                         </form>
                     </li>
                 </ol>

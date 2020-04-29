@@ -37,7 +37,7 @@ public class ForeHomeController extends BaseController {
     @Resource(name="productImageService")
     private ProductImageService productImageService;
 
-    //转到前台天猫-主页
+    //转到商城前台-主页
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String goToPage(HttpSession session, Map<String, Object> map) {
         logger.info("检查用户是否登录");
@@ -79,7 +79,7 @@ public class ForeHomeController extends BaseController {
         return "fore/homePage";
     }
 
-    //转到前台天猫-错误页
+    //转到商城前台-错误页
     @RequestMapping(value = "error", method = RequestMethod.GET)
     public String goToErrorPage() {
         return "fore/errorPage";

@@ -4,24 +4,24 @@
     <script src="${pageContext.request.contextPath}/res/js/fore/fore_login.js"></script>
     <script src="${pageContext.request.contextPath}/res/js/fore/fore_productDetails.js"></script>
     <link href="${pageContext.request.contextPath}/res/css/fore/fore_productDetails.css" rel="stylesheet">
-    <title>${requestScope.product.product_name}-Mall.com天猫</title>
+    <title>${requestScope.product.product_name}-Mall.com</title>
 </head>
 <body>
 <nav>
     <%@ include file="include/navigator.jsp" %>
     <div class="header">
         <a href="${pageContext.request.contextPath}"><img
-                src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/tmallLogoB.png"></a>
-        <span class="shopNameHeader">贤趣${requestScope.product.product_category.category_name}官方旗舰店</span>
+                src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/mallLogoB.png"></a>
+        <span class="shopNameHeader">Mall商城${requestScope.product.product_category.category_name}店</span>
         <input id="tid" type="hidden" value="${requestScope.product.product_category.category_id}"/>
         <img src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/detailsHeaderA.png"
              class="shopAssessHeader">
         <div class="shopSearchHeader">
             <form action="${pageContext.request.contextPath}/product" method="get">
                 <div class="shopSearchInput">
-                    <input type="text" class="searchInput" name="product_name" placeholder="搜索 天猫 商品/品牌/店铺"
+                    <input type="text" class="searchInput" name="product_name" placeholder="搜索 商品/品牌"
                            maxlength="50">
-                    <input type="submit" value="搜天猫" class="searchMall">
+                    <input type="submit" value="搜商品" class="searchMall">
                 </div>
                 <input type="submit" value="搜本店" class="searchShop">
             </form>
@@ -66,7 +66,6 @@
             </form>
             <div class="loginLinks">
                 <a href="#">忘记密码</a>
-                <a href="#">忘记会员名</a>
                 <a href="${pageContext.request.contextPath}/register" target="_blank">免费注册</a>
             </div>
             <div class="error_message">
@@ -74,18 +73,6 @@
             </div>
         </div>
         <div class="qrcodeLogin">
-            <span class="loginTitle">手机扫码，安全登录</span>
-            <div class="qrcodeMain">
-                <img src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/login_qrcode.png"
-                     id="qrcodeA"/>
-                <img src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/login_qrcodeB.png"
-                     id="qrcodeB"/>
-            </div>
-            <div class="qrcodeFooter">
-                <img src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/scan_icon2.png">
-                <p>打开 <a href="https://www.tmall.com/wow/portal/act/app-download">手机天猫</a> | <a
-                        href="https://www.taobao.com/m">手机淘宝</a>扫一扫登录</p>
-            </div>
             <div class="loginLinks">
                 <a href="JavaScript:void(0)" id="pwdLogin">密码登录</a>
                 <a href="${pageContext.request.contextPath}/register" target="_blank">免费注册</a>
@@ -121,12 +108,12 @@
             <span class="context_info_title">${requestScope.product.product_title}</span>
         </div>
         <div class="context_info_main">
-            <div class="context_info_main_ad">
-                <img src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/context_ad.png">
-                <span>全天猫实物商品通用</span>
-                <a href="#">去刮券<img
-                        src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/tmallItemContentB.png"></a>
-            </div>
+            <%--<div class="context_info_main_ad">--%>
+                <%--<img src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/context_ad.png">--%>
+                <%--<span>全天猫实物商品通用</span>--%>
+                <%--<a href="#">去刮券<img--%>
+                        <%--src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/tmallItemContentB.png"></a>--%>
+            <%--</div>--%>
             <dl class="context_price_panel">
                 <dt>价格</dt>
                 <dd><em>¥</em><span>${requestScope.product.product_price}0</span></dd>
@@ -141,9 +128,9 @@
                     test="${requestScope.product.product_sale_count != null}">${requestScope.product.product_sale_count}</c:when><c:otherwise>0</c:otherwise></c:choose></span>
             </li>
             <li>累计评价<span>${requestScope.product.product_review_count}</span></li>
-            <li class="mall_points">送天猫积分<span><fmt:formatNumber type="number"
-                                                                  value="${requestScope.product.product_sale_price/10}"
-                                                                  maxFractionDigits="0"/></span></li>
+            <%--<li class="mall_points">送天猫积分<span><fmt:formatNumber type="number"--%>
+                                                                  <%--value="${requestScope.product.product_sale_price/10}"--%>
+                                                                  <%--maxFractionDigits="0"/></span></li>--%>
         </ul>
         <dl class="context_info_member">
             <dt>数量</dt>

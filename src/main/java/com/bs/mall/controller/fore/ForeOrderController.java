@@ -45,7 +45,7 @@ public class ForeOrderController extends BaseController {
     @Resource(name = "lastIDService")
     private LastIDService lastIDService;
 
-    //转到前台天猫-订单列表页
+    //转到商城前台-订单列表页
     @RequestMapping(value = "order", method = RequestMethod.GET)
     public String goToPageSimple() {
         return "redirect:/order/0/10";
@@ -115,11 +115,11 @@ public class ForeOrderController extends BaseController {
         map.put("categoryList", categoryList);
         map.put("status", status);
 
-        logger.info("转到前台天猫-订单列表页");
+        logger.info("转到商城前台-订单列表页");
         return "fore/orderListPage";
     }
 
-    //转到前台天猫-订单建立页
+    //转到商城前台-订单建立页
     @RequestMapping(value = "order/create/{product_id}", method = RequestMethod.GET)
     public String goToOrderConfirmPage(@PathVariable("product_id") Integer product_id,
                                        @RequestParam(required = false, defaultValue = "1") Short product_number,
@@ -215,11 +215,11 @@ public class ForeOrderController extends BaseController {
         map.put("order_phone", order_phone);
         map.put("detailsAddress", detailsAddress);
 
-        logger.info("转到前台天猫-订单建立页");
+        logger.info("转到商城前台-订单建立页");
         return "fore/productBuyPage";
     }
 
-    //转到前台天猫-购物车订单建立页
+    //转到商城前台-购物车订单建立页
     @RequestMapping(value = "order/create/byCart", method = RequestMethod.GET)
     public String goToOrderConfirmPageByCart(Map<String, Object> map,
                                              HttpSession session, HttpServletRequest request,
@@ -325,11 +325,11 @@ public class ForeOrderController extends BaseController {
         map.put("order_phone", order_phone);
         map.put("detailsAddress", detailsAddress);
 
-        logger.info("转到前台天猫-订单建立页");
+        logger.info("转到商城前台-订单建立页");
         return "fore/productBuyPage";
     }
 
-    //转到前台天猫-订单支付页
+    //转到商城前台-订单支付页
     @RequestMapping(value = "order/pay/{order_code}", method = RequestMethod.GET)
     public String goToOrderPayPage(Map<String, Object> map, HttpSession session,
                                    @PathVariable("order_code") String order_code) {
@@ -380,11 +380,11 @@ public class ForeOrderController extends BaseController {
         map.put("productOrder", order);
         map.put("orderTotalPrice", orderTotalPrice);
 
-        logger.info("转到前台天猫-订单支付页");
+        logger.info("转到商城前台-订单支付页");
         return "fore/productPayPage";
     }
 
-    //转到前台天猫-订单支付成功页
+    //转到商城前台-订单支付成功页
     @RequestMapping(value = "order/pay/success/{order_code}", method = RequestMethod.GET)
     public String goToOrderPaySuccessPage(Map<String, Object> map, HttpSession session,
                                           @PathVariable("order_code") String order_code) {
@@ -451,11 +451,11 @@ public class ForeOrderController extends BaseController {
         map.put("productOrder", order);
         map.put("orderTotalPrice", orderTotalPrice);
 
-        logger.info("转到前台天猫-订单支付成功页");
+        logger.info("转到商城前台-订单支付成功页");
         return "fore/productPaySuccessPage";
     }
 
-    //转到前台天猫-订单确认页
+    //转到商城前台-订单确认页
     @RequestMapping(value = "order/confirm/{order_code}", method = RequestMethod.GET)
     public String goToOrderConfirmPage(Map<String, Object> map, HttpSession session,
                                        @PathVariable("order_code") String order_code) {
@@ -512,11 +512,11 @@ public class ForeOrderController extends BaseController {
         map.put("productOrder", order);
         map.put("orderTotalPrice", orderTotalPrice);
 
-        logger.info("转到前台天猫-订单确认页");
+        logger.info("转到商城前台-订单确认页");
         return "fore/orderConfirmPage";
     }
 
-    //转到前台天猫-订单完成页
+    //转到商城前台-订单完成页
     @RequestMapping(value = "order/success/{order_code}", method = RequestMethod.GET)
     public String goToOrderSuccessPage(Map<String, Object> map, HttpSession session,
                                        @PathVariable("order_code") String order_code) {
@@ -569,11 +569,11 @@ public class ForeOrderController extends BaseController {
 
         map.put("product", product);
 
-        logger.info("转到前台天猫-订单完成页");
+        logger.info("转到商城前台-订单完成页");
         return "fore/orderSuccessPage";
     }
 
-    //转到前台天猫-购物车页
+    //转到商城前台-购物车页
     @RequestMapping(value = "cart", method = RequestMethod.GET)
     public String goToCartPage(Map<String, Object> map, HttpSession session) {
         logger.info("检查用户是否登录");
@@ -604,7 +604,7 @@ public class ForeOrderController extends BaseController {
         map.put("orderItemList", orderItemList);
         map.put("orderItemTotal", orderItemTotal);
 
-        logger.info("转到前台天猫-购物车页");
+        logger.info("转到商城前台-购物车页");
         return "fore/productBuyCarPage";
     }
 

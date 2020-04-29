@@ -27,12 +27,12 @@
             border-bottom: 1px solid #e5e5e5;
         }
     </style>
-    <title>天猫-登录</title>
+    <title>Mall商城-登录</title>
 </head>
 <body>
 <nav id="baseNavigator">
     <a href="${pageContext.request.contextPath}" target="_self">
-        <img src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/tmallLogoA.png"/>
+        <img src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/mallLogoA.png"/>
     </a>
 </nav>
 <div class="content">
@@ -57,7 +57,6 @@
             </form>
             <div class="loginLinks">
                 <a href="#">忘记密码</a>
-                <a href="#">忘记会员名</a>
                 <a href="${pageContext.request.contextPath}/register">免费注册</a>
             </div>
             <div class="error_message">
