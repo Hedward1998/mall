@@ -4,6 +4,7 @@ import com.bs.mall.dao.PropertyValueMapper;
 import com.bs.mall.entity.PropertyValue;
 import com.bs.mall.service.PropertyValueService;
 import com.bs.mall.util.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +14,13 @@ import java.util.List;
 
 @Service("propertyValueService")
 public class PropertyValueServiceImpl implements PropertyValueService{
+    
+    @Autowired
     private PropertyValueMapper propertyValueMapper;
-    @Resource(name = "propertyValueMapper")
-    public void setPropertyValueMapper(PropertyValueMapper propertyValueMapper) {
-        this.propertyValueMapper = propertyValueMapper;
-    }
+//    @Resource(name = "propertyValueMapper")
+//    public void setPropertyValueMapper(PropertyValueMapper propertyValueMapper) {
+//        this.propertyValueMapper = propertyValueMapper;
+//    }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override

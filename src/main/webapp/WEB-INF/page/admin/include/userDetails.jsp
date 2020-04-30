@@ -76,6 +76,10 @@
         <span class="details_value" id="span_user_birthday">${requestScope.user.user_birthday}</span>
     </div>
     <div class="frm_div">
+        <label class="frm_label text_info" id="lbl_user_phone">电话号码</label>
+        <span class="details_value" id="span_user_phone">${requestScope.user.user_phone}</span>
+    </div>
+    <div class="frm_div">
         <label class="frm_label text_info" id="lbl_user_address">所在地</label>
         <span class="details_value details_value_noRows"
               id="span_user_address">${requestScope.user.user_address.address_name}</span>

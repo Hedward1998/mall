@@ -4,6 +4,7 @@ import com.bs.mall.dao.AdminMapper;
 import com.bs.mall.entity.Admin;
 import com.bs.mall.service.AdminService;
 import com.bs.mall.util.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +15,12 @@ import java.util.List;
 @Service("adminService")
 public class AdminServiceImpl implements AdminService {
 
+    @Autowired
     private AdminMapper adminMapper;
-    @Resource(name = "adminMapper")
-    public void setAdminMapper(AdminMapper adminMapper) {
-        this.adminMapper = adminMapper;
-    }
+//    @Resource(name = "adminMapper")
+//    public void setAdminMapper(AdminMapper adminMapper) {
+//        this.adminMapper = adminMapper;
+//    }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override

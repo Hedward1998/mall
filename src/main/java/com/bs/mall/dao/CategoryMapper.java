@@ -2,12 +2,12 @@ package com.bs.mall.dao;
 
 import com.bs.mall.entity.Category;
 import com.bs.mall.util.PageUtil;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
+@Repository
 public interface CategoryMapper {
     Integer insertOne(@Param("category") Category category);
     Integer updateOne(@Param("category") Category category);

@@ -85,6 +85,12 @@
             <span class="form_span"></span>
         </div>
         <div class="form-item">
+            <label class="form-label tsl">联系电话：</label>
+            <input name="user_phone" id="user_phone" class="form-text err-input" placeholder="请输入联系电话"
+                   maxlength="20">
+            <span class="form_span"></span>
+        </div>
+        <div class="form-item">
             <label class="form-label tsl">居住地址：</label>
             <select class="selectpicker" id="select_user_address_province" data-size="8" data-live-search="true">
                 <c:forEach items="${requestScope.addressList}" var="address" varStatus="i">

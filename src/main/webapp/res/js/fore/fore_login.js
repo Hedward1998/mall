@@ -18,19 +18,7 @@ $(function () {
             $(".qrcodeLogin").css("display", "block");
             messageSpan.text("密码登录在这里");
             $(this).removeClass("loginSwitch").addClass("loginSwitch_two");
-        } else {
-            $(".pwdLogin").css("display", "block");
-            $(".qrcodeLogin").css("display", "none");
-            messageSpan.text("扫码登录更安全");
-            $(this).removeClass("loginSwitch_two").addClass("loginSwitch");
         }
-    });
-    $("#pwdLogin").click(function () {
-        var messageSpan = $(".loginMessageMain").children("span");
-        $(".pwdLogin").css("display", "block");
-        $(".qrcodeLogin").css("display", "none");
-        messageSpan.text("扫码登录更安全");
-        $("#loginSwitch").removeClass("loginSwitch_two").addClass("loginSwitch");
     });
     //登录验证
     $(".loginForm").submit(function () {
@@ -53,7 +41,7 @@ $(function () {
                     if (data.success) {
                         location.href = "/mall";
                     } else {
-                        styleUtil.errorShow($("#error_message_p"), "用户名和密码错误！");
+                        styleUtil.errorShow($("#error_message_p"), "用户名或者密码错误！");
                     }
                 },
                 error: function (data) {

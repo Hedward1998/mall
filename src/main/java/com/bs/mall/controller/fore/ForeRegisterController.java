@@ -57,6 +57,7 @@ public class ForeRegisterController extends BaseController{
             @RequestParam(value = "user_password") String user_password  /*用户密码*/,
             @RequestParam(value = "user_gender") String user_gender  /*用户性别*/,
             @RequestParam(value = "user_birthday") String user_birthday /*用户生日*/,
+            @RequestParam(value = "user_phone") String user_phone /*用户电话*/,
             @RequestParam(value = "user_address") String user_address  /*用户所在地 */
     ) throws ParseException {
         logger.info("验证用户名是否存在");
@@ -68,6 +69,15 @@ public class ForeRegisterController extends BaseController{
             object.put("msg", "用户名已存在，请重新输入！");
             return object.toJSONString();
         }
+        logger.info("验证电话号码是否存在");
+        count = userService.getTotal(new User().setUser_phone(user_phone));
+        if (count > 0) {
+            logger.info("用户电话已存在，返回错误信息!");
+            JSONObject object = new JSONObject();
+            object.put("success", false);
+            object.put("msg", "用户联系电话已存在，请重新输入！");
+            return object.toJSONString();
+        }
         logger.info("创建用户对象");
         User user = new User()
                 .setUser_name(user_name)
@@ -75,6 +85,7 @@ public class ForeRegisterController extends BaseController{
                 .setUser_password(user_password)
                 .setUser_gender(Byte.valueOf(user_gender))
                 .setUser_birthday(new SimpleDateFormat("yyyy-MM-dd").parse(user_birthday))
+                .setUser_phone(user_phone)
                 .setUser_address(new Address().setAddress_areaId(user_address))
                 .setUser_homeplace(new Address().setAddress_areaId("130000"));
         logger.info("用户注册");

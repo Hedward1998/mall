@@ -1,13 +1,10 @@
 package com.bs.mall.dao;
 
-import com.bs.mall.entity.Address;
 import com.bs.mall.entity.News;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-@Mapper
+@Repository
 public interface NewsMapper {
     Integer insertOne(@Param("news") News news);
 //    Integer updateOne(@Param("address") Address address);

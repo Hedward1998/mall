@@ -12,6 +12,6 @@ public interface UserService {
 
     List<User> getList(User user, OrderUtil orderUtil, PageUtil pageUtil);
     User get(Integer user_id);
-    User login(String user_name, String user_password);
+    User login(User user);
     Integer getTotal(User user);
 }

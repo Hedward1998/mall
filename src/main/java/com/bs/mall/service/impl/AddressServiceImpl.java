@@ -3,20 +3,21 @@ package com.bs.mall.service.impl;
 import com.bs.mall.dao.AddressMapper;
 import com.bs.mall.entity.Address;
 import com.bs.mall.service.AddressService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service("addressService")
 public class AddressServiceImpl implements AddressService{
+    @Autowired
     private AddressMapper addressMapper;
-    @Resource(name = "addressMapper")
-    public void setAddressMapper(AddressMapper addressMapper) {
-        this.addressMapper = addressMapper;
-    }
+//    @Resource(name = "addressMapper")
+//    public void setAddressMapper(AddressMapper addressMapper) {
+//        this.addressMapper = addressMapper;
+//    }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override

@@ -115,7 +115,7 @@ $(function () {
                     if (data.success) {
                         location.reload();
                     } else {
-                        styleUtil.errorShow($("#error_message_p"), "用户名和密码错误！");
+                        styleUtil.errorShow($("#error_message_p"), "用户名或者密码错误！");
                     }
                 },
                 error: function (data) {

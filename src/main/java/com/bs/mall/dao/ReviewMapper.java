@@ -4,10 +4,11 @@ import com.bs.mall.entity.Review;
 import com.bs.mall.util.PageUtil;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
+@Repository
 public interface ReviewMapper {
     Integer insertOne(@Param("review") Review review);
     Integer updateOne(@Param("review") Review review);

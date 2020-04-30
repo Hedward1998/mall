@@ -3,18 +3,18 @@ package com.bs.mall.entity;
 import java.util.Date;
 
 /**
- * 新闻类
+ * 新闻公告类
  */
 public class News {
-    private Integer news_id/*新闻ID*/;
+    private Integer news_id/*新闻公告ID*/;
     
-    private String news_title/*新闻标题*/;
+    private String news_title/*新闻公告标题*/;
     
-    private String news_content/*新闻内容*/;
+    private String news_content/*新闻公告内容*/;
     
-    private Date news_publish_date/*新闻发布日期*/;
+    private Date news_publish_date/*新闻公告发布日期*/;
     
-    private Admin news_publish_person/*新闻发布人*/;
+    private Admin news_publish_person/*新闻公告发布人*/;
 
     public News(Integer news_id, String news_title, String news_content, Date news_publish_date, Admin news_publish_person) {
         this.news_id = news_id;

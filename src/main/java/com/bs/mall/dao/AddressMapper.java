@@ -1,12 +1,12 @@
 package com.bs.mall.dao;
 
 import com.bs.mall.entity.Address;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
+@Repository
 public interface AddressMapper {
     Integer insertOne(@Param("address") Address address);
     Integer updateOne(@Param("address") Address address);

@@ -83,15 +83,17 @@ function getTimer() {
     var img = $("#banner" + index);
     $(".banner_main > a").attr("href", "/mall/product/" + img.attr("name"));
     if (index === 1) {
-        color = "#0F1322";
-    } else if (index === 2 || index === 5) {
+        color = "#ffffff";
+    } else if (index === 2) {
         color = "#E8E8E8";
     } else if (index === 3) {
-        color = "#FBB4B0";
+        color = "#ecfdf7";
     } else if (index === 4) {
-        color = "#262C42";
-    } else {
-        color = "#BD160D";
+        color = "#1b869a";
+    } else if (index === 5) {
+        color = "#e7e7e7";
+    }  else {
+        color = "#fccace";
     }
     sliders.css("background", "rgba(0,0,0,0.4)");
     $("#slider_" + index).css("background", "rgba(255,255,255,0.4)");

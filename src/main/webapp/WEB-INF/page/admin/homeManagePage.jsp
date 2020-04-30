@@ -216,7 +216,7 @@
             var date = new Date();
             date.setDate(date.getDate());
             var formatDate = FormatDate(date);
-            $("#input_endDate").attr("max", formatDate).attr("min", "2018-01-01").val(formatDate);
+            $("#input_endDate").attr("max", formatDate).attr("min", "2019-11-01").val(formatDate);
             date.setDate(date.getDate() - 6);
             formatDate = FormatDate(date);
             $("#input_beginDate").val(formatDate).attr("min", formatDate).attr("max", formatDate);

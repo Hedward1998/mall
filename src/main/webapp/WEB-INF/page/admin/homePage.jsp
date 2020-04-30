@@ -53,7 +53,7 @@
                       p-id="10988">
                 </path>
             </svg>
-            <span>新闻管理</span>
+            <span>公告管理</span>
         </li>
         <li class="menu_li" data-toggle="order">
             <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8003"

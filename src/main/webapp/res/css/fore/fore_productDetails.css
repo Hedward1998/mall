@@ -179,7 +179,7 @@ nav {
 .pwdLogin .loginLinks {
     margin-top: 25px;
     text-align: right;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .loginLinks > a {
@@ -211,7 +211,7 @@ nav {
     margin-top: 15px;
     height: 18px;
     line-height: 18px;
-    font-size: 16px;
+    font-size: 20px;
     color: #3c3c3c;
     font-weight: 700;
 }

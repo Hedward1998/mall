@@ -104,6 +104,11 @@ $(function () {
         $(this).css("border", "1px solid #3879D9")
             .next().text("请输入出生日期").css("display", "inline-block").css("color", "#00A0E9");
     });
+    //联系电话input获取光标
+    $("#user_phone").focus(function () {
+        $(this).css("border", "1px solid #3879D9")
+            .next().text("请输入联系电话").css("display", "inline-block").css("color", "#00A0E9");
+    });
 
     //input离开光标
     $(".form-text").blur(function () {
@@ -123,9 +128,13 @@ $(function () {
         var user_nickname = $.trim($("input[name=user_nickname]").val());
         //出生日期
         var user_birthday = $.trim($("input[name=user_birthday]").val());
+        //联系电话
+        var user_phone = $.trim($("input[name=user_phone]").val());
 
         //验证密码的格式 包含数字和英文字母
-        var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+        var reg_pwd = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+        //验证电话号码的格式
+        var reg_phone = new RegExp(/^(13[0-9]|14[5-9]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[13589])\d{8}$/);
         if (user_name == null || user_name === "") {
             $("#user_name").css("border", "1px solid red")
                 .next().text("请输入用户名").css("display", "inline-block").css("color", "red");
@@ -138,7 +147,7 @@ $(function () {
             $("#user_password_one").css("border", "1px solid red")
                 .next().text("请重复输入密码").css("display", "inline-block").css("color", "red");
             return false;
-        }else if(!reg.test(user_password)){
+        }else if(!reg_pwd.test(user_password)){
             $("#user_password").css("border", "1px solid red")
                 .next().text("密码格式必须包含数字和字母").css("display", "inline-block").css("color", "red");
             return false;
@@ -154,6 +163,14 @@ $(function () {
             $("#user_birthday").css("border", "1px solid red")
                 .next().text("请选择出生日期").css("display", "inline-block").css("color", "red");
             return false;
+        } else if (user_phone == null || user_phone === "") {
+            $("#user_phone").css("border", "1px solid red")
+                .next().text("请输入联系电话以便于找回密码").css("display", "inline-block").css("color", "red");
+            return false;
+        } else if (!reg_phone.test(user_phone)) {
+            $("#user_phone").css("border", "1px solid red")
+                .next().text("请输入正确的电话号码").css("display", "inline-block").css("color", "red");
+            return false;
         }
         $.ajax({
             type: "POST",
@@ -163,6 +180,7 @@ $(function () {
                 "user_password": user_password,
                 "user_nickname": user_nickname,
                 "user_birthday": user_birthday,
+                "user_phone": user_phone,
                 "user_gender": $("input[name=user_gender]:checked").val(),
                 "user_address": $("#select_user_address_district").val()
             },

@@ -4,6 +4,7 @@ import com.bs.mall.dao.ProductImageMapper;
 import com.bs.mall.entity.ProductImage;
 import com.bs.mall.service.ProductImageService;
 import com.bs.mall.util.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +14,13 @@ import java.util.List;
 
 @Service("productImageService")
 public class ProductImageServiceImpl implements ProductImageService{
+    
+    @Autowired
     private ProductImageMapper productImageMapper;
-    @Resource(name = "productImageMapper")
-    public void setProductImageMapper(ProductImageMapper productImageMapper) {
-        this.productImageMapper = productImageMapper;
-    }
+//    @Resource(name = "productImageMapper")
+//    public void setProductImageMapper(ProductImageMapper productImageMapper) {
+//        this.productImageMapper = productImageMapper;
+//    }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override

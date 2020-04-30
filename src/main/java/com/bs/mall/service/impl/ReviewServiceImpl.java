@@ -4,6 +4,7 @@ import com.bs.mall.dao.ReviewMapper;
 import com.bs.mall.entity.Review;
 import com.bs.mall.service.ReviewService;
 import com.bs.mall.util.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +14,13 @@ import java.util.List;
 
 @Service("reviewService")
 public class ReviewServiceImpl implements ReviewService{
+    
+    @Autowired
     private ReviewMapper reviewMapper;
-    @Resource(name = "reviewMapper")
-    public void setReviewMapper(ReviewMapper reviewMapper) {
-        this.reviewMapper = reviewMapper;
-    }
+//    @Resource(name = "reviewMapper")
+//    public void setReviewMapper(ReviewMapper reviewMapper) {
+//        this.reviewMapper = reviewMapper;
+//    }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override

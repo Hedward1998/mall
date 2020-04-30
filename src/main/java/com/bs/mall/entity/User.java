@@ -16,6 +16,7 @@ public class User {
     private String user_realname/*用户姓名*/;
     private Byte user_gender/*用户性别*/;
     private Date user_birthday/*用户生日*/;
+    private String user_phone/*用户电话*/;
     private Address user_address/*用户现居地*/;
     private Address user_homeplace/*用户家乡地址*/;
     private String user_profile_picture_src/*用户头像路径*/;
@@ -33,6 +34,7 @@ public class User {
                 ", user_realname='" + user_realname + '\'' +
                 ", user_gender=" + user_gender +
                 ", user_birthday=" + user_birthday +
+                ", user_phone=" + user_phone +
                 ", user_address=" + user_address +
                 ", user_homeplace=" + user_homeplace +
                 ", user_profile_picture_src='" + user_profile_picture_src + '\'' +
@@ -51,7 +53,7 @@ public class User {
         this.user_gender = user_gender;
     }
 
-    public User(Integer user_id, String user_name, String user_nickname, String user_password, String user_realname, Byte user_gender, Date user_birthday, Address user_address, Address user_homeplace, String user_profile_picture_src, List<Review> reviewList) {
+    public User(Integer user_id, String user_name, String user_nickname, String user_password, String user_realname, Byte user_gender, Date user_birthday, String user_phone, Address user_address, Address user_homeplace, String user_profile_picture_src, List<Review> reviewList) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_nickname = user_nickname;
@@ -59,6 +61,7 @@ public class User {
         this.user_realname = user_realname;
         this.user_gender = user_gender;
         this.user_birthday = user_birthday;
+        this.user_phone = user_phone;
         this.user_address = user_address;
         this.user_homeplace = user_homeplace;
         this.user_profile_picture_src = user_profile_picture_src;
@@ -129,6 +132,15 @@ public class User {
 
     public User setUser_birthday(Date user_birthday) {
         this.user_birthday = user_birthday;
+        return this;
+    }
+
+    public String getUser_phone() {
+        return user_phone;
+    }
+
+    public User setUser_phone(String user_phone) {
+        this.user_phone = user_phone;
         return this;
     }
 

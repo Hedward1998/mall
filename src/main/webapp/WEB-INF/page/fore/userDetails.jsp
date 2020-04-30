@@ -89,14 +89,14 @@
                 </div>
                 <div class="form-item">
                     <label class="form-label tsl">登录密码：</label>
-                    <input name="user_password" type="password" id="user_password" class="form-text err-input"
-                           placeholder="请设置登录密码" maxlength="20">
+                    <input name="user_password" type="password" value="${requestScope.user.user_password}" id="user_password" 
+                           class="form-text err-input" placeholder="请设置登录密码" maxlength="20">
                     <span class="form_span"></span>
                 </div>
                 <div class="form-item">
                     <label class="form-label tsl">确认密码：</label>
-                    <input name="user_password_one" type="password" id="user_password_one" class="form-text err-input"
-                           placeholder="请再次输入你的密码" maxlength="20">
+                    <input name="user_password_one" type="password" value="${requestScope.user.user_password}" id="user_password_one" 
+                           class="form-text err-input" placeholder="请再次输入你的密码" maxlength="20">
                     <span class="form_span"></span>
                 </div>
                 <div class="form-item">
@@ -112,6 +112,12 @@
                     <label class="form-label tsl">生日：</label>
                     <input type="date" name="user_birthday" id="user_birthday" class="form-text err-input"
                            value="${requestScope.user.user_birthday}" maxlength="20">
+                    <span class="form_span"></span>
+                </div>
+                <div class="form-item">
+                    <label class="form-label tsl">电话：</label>
+                    <input name="user_phone" value="${requestScope.user.user_phone}" id="user_phone" 
+                           class="form-text err-input" maxlength="11">
                     <span class="form_span"></span>
                 </div>
                 <div class="form-item last-item">

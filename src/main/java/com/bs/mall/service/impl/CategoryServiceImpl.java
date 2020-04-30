@@ -4,6 +4,7 @@ import com.bs.mall.dao.CategoryMapper;
 import com.bs.mall.entity.Category;
 import com.bs.mall.service.CategoryService;
 import com.bs.mall.util.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +15,12 @@ import java.util.List;
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService {
 
+    @Autowired
     private CategoryMapper categoryMapper;
-    @Resource(name = "categoryMapper")
-    public void setCategoryMapper(CategoryMapper categoryMapper) {
-        this.categoryMapper = categoryMapper;
-    }
+//    @Resource(name = "categoryMapper")
+//    public void setCategoryMapper(CategoryMapper categoryMapper) {
+//        this.categoryMapper = categoryMapper;
+//    }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override

@@ -2,12 +2,12 @@ package com.bs.mall.dao;
 
 import com.bs.mall.entity.Admin;
 import com.bs.mall.util.PageUtil;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
+@Repository
 public interface AdminMapper {
     Integer insertOne(@Param("admin") Admin admin);
     Integer updateOne(@Param("admin") Admin admin);

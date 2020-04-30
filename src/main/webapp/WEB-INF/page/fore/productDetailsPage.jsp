@@ -40,25 +40,18 @@
         <div class="loginDivHeader">
             <a href="javascript:void(0)" class="closeLoginDiv"></a>
         </div>
-        <div class="loginSwitch" id="loginSwitch"></div>
-        <div class="loginMessage">
-            <div class="loginMessageMain">
-                <div class="poptip-arrow"><em></em><span></span></div>
-                <img src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/scan-safe.png"/><span>扫码登录更安全</span>
-            </div>
-        </div>
         <div class="pwdLogin">
             <span class="loginTitle">密码登录</span>
             <form method="post" class="loginForm">
                 <div class="loginInputDiv">
                     <label for="name" class="loginLabel"><img
-                            src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/2018-04-27_235518.png"
+                            src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/2020-02-14_235518.png"
                             width="38px" height="39px" title="会员名"/></label>
                     <input type="text" name="name" id="name" class="loginInput" placeholder="会员名/邮箱/手机号">
                 </div>
                 <div class="loginInputDiv">
                     <label for="password" class="loginLabel"><img
-                            src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/2018-04-27_235533.png"
+                            src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/2020-02-14_235533.png"
                             width="38px" height="39px" title="登录密码"/></label>
                     <input type="password" name="password" id="password" class="loginInput">
                 </div>
@@ -108,12 +101,6 @@
             <span class="context_info_title">${requestScope.product.product_title}</span>
         </div>
         <div class="context_info_main">
-            <%--<div class="context_info_main_ad">--%>
-                <%--<img src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/context_ad.png">--%>
-                <%--<span>全天猫实物商品通用</span>--%>
-                <%--<a href="#">去刮券<img--%>
-                        <%--src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/tmallItemContentB.png"></a>--%>
-            <%--</div>--%>
             <dl class="context_price_panel">
                 <dt>价格</dt>
                 <dd><em>¥</em><span>${requestScope.product.product_price}0</span></dd>
@@ -128,9 +115,6 @@
                     test="${requestScope.product.product_sale_count != null}">${requestScope.product.product_sale_count}</c:when><c:otherwise>0</c:otherwise></c:choose></span>
             </li>
             <li>累计评价<span>${requestScope.product.product_review_count}</span></li>
-            <%--<li class="mall_points">送天猫积分<span><fmt:formatNumber type="number"--%>
-                                                                  <%--value="${requestScope.product.product_sale_price/10}"--%>
-                                                                  <%--maxFractionDigits="0"/></span></li>--%>
         </ul>
         <dl class="context_info_member">
             <dt>数量</dt>
@@ -266,11 +250,11 @@
         <%@include file="include/J_details.jsp" %>
         <%@include file="include/J_review.jsp" %>
     </div>
-    <div class="J_img">
-        <c:forEach items="${requestScope.product.detailProductImageList}" var="image">
-            <img src="${pageContext.request.contextPath}/res/images/item/productDetailsPicture/${image.productImage_src}"/>
-        </c:forEach>
-    </div>
+    <%--<div class="J_img">--%>
+        <%--<c:forEach items="${requestScope.product.detailProductImageList}" var="image">--%>
+            <%--<img src="${pageContext.request.contextPath}/res/images/item/productDetailsPicture/${image.productImage_src}"/>--%>
+        <%--</c:forEach>--%>
+    <%--</div>--%>
 </div>
 <div class="msg">
     <span>商品已添加</span>

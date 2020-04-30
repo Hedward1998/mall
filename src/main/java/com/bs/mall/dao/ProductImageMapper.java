@@ -2,12 +2,12 @@ package com.bs.mall.dao;
 
 import com.bs.mall.entity.ProductImage;
 import com.bs.mall.util.PageUtil;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
+@Repository
 public interface ProductImageMapper {
     Integer insertOne(@Param("productImage") ProductImage productImage);
 

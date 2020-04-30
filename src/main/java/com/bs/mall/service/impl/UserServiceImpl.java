@@ -5,6 +5,7 @@ import com.bs.mall.entity.User;
 import com.bs.mall.service.UserService;
 import com.bs.mall.util.OrderUtil;
 import com.bs.mall.util.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +15,14 @@ import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
+//    private UserMapper userMapper;
+//    @Resource(name = "userMapper")
+//    public void setUserMapper(UserMapper userMapper) {
+//        this.userMapper = userMapper;
+//    }
+    
+    @Autowired
     private UserMapper userMapper;
-    @Resource(name = "userMapper")
-    public void setUserMapper(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
@@ -43,8 +47,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User login(String user_name, String user_password) {
-        return userMapper.selectByLogin(user_name,user_password);
+    public User login(User user) {
+        return userMapper.selectByLogin(user);
     }
 
     @Override

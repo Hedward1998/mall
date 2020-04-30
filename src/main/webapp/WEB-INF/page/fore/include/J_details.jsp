@@ -81,5 +81,11 @@
             </c:forEach>
         </ul>
     </div>
+    <div class="J_img">
+        <c:forEach items="${requestScope.product.detailProductImageList}" var="image">
+            <img src="${pageContext.request.contextPath}/res/images/item/productDetailsPicture/${image.productImage_src}"/>
+        </c:forEach>
+    </div>
 </div>
+
 

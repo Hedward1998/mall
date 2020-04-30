@@ -4,13 +4,13 @@ import com.bs.mall.entity.OrderGroup;
 import com.bs.mall.entity.ProductOrder;
 import com.bs.mall.util.OrderUtil;
 import com.bs.mall.util.PageUtil;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 
-@Mapper
+@Repository
 public interface ProductOrderMapper {
     Integer insertOne(@Param("productOrder") ProductOrder productOrder);
     Integer updateOne(@Param("productOrder") ProductOrder productOrder);

@@ -5,6 +5,7 @@ import com.bs.mall.entity.OrderGroup;
 import com.bs.mall.entity.ProductOrderItem;
 import com.bs.mall.service.ProductOrderItemService;
 import com.bs.mall.util.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,11 +16,12 @@ import java.util.List;
 
 @Service("productOrderItemService")
 public class ProductOrderItemServiceImpl implements ProductOrderItemService{
+    @Autowired
     private ProductOrderItemMapper productOrderItemMapper;
-    @Resource(name = "productOrderItemMapper")
+    /*@Resource(name = "productOrderItemMapper")
     public void setProductOrderItemMapper(ProductOrderItemMapper productOrderItemMapper) {
         this.productOrderItemMapper = productOrderItemMapper;
-    }
+    }*/
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override

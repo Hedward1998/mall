@@ -11,6 +11,7 @@
         <result property="user_realname" column="user_realname"/>
         <result property="user_gender" column="user_gender"/>
         <result property="user_birthday" column="user_birthday"/>
+        <result property="user_phone" column="user_phone"/>
         <result property="user_profile_picture_src" column="user_profile_picture_src"/>
         <association property="user_address" javaType="com.bs.mall.entity.Address">
             <id property="address_areaId" column="user_address"/>
@@ -20,8 +21,9 @@
         </association>
     </resultMap>
 
+    <!--用户注册-->
     <insert id="insertOne" parameterType="user">
-        INSERT INTO user(user_id,user_name,user_nickname,user_password,user_realname,user_gender,user_birthday,user_profile_picture_src,user_address,user_homeplace)
+        INSERT INTO user(user_id,user_name,user_nickname,user_password,user_realname,user_gender,user_birthday,user_phone,user_profile_picture_src,user_address,user_homeplace)
             VALUES (
             null,
             #{user.user_name},
@@ -30,11 +32,13 @@
             #{user.user_realname},
             #{user.user_gender},
             #{user.user_birthday},
+            #{user.user_phone},
             #{user.user_profile_picture_src},
             #{user.user_address.address_areaId},
             #{user.user_homeplace.address_areaId})
     </insert>
 
+    <!--用户信息更新-->
     <update id="updateOne" parameterType="user">
         UPDATE user
         <set>
@@ -43,6 +47,7 @@
             <if test="user.user_realname != null">user_realname = #{user.user_realname},</if>
             <if test="user.user_gender != null">user_gender = #{user.user_gender},</if>
             <if test="user.user_birthday != null">user_birthday = #{user.user_birthday},</if>
+            <if test="user.user_phone != null">user_phone = #{user.user_phone},</if>
             <if test="user.user_profile_picture_src != null">
                 user_profile_picture_src = #{user.user_profile_picture_src},
             </if>
@@ -54,12 +59,14 @@
             user_id = #{user.user_id}
         </where>
     </update>
+
+    <!--管理员查看用户详情-->
     <select id="select" resultMap="userMap">
-        SELECT user_id,user_name,user_nickname,user_password,user_realname,user_gender,user_birthday,user_profile_picture_src,user_address,user_homeplace FROM user
+        SELECT user_id,user_name,user_nickname,user_password,user_realname,user_gender,user_birthday,user_phone,user_profile_picture_src,user_address,user_homeplace FROM user
         <if test="user != null">
             <where>
                 <if test="user.user_name != null">
-                    (user_name LIKE concat('%',#{user.user_name},'%') or user_nickname LIKE concat('%',#{user.user_name},'%'))
+                    (user_name LIKE concat('%',#{user.user_name},'%') <!--or user_nickname LIKE concat('%',#{user.user_name},'%'))-->
                 </if>
                 <if test="user.user_gender != null">
                     and user_gender = #{user.user_gender}
@@ -73,24 +80,32 @@
             LIMIT #{pageUtil.pageStart},#{pageUtil.count}
         </if>
     </select>
+    
+    <!--用户信息查询-->
     <select id="selectOne" resultMap="userMap" parameterType="int">
-        SELECT user_id,user_name,user_nickname,user_password,user_realname,user_gender,user_birthday,user_profile_picture_src,user_address,user_homeplace FROM user
+        SELECT user_id,user_name,user_nickname,user_password,user_realname,user_gender,user_birthday,user_phone,user_profile_picture_src,user_address,user_homeplace FROM user
         <where>
             user_id = #{user_id}
         </where>
     </select>
+    
+    <!--用户登录：用户名+密码/电话号码+密码-->
     <select id="selectByLogin" resultMap="userMap">
-        SELECT user_id,user_name,user_nickname,user_password,user_realname,user_gender,user_birthday,user_profile_picture_src,user_address,user_homeplace FROM user
-        <where>
-            user_name = #{user_name} and user_password = #{user_password}
-        </where>
+        SELECT user_id,user_name,user_nickname,user_password,user_realname,user_gender,user_birthday,user_phone,user_profile_picture_src,user_address,user_homeplace FROM user
+        where (user_name = #{user.user_name} and user_password = #{user.user_password})
+           or (user_phone = #{user.user_name} and user_password = #{user.user_password})
     </select>
+    
+    <!--用户信息检查：用户名和电话是否存在-->
     <select id="selectTotal" resultType="int" parameterType="string">
         SELECT COUNT(user_id) FROM user
         <if test="user != null">
             <where>
                 <if test="user.user_name != null">
-                    (user_name LIKE concat('%',#{user.user_name},'%') or user_nickname LIKE concat('%',#{user.user_name},'%'))
+                    and user_name LIKE concat('%',#{user.user_name},'%') <!-- or user_nickname LIKE concat('%',#{user.user_name},'%')-->
+                </if>
+                <if test="user.user_phone != null">
+                    and user_phone LIKE concat('%',#{user.user_phone},'%')
                 </if>
                 <if test="user.user_gender != null">
                     and user_gender = #{user.user_gender}
