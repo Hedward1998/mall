@@ -145,7 +145,7 @@ $(function () {
             return false;
         } else if (user_password_one == null || user_password_one === "") {
             $("#user_password_one").css("border", "1px solid red")
-                .next().text("请重复输入密码").css("display", "inline-block").css("color", "red");
+                .next().text("请勿重复输入密码").css("display", "inline-block").css("color", "red");
             return false;
         }else if(!reg_pwd.test(user_password)){
             $("#user_password").css("border", "1px solid red")
@@ -196,9 +196,12 @@ $(function () {
                             location.href = "/mall/login";
                         });
                     });
-                } else {
+                } else if (data.user_name != null) {
                     $("#user_name").css("border", "1px solid red")
-                        .next().text(data.msg).css("display", "inline-block").css("color", "red");
+                        .next().text(data.user_name).css("display", "inline-block").css("color", "red");
+                } else if (data.user_phone != null) {
+                    $("#user_phone").css("border", "1px solid red")
+                        .next().text(data.user_phone).css("display", "inline-block").css("color", "red");
                 }
             },
             error: function (data) {

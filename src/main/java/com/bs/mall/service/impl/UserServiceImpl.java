@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service("userService")
+@Transactional
 public class UserServiceImpl implements UserService{
 //    private UserMapper userMapper;
 //    @Resource(name = "userMapper")
@@ -34,6 +35,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean update(User user) {
         return userMapper.updateOne(user)>0;
+    }
+    
+    @Override
+    public boolean resetPassword(String user_name, String user_password) {
+        return userMapper.resetPassword(user_name, user_password)>0;
     }
 
     @Override

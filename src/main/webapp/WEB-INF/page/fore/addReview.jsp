@@ -79,7 +79,7 @@
                 <input type="hidden" class="orderItem_id" value="${orderItem.productOrderItem_id}" name="orderItem_id">
                 <div class="compose-main">
                     <div class="compose-header">
-                        <span>其他买家，需要你的建议哦！</span>
+                        <span>请认真填写评价，其他买家，需要你的建议哦！</span>
                     </div>
                     <div class="compose-order">
                         <div class="J_rateInputArea">评价商品</div>

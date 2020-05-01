@@ -124,7 +124,7 @@
         <div class="order-dashboard">
             <div class="bd">
                 <ul>
-                    <li>提示：本系统不会进行真实交易，请放心测试</li>
+                    <li>提示：一旦确定收货，钱款将会转给店家，请仔细核对商品，确认无误后收货哦</li>
                 </ul>
                 <script>
                     function confirmOrder() {

@@ -147,7 +147,7 @@ $(function () {
             return false;
         } else if (user_password_one == null || user_password_one === "") {
             $("#user_password_one").css("border", "1px solid red")
-                .next().text("请重复输入密码").css("display", "inline-block").css("color", "red");
+                .next().text("请勿重复输入密码").css("display", "inline-block").css("color", "red");
             return false;
         } else if (!reg.test(user_password)) {
             $("#user_password").css("border", "1px solid red")

@@ -92,6 +92,7 @@ public class ForeUserController extends BaseController{
         }
         return jsonObject.toJSONString();
     }
+    
     //商城前台-用户详情更新
     @RequestMapping(value="user/update",method=RequestMethod.POST,produces ="application/json;charset=utf-8")
     public String userUpdate(HttpSession session, Map<String,Object> map,
@@ -146,5 +147,48 @@ public class ForeUserController extends BaseController{
              return "redirect:/userDetails";
          }
          throw new RuntimeException();
+    }
+
+    //商城前台-跳转密码重置页面
+    @RequestMapping(value="forgetPwd", method = RequestMethod.GET)
+    public String resetPwd() {
+        return "fore/forgetPwd";
+    }
+    
+
+    //商城前台-忘记密码-密码重置 ajax
+    @ResponseBody
+    @RequestMapping(value="forgetPwd",method=RequestMethod.POST,produces ="application/json;charset=utf-8")
+    public String forgetPwd(@RequestParam(value = "user_name") String user_name  /*用户名 */,
+                            @RequestParam(value = "user_phone") String user_phone /*用户电话*/,
+                            @RequestParam(value = "user_password") String user_password  /*用户密码*/
+    ) throws ParseException {
+        logger.info("验证用户名是否存在");
+        Integer count = userService.getTotal(new User().setUser_name(user_name));
+        if (count == 0) {
+            logger.info("重置密码的用户名不存在，返回错误信息!");
+            JSONObject object = new JSONObject();
+            object.put("success", false);
+            object.put("user_name", "用户名不存在，请重新输入！");System.out.println("user_name" + user_name);
+            return object.toJSONString();
+        }
+        logger.info("验证电话号码是否存在");
+        count = userService.getTotal(new User().setUser_phone(user_phone));
+        if (count == 0) {
+            logger.info("重置密码的用户电话输入不正确，返回错误信息!");
+            JSONObject object = new JSONObject();
+            object.put("success", false);
+            object.put("user_phone", "电话号码验证失败，请重新输入！");System.out.println("user_phone" + user_phone);
+            return object.toJSONString();
+        }
+        logger.info("用户：" + user_name + "重置密码");
+        if (userService.resetPassword(user_name, user_password)) {
+            logger.info("修改成功!跳转到登录页面！");
+            JSONObject object = new JSONObject();
+            object.put("success", true);System.out.println("success");
+            return object.toJSONString();
+        } else {System.out.println("error");
+            throw new RuntimeException();
+        }
     }
 }

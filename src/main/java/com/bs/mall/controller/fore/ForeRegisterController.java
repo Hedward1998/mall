@@ -66,7 +66,7 @@ public class ForeRegisterController extends BaseController{
             logger.info("用户名已存在，返回错误信息!");
             JSONObject object = new JSONObject();
             object.put("success", false);
-            object.put("msg", "用户名已存在，请重新输入！");
+            object.put("user_name", "用户名已存在，请重新输入！");
             return object.toJSONString();
         }
         logger.info("验证电话号码是否存在");
@@ -75,7 +75,7 @@ public class ForeRegisterController extends BaseController{
             logger.info("用户电话已存在，返回错误信息!");
             JSONObject object = new JSONObject();
             object.put("success", false);
-            object.put("msg", "用户联系电话已存在，请重新输入！");
+            object.put("user_phone", "用户联系电话已存在，请重新输入！");
             return object.toJSONString();
         }
         logger.info("创建用户对象");

@@ -58,7 +58,7 @@
                 <input type="submit" class="loginButton" value="登 录">
             </form>
             <div class="loginLinks">
-                <a href="#">忘记密码</a>
+                <a href="${pageContext.request.contextPath}/forgetPwd">忘记密码</a>
                 <a href="${pageContext.request.contextPath}/register" target="_blank">免费注册</a>
             </div>
             <div class="error_message">

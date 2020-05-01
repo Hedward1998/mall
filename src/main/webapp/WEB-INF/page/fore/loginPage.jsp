@@ -45,7 +45,7 @@
                     <label for="name" class="loginLabel"><img
                             src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/2020-02-14_235518.png"
                             width="38px" height="39px" title="会员名"/></label>
-                    <input type="text" name="name" id="name" class="loginInput" placeholder="会员名/邮箱/手机号">
+                    <input type="text" name="name" id="name" class="loginInput" placeholder="会员名/手机号">
                 </div>
                 <div class="loginInputDiv">
                     <label for="password" class="loginLabel"><img
@@ -56,7 +56,7 @@
                 <input type="submit" class="loginButton" value="登 录">
             </form>
             <div class="loginLinks">
-                <a href="#">忘记密码</a>
+                <a href="${pageContext.request.contextPath}/forgetPwd">忘记密码</a>
                 <a href="${pageContext.request.contextPath}/register">免费注册</a>
             </div>
             <div class="error_message">

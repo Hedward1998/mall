@@ -2,8 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="include/header.jsp" %>
 <head>
-    <script src="${pageContext.request.contextPath}/res/js/fore/fore_userDatiles.js"></script>
-    <link href="${pageContext.request.contextPath}/res/css/fore/fore_userDatiles.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/res/js/fore/fore_userDetailes.js"></script>
+    <link href="${pageContext.request.contextPath}/res/css/fore/fore_userDetailes.css" rel="stylesheet">
     <title>Mall.com - 个人中心</title>
     <style rel="stylesheet">
         #baseNavigator {
