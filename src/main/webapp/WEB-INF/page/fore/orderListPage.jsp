@@ -2,7 +2,7 @@
 <%@ include file="include/header.jsp" %>
 <head>
     <link href="${pageContext.request.contextPath}/res/css/fore/fore_orderList.css" rel="stylesheet"/>
-    <title>已买到的宝贝</title>
+    <title>历史订单</title>
     <script>
         $(function () {
             $('#btn-ok').click(function () {

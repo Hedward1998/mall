@@ -44,7 +44,7 @@
                     </ul>
                 </div>
             </c:if>
-            <p>您可以查看：<a href="${pageContext.request.contextPath}/order/0/10">已买到的宝贝</a></p>
+            <p>您可以查看：<a href="${pageContext.request.contextPath}/order/0/10">历史订单</a></p>
         </div>
     </div>
 </div>

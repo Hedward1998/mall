@@ -8,82 +8,86 @@
         <result property="news_title" column="news_title"/>
         <result property="news_content" column="news_content"/>
         <result property="news_publish_date" column="news_publish_date"/>
-        <association property="news_publish_person" javaType="com.bs.mall.entity.Admin">
+        <result property="news_publish_person_name" column="news_publish_person_name"/>
+        <result property="news_status" column="news_status"/>
+        <!--association：解决多表连接时的同名字段-->
+        <association property="news_publish_person_id" javaType="com.bs.mall.entity.Admin">
             <id property="admin_id" column="news_publish_person_id"/>
         </association>
     </resultMap>
 
-    <insert id="insertOne" parameterType="user">
+    <insert id="insertOne" parameterType="news">
         INSERT INTO news(news_id,news_title,news_content,news_publish_date,news_publish_person_id)
             VALUES (
             null,
             #{news.news_title},
             #{news.news_content},
             #{news.news_publish_date},
-            #{news.news_publish_person_id})
+            #{news.news_publish_person_id.admin_id},
+            #{news.news_status})
     </insert>
 
-    <!--<update id="updateOne" parameterType="user">-->
-        <!--UPDATE user-->
-        <!--<set>-->
-            <!--<if test="user.user_password != null">user_password = #{user.user_password},</if>-->
-            <!--<if test="user.user_nickname != null">user_nickname = #{user.user_nickname},</if>-->
-            <!--<if test="user.user_realname != null">user_realname = #{user.user_realname},</if>-->
-            <!--<if test="user.user_gender != null">user_gender = #{user.user_gender},</if>-->
-            <!--<if test="user.user_birthday != null">user_birthday = #{user.user_birthday},</if>-->
-            <!--<if test="user.user_profile_picture_src != null">-->
-                <!--user_profile_picture_src = #{user.user_profile_picture_src},-->
-            <!--</if>-->
-            <!--<if test="user.user_address != null">-->
-                <!--user_address = #{user.user_address.address_areaId},-->
-            <!--</if>-->
-        <!--</set>-->
-        <!--<where>-->
-            <!--user_id = #{user.user_id}-->
-        <!--</where>-->
-    <!--</update>-->
-    <!--<select id="select" resultMap="userMap">-->
-        <!--SELECT user_id,user_name,user_nickname,user_password,user_realname,user_gender,user_birthday,user_profile_picture_src,user_address,user_homeplace FROM user-->
-        <!--<if test="user != null">-->
-            <!--<where>-->
-                <!--<if test="user.user_name != null">-->
-                    <!--(user_name LIKE concat('%',#{user.user_name},'%') or user_nickname LIKE concat('%',#{user.user_name},'%'))-->
-                <!--</if>-->
-                <!--<if test="user.user_gender != null">-->
-                    <!--and user_gender = #{user.user_gender}-->
-                <!--</if>-->
-            <!--</where>-->
-        <!--</if>-->
-        <!--<if test="orderUtil != null">-->
-            <!--ORDER BY ${orderUtil.orderBy}<if test="orderUtil.isDesc">desc </if>-->
-        <!--</if>-->
-        <!--<if test="pageUtil != null">-->
-            <!--LIMIT #{pageUtil.pageStart},#{pageUtil.count}-->
-        <!--</if>-->
-    <!--</select>-->
-    <!--<select id="selectOne" resultMap="userMap" parameterType="int">-->
-        <!--SELECT user_id,user_name,user_nickname,user_password,user_realname,user_gender,user_birthday,user_profile_picture_src,user_address,user_homeplace FROM user-->
-        <!--<where>-->
-            <!--user_id = #{user_id}-->
-        <!--</where>-->
-    <!--</select>-->
-    <!--<select id="selectByLogin" resultMap="userMap">-->
-        <!--SELECT user_id,user_name,user_nickname,user_password,user_realname,user_gender,user_birthday,user_profile_picture_src,user_address,user_homeplace FROM user-->
-        <!--<where>-->
-            <!--user_name = #{user_name} and user_password = #{user_password}-->
-        <!--</where>-->
-    <!--</select>-->
-    <!--<select id="selectTotal" resultType="int" parameterType="string">-->
-        <!--SELECT COUNT(user_id) FROM user-->
-        <!--<if test="user != null">-->
-            <!--<where>-->
-                <!--<if test="user.user_name != null">-->
-                    <!--(user_name LIKE concat('%',#{user.user_name},'%') or user_nickname LIKE concat('%',#{user.user_name},'%'))-->
-                <!--</if>-->
-                <!--<if test="user.user_gender != null">-->
-                    <!--and user_gender = #{user.user_gender}-->
-                <!--</if>-->
-            <!--</where>-->
-        <!--</if>-->
-    <!--</select>-->
+    <update id="updateOne" parameterType="news">
+        UPDATE news
+        <set>
+            <if test="news.news_title != null">news_title = #{news.news_title},</if>
+            <if test="news.news_content != null">news_content = #{news.news_content},</if>
+            <if test="news.news_publish_date != null">news_publish_date = #{news.news_publish_date},</if>
+            <if test="news.news_publish_person_id.admin_id != null">news_publish_person_id = #{news.news_publish_person_id.admin_id},</if>
+            <if test="news.news_status != null">news_status = #{news.news_status}</if>
+        </set>
+        <where>
+            news_id = #{news.news_id}
+        </where>
+    </update>
+    
+    <update id="deleteOne" parameterType="int">
+        UPDATE news SET news_status = 0 WHERE news_id = #{news_id}  
+    </update>
+    
+    <select id="select" resultMap="newsMap">
+        SELECT 
+            news_id, 
+            news_title, 
+            news_publish_date,
+            admin_name as news_publish_person_name,
+            news_status
+        FROM news LEFT JOIN admin 
+        ON news.news_publish_person_id = admin.admin_id
+        <where>
+            <if test="news != null">
+                <if test="news.news_title != null">news_title LIKE concat('%',#{news.news_title},'%')</if>
+                <if test="news.news_status != null"> and news_status = #{news.news_status}</if>
+            </if>
+        </where>
+        ORDER BY news_publish_date desc
+        <if test="pageUtil != null">
+            LIMIT #{pageUtil.pageStart},#{pageUtil.count}
+        </if>
+    </select>
+    
+    <select id="selectOne" resultMap="newsMap" parameterType="int">
+        SELECT
+            news_id,
+            news_title,
+            news_content,
+            news_publish_date,
+            admin_name as news_publish_person_name,
+            news_status
+        FROM news LEFT JOIN admin
+        ON news.news_publish_person_id = admin.admin_id
+        <where>
+            news_id = #{news_id}
+        </where>
+    </select>
+    
+    <select id="selectTotal" resultType="int">
+        SELECT COUNT(news_id) FROM news
+        <where>
+            <if test="news != null">
+                <if test="news.news_title != null">news_title LIKE concat('%',#{news.news_title},'%')</if>
+                <if test="news.news_status != null">and news_status = #{news.news_status}</if>
+            </if>
+        </where>
+    </select>
 </mapper>

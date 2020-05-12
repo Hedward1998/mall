@@ -45,7 +45,7 @@
         </div>
         <div id="J_ButtonList">
             <span class="info">您可以 </span>
-            <a class="J_MakePoint" href="${pageContext.request.contextPath}/order/0/10">查看已买到的宝贝</a>
+            <a class="J_MakePoint" href="${pageContext.request.contextPath}/order/0/10">查看历史订单</a>
         </div>
         <div id="J_RemindList">
             <ul>

@@ -75,7 +75,7 @@
             <div id="empty">
                 <h2>您的购物车还是空的，赶紧行动吧！您可以：</h2>
                 <ul>
-                    <li>看看<a href="${pageContext.request.contextPath}/order">已买到的宝贝</a></li>
+                    <li>看看<a href="${pageContext.request.contextPath}/order">历史订单</a></li>
                 </ul>
             </div>
         </c:when>

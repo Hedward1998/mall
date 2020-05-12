@@ -106,7 +106,7 @@
         <div class="order_price">
             <span class="price_value">${requestScope.orderTotalPrice}</span>
             元
-            <span class="price_unit">（不会真实付款）</span>
+            <%--<span class="price_unit">（不会真实付款）</span>--%>
         </div>
     </div>
     <div class="order_pay_div">

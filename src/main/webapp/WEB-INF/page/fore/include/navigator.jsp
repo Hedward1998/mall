@@ -37,7 +37,7 @@
                 <div class="sn_menu">
                     <a href="${pageContext.request.contextPath}/userDetails">个人中心<b></b></a>
                     <div class="quick_menu">
-                        <a href="${pageContext.request.contextPath}/order/0/10">已买到的商品</a>
+                        <a href="${pageContext.request.contextPath}/order/0/10">历史订单</a>
                     </div>
                 </div>
             </li>

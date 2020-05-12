@@ -120,7 +120,8 @@ function sumPrice() {
         price_sum += parseFloat($(this).find(".orderItem_product_realPrice").text().substring(1));
     });
     $(".total_value").text(price_sum.toFixed(2));
-
+    $(".total-symbol").text(price_sum.toFixed(2));
+    debugger;
     if (obj.length > 0) {
         $("#J_Go").addClass("selected");
     } else {
@@ -164,3 +165,5 @@ function create(obj) {
         }
     });
 }
+
+
