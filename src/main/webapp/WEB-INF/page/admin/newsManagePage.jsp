@@ -141,7 +141,7 @@
     </script>
     <style rel="stylesheet">
         #lbl_news_title,#lbl_news_status{
-            width: 70px;
+            width: 75px;
         }
     </style>
 </head>

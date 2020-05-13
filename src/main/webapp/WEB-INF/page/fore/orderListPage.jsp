@@ -192,7 +192,7 @@
                 <tr>
                     <td colspan="6" class="no_search_result"><img
                             src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/T1MQ1cXhtiXXXXXXXX-78-120.png"/><span
-                            class="error_msg">没有符合条件的宝贝，请尝试其他搜索条件。</span></td>
+                            class="error_msg">没有符合条件的记录，请前去商城购物。</span></td>
                 </tr>
                 </tbody>
             </c:otherwise>

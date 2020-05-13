@@ -1,0 +1,119 @@
+nav {
+    width: 100%;
+}
+
+.header {
+    width: 1230px;
+    margin: 0 auto;
+    height: 96px;
+}
+
+.header > #mallLogo {
+    float: left;
+    padding-top: 28px;
+    width: 280px;
+    height: 64px;
+    line-height: 64px;
+    position: relative;
+}
+
+#mallLogo > a {
+    position: relative;
+    display: block;
+    height: 30px;
+    overflow: hidden;
+}
+
+#mallLogo img {
+    display: inline-block;
+    width: 190px;
+    height: 28px;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+#mallLogo .span_mallRegister {
+    font-family: "Microsoft YaHei UI Light", serif;
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+    vertical-align: top;
+}
+.news_div{
+    width: 90%;
+    height: 600px;
+    margin: 0 auto;
+    border: 1px solid #cccccc;
+    ;
+}
+/*数据统计部分样式*/
+.data_count_div{
+    overflow: hidden;
+    width: 20%;
+    height: 23px;
+    padding: 3px 12px;
+    background-color: #FEF6F4;
+    border: 2px solid #F9ECEB;
+    margin-bottom: 10px;
+}
+.data_count_div>.icon{
+    width: 18px;
+    height: 18px;
+    fill: #FF7874;
+    vertical-align: middle;
+}
+.data_count_div>span{
+    font-size: 14px;
+    color:#666;
+}
+.data_count_div>.data_count_title{
+    padding-right: 5px;
+}
+.data_count_div>.data_count_value{
+    color:#ff7874;
+}
+.data_count_div>.data_count_unit{
+    padding-right: 20px;
+}
+.table_news_div{
+    position: relative;
+    min-height: 500px;
+}
+.table_news{
+    width: 20%;
+    font-size: 16px;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+.table_news>thead{
+    background-color: #f5f6fb;
+}
+.table_news tr{
+    border-bottom: 1px solid #F2F2F4;
+    cursor: pointer;
+}
+.table_news tbody>tr:hover{
+    background-color: rgb(250,250,255);
+}
+.table_news th{
+    padding: 12px 15px;
+    color:#333333;
+    white-space: nowrap;
+}
+.table_news th:first-child{
+    width: 50px;
+}
+.table_news th.data_info:hover{
+    background-color: rgb(235,235,235);
+}
+.table_news td{
+    padding: 10px 15px;
+    color: #666666;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

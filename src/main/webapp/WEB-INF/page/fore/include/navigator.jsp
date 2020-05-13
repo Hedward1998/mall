@@ -28,7 +28,7 @@
                     <a href="${pageContext.request.contextPath}/userDetails" class="userName"
                        target="_blank">${requestScope.user.user_name}</a>
                     <a href="${pageContext.request.contextPath}/login/logout">退出</a>
-                    <a href="${pageContext.request.contextPath}/login/logout">新闻公告</a>
+                    <a href="${pageContext.request.contextPath}/news">新闻公告</a>
                 </c:otherwise>
             </c:choose>
         </p>

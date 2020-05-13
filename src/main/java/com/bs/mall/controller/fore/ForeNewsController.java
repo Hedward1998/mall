@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
@@ -28,7 +27,7 @@ public class ForeNewsController extends BaseController {
     
     //前台-查询已发布的新闻公告列表(时间倒序)
     @RequestMapping(value = "news", method = RequestMethod.GET)
-    public String goNewsManagePage(HttpSession session, Map<String, Object> map) {
+    public String goNewsManagePage(Map<String, Object> map) {
         logger.info("获取前10条已发布新闻公告");
         PageUtil pageUtil = new PageUtil(0, 10);
         News news = new News().setNews_status((byte)1);
