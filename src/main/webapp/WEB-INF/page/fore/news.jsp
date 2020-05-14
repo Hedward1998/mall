@@ -3,6 +3,7 @@
 <%@ include file="include/header.jsp" %>
 <head>
     <link href="${pageContext.request.contextPath}/res/css/fore/fore_news.css" rel="stylesheet">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/res/js/fore/fore_news.js"></script>
     <title>Mall.com - 新闻公告</title>
     <style rel="stylesheet">
         #baseNavigator {
@@ -29,10 +30,118 @@
         }
     </style>
     <script>
-        $("#news_title_name").click(function () {
-            $("#news_title").value = $("#news_title_name").val();
-            alert("1");
+        var newsArry = null;
+        var isFirstPage = true;
+        //取得新闻列表数据
+        function getNewsArry() {
+            newsArry = new Array();
+            <c:forEach items="${requestScope.newsList}" var="news">
+                var arry = new Array();
+                arry.push("${news.news_id}");
+                arry.push("${news.news_title}");
+                arry.push("${news.news_content}");
+                arry.push("${news.news_publish_date}");
+                arry.push("${news.news_publish_person_name}");
+                newsArry.push(arry);
+            </c:forEach>
+        }
+        //换页后加载数据
+        function getNewsArryByData(data) {
+            newsArry = new Array();
+            for (let i = 0;i < data.newsList.length; i++) {
+                var arry = new Array();
+                arry.push(data.newsList[i].news_id);
+                arry.push(data.newsList[i].news_title);
+                arry.push(data.newsList[i].news_content);
+                arry.push(data.newsList[i].news_publish_date);
+                arry.push(data.newsList[i].news_publish_person_name);
+                newsArry.push(arry);
+            }
+        }
+        //默认显示列表第一条新闻公告的内容
+        function setDefaultNewsContent(data) {
+            if (isFirstPage === true)  {
+                getNewsArry();
+            } else {
+                getNewsArryByData(data);
+            } 
+            $("#news_title_name").text(newsArry[0][1]);
+            $("#news_content").text(newsArry[0][2]);
+            $("#news_publish_date").text(newsArry[0][3]);
+            $("#news_publish_person_name").text(newsArry[0][4]);
+        }
+        //页面加载完毕执行方法
+        $(function () {
+            setDefaultNewsContent(null);
         });
+        //获取点击行数据
+        function getClickNews(news_id) {
+            for (let i = 0;i < newsArry.length;i++) {
+                if (news_id == newsArry[i][0]) {
+                    $("#news_title_name").text(newsArry[i][1]);
+                    $("#news_content").text(newsArry[i][2]);
+                    $("#news_publish_date").text(newsArry[i][3]);
+                    $("#news_publish_person_name").text(newsArry[i][4]);
+                    break;
+                }
+            } 
+        }
+
+        //获取新闻公告数据
+        function getData(object,url,dataObject) {
+            var table = $("#table_news_list");
+            var tbody = table.children("tbody").first();
+            $.ajax({
+                url: url,
+                type: "get",
+                data: dataObject,
+                traditional: true,
+                success: function (data) {
+                    //清空原有数据
+                    tbody.empty();
+                    //设置样式
+                    $(".loader").css("display","none");
+                    object.attr("disabled",false);
+                    //显示新闻公告统计数据
+                    $("#news_count_data").text(data.newsCount);
+                    if (data.newsList.length > 0) {
+                        for (var i = 0; i < data.newsList.length; i++) {
+                            var news_id = data.newsList[i].news_id;
+                            var news_title = data.newsList[i].news_title;
+                            //显示用户数据
+                            // getClickNews('"+ news_id +"')
+                            tbody.append("<tr onclick='getClickNews("+ news_id +")'><td title='" + news_title + "'>" + news_title + "</td><td hidden class='news_id'>" + news_id + "</td></tr>");
+                        }
+                        //绑定事件
+                        tbody.children("tr").click(function () {
+                            trDataStyle($(this));
+                        });
+                        //分页
+                        var pageUtil = {
+                            index: data.pageUtil.index,
+                            count: data.pageUtil.count,
+                            total: data.pageUtil.total,
+                            totalPage: data.totalPage
+                        };
+                        createPageDiv($(".loader"), pageUtil);
+                        isFirstPage = false;
+                        setDefaultNewsContent(data);
+                    }
+                },
+                beforeSend: function () {
+                    $(".loader").css("display","block");
+                    object.attr("disabled",true);
+                },
+                error: function () {
+
+                }
+            });
+        }
+
+        //获取页码数据
+        function getPage(index) {
+            getData($(this), "news/" + index + "/10", null);
+        }
     </script>
 </head>
 <body>
@@ -74,19 +183,25 @@
             </thead>
             <tbody>
             <c:forEach items="${requestScope.newsList}" var="news">
-                <tr>
-                    <td id="news_title_name" title="${news.news_title}">${news.news_title}</td>
+                <tr onclick="getClickNews(${news.news_id})" >
+                    <td id="news_title" title="${news.news_title}">${news.news_title}</td>
                     <td hidden class="news_id">${news.news_id}</td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <div class="news_details" id="news_details">
-            <h1 id="news_title"></h1>
-            <span id="news_publish_date"></span>
-            <span id="news_publish_person_name"></span>
-            <div id="news_content"></div>
-        </div>
+        <%@ include file="include/page.jsp" %>
+        <div class="loader"></div>
+    </div>
+    <div class="news_details" id="news_details">
+        <h1 class="news_title_name" id="news_title_name">测试</h1>
+        <span style="margin-left: 20px">发布时间:</span><span class="news_publish_date" id="news_publish_date">2020-04-20 16:16:16</span>&nbsp;&nbsp;
+        <span>发布人:</span><span class="news_publish_person_name" id="news_publish_person_name">测试</span>
+        <P class="news_content" id="news_content">
+                这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！
+                这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！
+                这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！
+        </P>
     </div>
 </div>
 <%@include file="include/footer.jsp" %>

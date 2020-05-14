@@ -46,7 +46,7 @@ public class ForeNewsController extends BaseController {
 
     //前台-条件查询已发布的新闻公告列表-ajax方式(时间倒序)
     @ResponseBody
-    @RequestMapping(value = "news/{index}/{count}", method = RequestMethod.GET)
+    @RequestMapping(value = "news/{index}/{count}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public String getNewsBySearch(@RequestParam(required = false) String news_title/* 新闻公告标题 */,
                                   @PathVariable Integer index/* 页数 */,
                                   @PathVariable Integer count/* 行数 */) throws UnsupportedEncodingException {

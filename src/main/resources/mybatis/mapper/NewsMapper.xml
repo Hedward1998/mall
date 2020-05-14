@@ -48,7 +48,8 @@
     <select id="select" resultMap="newsMap">
         SELECT 
             news_id, 
-            news_title, 
+            news_title,
+            news_content,
             news_publish_date,
             admin_name as news_publish_person_name,
             news_status
