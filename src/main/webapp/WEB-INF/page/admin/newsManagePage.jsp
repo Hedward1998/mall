@@ -127,11 +127,20 @@
 
         //获取用户子界面
         function getChildPage(obj) {
+            var url;
+            var title;
+            if (obj === null) {
+                title = "添加新闻公告";
+                url = "news/new";
+            } else {
+                title = "新闻公告详情";
+                url = "news/" + $(obj).parents("tr").find(".news_id").text();
+            }
             //设置样式
-            $("#div_home_title").children("span").text("新闻公告详情");
-            document.title = "Mall管理后台 - 新闻公告详情";
+            $("#div_home_title").children("span").text(title);
+            document.title = "Mall管理后台 - " + title;
             //ajax请求页面
-            ajaxUtil.getPage("news/" + $(obj).parents("tr").find(".news_id").text(), null, true);
+            ajaxUtil.getPage(url, null, true);
         }
 
         //获取页码数据

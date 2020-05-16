@@ -92,9 +92,16 @@ public class NewsController extends BaseController {
         logger.info("转到后台管理-新闻详情-ajax方式");
         return "admin/include/newsDetails";
     }
+    
+    //转到后台管理-产品添加页-ajax
+    @RequestMapping(value = "admin/news/new", method = RequestMethod.GET)
+    public String goToAddPage() {
+        logger.info("转到后台管理-产品添加页-ajax方式");
+        return "admin/include/newsDetails";
+    }
 
     //后台-添加新闻公告
-    @RequestMapping(value = "admin/news/new", method = RequestMethod.POST)
+    @RequestMapping(value = "admin/news", method = RequestMethod.POST)
     public String addNews(HttpSession session,
                           @RequestParam String news_title/* 新闻公告标题 */,
                           @RequestParam String news_content/* 内容 */){
