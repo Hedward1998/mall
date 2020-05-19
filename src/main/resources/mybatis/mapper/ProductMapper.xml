@@ -13,13 +13,14 @@
         <result property="product_isEnabled" column="product_isEnabled"/>
         <result property="product_sale_count" column="product_sale_count"/>
         <result property="product_review_count" column="product_review_count"/>
+        <result property="product_stocks" column="product_stocks"/>
         <association property="product_category" javaType="com.bs.mall.entity.Category">
             <id property="category_id" column="product_category_id"/>
         </association>
     </resultMap>
 
     <insert id="insertOne" parameterType="product">
-        INSERT product (product_id,product_name,product_title,product_price,product_sale_price,product_create_date,product_isEnabled,product_category_id)
+        INSERT product (product_id,product_name,product_title,product_price,product_sale_price,product_create_date,product_isEnabled,product_category_id,product_stocks)
             VALUES(
             null,
             #{product.product_name},
@@ -28,7 +29,8 @@
             #{product.product_sale_price},
             #{product.product_create_date},
             #{product.product_isEnabled},
-            #{product.product_category.category_id})
+            #{product.product_category.category_id},
+            #{product.product_stocks})
     </insert>
     <update id="updateOne" parameterType="product">
         UPDATE product
@@ -38,15 +40,10 @@
             <if test="product.product_price != null">product_price = #{product.product_price},</if>
             <if test="product.product_sale_price != null">product_sale_price = #{product.product_sale_price},</if>
             <if test="product.product_isEnabled != null">product_isEnabled = #{product.product_isEnabled},</if>
-            <if test="product.product_category != null">
-                product_category_id = #{product.product_category.category_id},
-            </if>
-            <if test="product.product_sale_count != null">
-                product_sale_count = #{product.product_sale_count},
-            </if>
-            <if test="product.product_review_count != null">
-                product_review_count = #{product.product_review_count}
-            </if>
+            <if test="product.product_category != null">product_category_id = #{product.product_category.category_id},</if>
+            <if test="product.product_sale_count != null">product_sale_count = #{product.product_sale_count},</if>
+            <if test="product.product_review_count != null">product_review_count = #{product.product_review_count},</if>
+            <if test="product.product_stocks != null">product_stocks = #{product.product_stocks}</if>
         </set>
         <where>
             product_id = #{product.product_id}
@@ -63,7 +60,8 @@
             product_isEnabled,
             product_category_id,
             product_sale_count,
-            product_review_count
+            product_review_count,
+            product_stocks
         FROM product
         <where>
             <if test="product != null">
@@ -75,6 +73,7 @@
                         #{product.product_category.category_id}
                     </if>
                 </if>
+                <if test="product.product_stocks != null">and product_stocks &lt;= #{product.product_stocks}</if>
             </if>
             <if test="product_isEnabled_array != null">
                 and product_isEnabled IN
@@ -103,7 +102,8 @@
             product_isEnabled,
             product_category_id,
             product_sale_count,
-            product_review_count
+            product_review_count,
+            product_stocks
         FROM product
         <where>
             <if test="product != null">
@@ -148,7 +148,8 @@
             product_isEnabled,
             product_category_id,
             product_sale_count,
-            product_review_count
+            product_review_count,
+            product_stocks
         FROM product
         <where>
             product_id = #{product_id}
@@ -188,6 +189,7 @@
                         #{product.product_category.category_id}
                     </if>
                 </if>
+                <if test="product.product_stocks != null">and product_stocks &lt;= #{product.product_stocks}</if>
             </if>
             <if test="product_isEnabled_array != null">and product_isEnabled IN
                 <foreach collection="product_isEnabled_array" index="index" item="item" open="(" separator=","

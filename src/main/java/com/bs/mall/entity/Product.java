@@ -19,6 +19,7 @@ public class Product {
     private Byte product_isEnabled/*产品状态*/;
     private Integer product_sale_count/*销量数*/;
     private Integer product_review_count/*评价数*/;
+    private Integer product_stocks/*产品库存*/;
     private List<PropertyValue> propertyValueList/*产品属性值集合*/;
     private List<ProductImage> singleProductImageList/*产品预览图片集合*/;
     private List<ProductImage> detailProductImageList/*产品详细图片集合*/;
@@ -43,6 +44,7 @@ public class Product {
                 ", productOrderItemList=" + productOrderItemList +
                 ", product_sale_count=" + product_sale_count +
                 ", product_review_count=" + product_review_count +
+                ", product_stocks=" + product_stocks +
                 '}';
     }
 
@@ -58,7 +60,16 @@ public class Product {
         this.product_isEnabled = product_isEnabled;
     }
 
-    public Product(Integer product_id, String product_name, String product_title, Double product_price, Double product_sale_price, Date product_create_date, Category product_category, Byte product_isEnabled, List<PropertyValue> propertyValueList, List<ProductImage> singleProductImageList, List<ProductImage> detailProductImageList, List<Review> reviewList, List<ProductOrderItem> productOrderItemList,Integer product_sale_count,Integer product_review_count) {
+    public Product(Integer product_id, String product_name, Double product_price, Category product_category, Byte product_isEnabled, Integer product_stocks) {
+        this.product_id = product_id;
+        this.product_name = product_name;
+        this.product_price = product_price;
+        this.product_category = product_category;
+        this.product_isEnabled = product_isEnabled;
+        this.product_stocks = product_stocks;
+    }
+
+    public Product(Integer product_id, String product_name, String product_title, Double product_price, Double product_sale_price, Date product_create_date, Category product_category, Byte product_isEnabled, List<PropertyValue> propertyValueList, List<ProductImage> singleProductImageList, List<ProductImage> detailProductImageList, List<Review> reviewList, List<ProductOrderItem> productOrderItemList, Integer product_sale_count, Integer product_review_count) {
         this.product_id = product_id;
         this.product_name = product_name;
         this.product_title = product_title;
@@ -74,6 +85,25 @@ public class Product {
         this.productOrderItemList = productOrderItemList;
         this.product_sale_count = product_sale_count;
         this.product_review_count = product_review_count;
+    }
+
+    public Product(Integer product_id, String product_name, String product_title, Double product_price, Double product_sale_price, Date product_create_date, Category product_category, Byte product_isEnabled, Integer product_sale_count, Integer product_review_count, Integer product_stocks, List<PropertyValue> propertyValueList, List<ProductImage> singleProductImageList, List<ProductImage> detailProductImageList, List<Review> reviewList, List<ProductOrderItem> productOrderItemList) {
+        this.product_id = product_id;
+        this.product_name = product_name;
+        this.product_title = product_title;
+        this.product_price = product_price;
+        this.product_sale_price = product_sale_price;
+        this.product_create_date = product_create_date;
+        this.product_category = product_category;
+        this.product_isEnabled = product_isEnabled;
+        this.product_sale_count = product_sale_count;
+        this.product_review_count = product_review_count;
+        this.product_stocks = product_stocks;
+        this.propertyValueList = propertyValueList;
+        this.singleProductImageList = singleProductImageList;
+        this.detailProductImageList = detailProductImageList;
+        this.reviewList = reviewList;
+        this.productOrderItemList = productOrderItemList;
     }
 
     public Integer getProduct_id() {
@@ -212,6 +242,15 @@ public class Product {
 
     public Product setProduct_review_count(Integer product_review_count) {
         this.product_review_count = product_review_count;
+        return this;
+    }
+    
+    public Integer getProduct_stocks() {
+        return product_stocks;
+    }
+    
+    public Product setProduct_stocks(Integer product_stocks) {
+        this.product_stocks = product_stocks;
         return this;
     }
 }

@@ -9,6 +9,7 @@
             "category_id": null,
             "product_sale_price": null,
             "product_price": null,
+            "product_stocks": null,
             "product_isEnabled_array": null,
             "orderBy": null,
             "isDesc": true
@@ -25,14 +26,24 @@
                 var category_id = parseInt($("#select_product_category").val());
                 var lowest_price = $.trim($("#input_product_sale_price").val());
                 var highest_price = $.trim($("#input_product_price").val());
+                var product_stocks = $.trim($("#input_product_stocks").val());
                 //产品状态数组
                 var status_array = [];
                 $("input[name = checkbox_product_isEnabled]:checked").each(function () {
                     status_array.push($(this).val());
                 });
                 //校验数据合法性
-                if( isNaN(lowest_price) || isNaN(highest_price) ){
-                    styleUtil.errorShow($('#text_product_msg'),"金额输入格式有误！");
+                if( isNaN(lowest_price) || isNaN(highest_price) ) {
+                    styleUtil.errorShow($('#text_product_msg'), "金额输入格式有误！");
+                    return;
+                }
+                //isNan(),参数值为 NaN 或字符串、对象、undefined等非数字值则返回 true, 否则返回 false
+                if(isNaN(product_stocks)){
+                    styleUtil.errorShow($('#text_product_msg'),"库存量输入格式有误！");
+                    return;
+                }
+                if(parseInt(product_stocks) < 0 || parseInt(product_stocks) > 10000){
+                    styleUtil.errorShow($('#text_product_msg'),"输入库存量大于0，小于10000");
                     return;
                 }
                 //封装数据
@@ -40,6 +51,7 @@
                 dataList.category_id = category_id;
                 dataList.product_sale_price = lowest_price;
                 dataList.product_price = highest_price;
+                dataList.product_stocks = product_stocks;
                 dataList.product_isEnabled_array = status_array;
 
                 getData($(this), "admin/product/0/10", dataList);
@@ -51,6 +63,7 @@
                 dataList.category_id = null;
                 dataList.product_sale_price = null;
                 dataList.product_price = null;
+                dataList.product_stocks = null;
                 dataList.product_isEnabled_array = null;
                 dataList.orderBy = null;
                 dataList.isDesc = true;
@@ -129,12 +142,13 @@
                             }
                             var product_price = data.productList[i].product_price.toFixed(1);
                             var product_sale_price = data.productList[i].product_sale_price.toFixed(1);
+                            var product_stocks = data.productList[i].product_stocks.toFixed(0);
                             var product_id = data.productList[i].product_id;
                             var product_name = data.productList[i].product_name;
                             var product_title = data.productList[i].product_title;
                             var product_create_date = data.productList[i].product_create_date;
                             //显示产品数据
-                            tbody.append("<tr><td><input type='checkbox' class='cbx_select' id='cbx_product_select_" + product_id + "'><label for='cbx_product_select_" + product_id + "'></label></td><td title='"+product_name+"'>" + product_name + "</td><td title='"+product_title+"'>" + product_title + "</td><td title='"+product_price+"'>" + product_price + "</td><td title='"+product_sale_price+"'>" + product_sale_price + "</td><td title='"+product_create_date+"'>" + product_create_date + "</td><td><span class='" + isEnabledClass + "' title='"+isEnabledTitle+"'>"+ isEnabled + "</span></td><td><span class='td_special' title='查看产品详情'><a href='javascript:void(0);' onclick='getChildPage(this)'>详情</a></span></td><td hidden><span class='product_id'>" + product_id + "</span></td></tr>");
+                            tbody.append("<tr><td><input type='checkbox' class='cbx_select' id='cbx_product_select_" + product_id + "'><label for='cbx_product_select_" + product_id + "'></label></td><td title='"+product_name+"'>" + product_name + "</td><td title='"+product_title+"'>" + product_title + "</td><td title='"+product_price+"'>" + product_price + "</td><td title='"+product_sale_price+"'>" + product_sale_price + "</td><td title='"+product_stocks+"'>"+ product_stocks +"</td><td title='"+product_create_date+"'>" + product_create_date + "</td><td><span class='" + isEnabledClass + "' title='"+isEnabledTitle+"'>"+ isEnabled + "</span></td><td><span class='td_special' title='查看产品详情'><a href='javascript:void(0);' onclick='getChildPage(this)'>详情</a></span></td><td hidden><span class='product_id'>" + product_id + "</span></td></tr>");
                         }
                         //绑定事件
                         tbody.children("tr").click(function () {
@@ -223,6 +237,8 @@
         <input class="frm_input frm_num"  id="input_product_sale_price" type="text" placeholder="最低价" maxlength="10">
         <span id="text_cut">—</span>
         <input class="frm_input frm_num"  id="input_product_price" type="text" placeholder="最高价" maxlength="10">
+        <label class="frm_label"  id="lbl_product_stocks" for="input_product_stocks">库存量</label>
+        <input class="frm_input frm_num"  id="input_product_stocks" type="text" placeholder="库存量">
         <span class="frm_error_msg" id="text_product_msg"></span>
     </div>
     <div class="frm_group_last">
@@ -268,6 +284,11 @@
                 <span class="orderByDesc"></span>
                 <span class="orderByAsc orderBySelect"></span>
             </th>
+            <th class="data_info" data-sort="asc" data-name="product_stocks">
+                <span>库存</span>
+                <span class="orderByDesc"></span>
+                <span class="orderByAsc orderBySelect"></span>
+            </th>
             <th class="data_info" data-sort="asc" data-name="product_create_date">
                 <span>创建时间</span>
                 <span class="orderByDesc"></span>
@@ -290,6 +311,7 @@
                 <td title="${product.product_title}">${product.product_title}</td>
                 <td title="${product.product_price}">${product.product_price}</td>
                 <td title="${product.product_sale_price}">${product.product_sale_price}</td>
+                <td title="${product.product_stocks}">${product.product_stocks}</td>
                 <td title="${product.product_create_date}">${product.product_create_date}</td>
                 <td>
                     <c:choose>

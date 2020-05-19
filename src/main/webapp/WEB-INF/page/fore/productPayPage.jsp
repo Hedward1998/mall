@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="include/header.jsp" %>
 <head>
-    <script src="${pageContext.request.contextPath}/res/js/fore/fore_reward.js"></script>
     <link href="${pageContext.request.contextPath}/res/css/fore/fore_orderPay.css" rel="stylesheet"/>
     <title>Mall.com - 网上支付</title>
     <style type="text/css">

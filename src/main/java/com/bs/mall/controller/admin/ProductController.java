@@ -125,6 +125,7 @@ public class ProductController extends BaseController{
                              @RequestParam Double product_sale_price/* 产品促销价 */,
                              @RequestParam Double product_price/* 产品原价 */,
                              @RequestParam Byte product_isEnabled/* 产品状态 */,
+                             @RequestParam Integer product_stocks/* 产品库存 */,
                              @RequestParam String propertyJson/* 产品属性JSON */,
                              @RequestParam(required = false) String[] productSingleImageList/*产品预览图片名称数组*/,
                              @RequestParam(required = false) String[] productDetailsImageList/*产品详情图片名称数组*/) {
@@ -137,6 +138,7 @@ public class ProductController extends BaseController{
                 .setProduct_sale_price(product_sale_price)
                 .setProduct_price(product_price)
                 .setProduct_isEnabled(product_isEnabled)
+                .setProduct_stocks(product_stocks)
                 .setProduct_create_date(new Date());
         logger.info("添加产品信息");
         boolean yn = productService.add(product);
@@ -228,6 +230,7 @@ public class ProductController extends BaseController{
                                 @RequestParam Double product_sale_price/* 产品促销价 */,
                                 @RequestParam Double product_price/* 产品原价 */,
                                 @RequestParam Byte product_isEnabled/* 产品状态 */,
+                                @RequestParam Integer product_stocks/* 产品库存 */,
                                 @RequestParam String propertyAddJson/* 产品添加属性JSON */,
                                 @RequestParam String propertyUpdateJson/* 产品更新属性JSON */,
                                 @RequestParam(required = false) Integer[] propertyDeleteList/* 产品删除属性ID数组 */,
@@ -244,6 +247,7 @@ public class ProductController extends BaseController{
                 .setProduct_sale_price(product_sale_price)
                 .setProduct_price(product_price)
                 .setProduct_isEnabled(product_isEnabled)
+                .setProduct_stocks(product_stocks)
                 .setProduct_create_date(new Date());
         logger.info("更新产品信息，产品ID值为：{}", product_id);
         boolean yn = productService.update(product);
@@ -368,6 +372,7 @@ public class ProductController extends BaseController{
                                      @RequestParam(required = false) Integer category_id/* 产品类型ID */,
                                      @RequestParam(required = false) Double product_sale_price/* 产品促销价 */,
                                      @RequestParam(required = false) Double product_price/* 产品原价 */,
+                                     @RequestParam(required = false) Integer product_stocks/* 产品库存 */,
                                      @RequestParam(required = false) Byte[] product_isEnabled_array/* 产品状态数组 */,
                                      @RequestParam(required = false) String orderBy/* 排序字段 */,
                                      @RequestParam(required = false,defaultValue = "true") Boolean isDesc/* 是否倒序 */,
@@ -392,7 +397,8 @@ public class ProductController extends BaseController{
                 .setProduct_name(product_name)
                 .setProduct_category(new Category().setCategory_id(category_id))
                 .setProduct_price(product_price)
-                .setProduct_sale_price(product_sale_price);
+                .setProduct_sale_price(product_sale_price)
+                .setProduct_stocks(product_stocks);
         OrderUtil orderUtil = null;
         if (orderBy != null) {
             logger.info("根据{}排序，是否倒序:{}",orderBy,isDesc);

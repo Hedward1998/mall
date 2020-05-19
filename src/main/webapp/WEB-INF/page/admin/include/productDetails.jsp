@@ -128,6 +128,7 @@
                     var product_title = $.trim($("#input_product_title").val());
                     var product_price = $.trim($("#input_product_price").val());
                     var product_sale_price = $.trim($("#input_product_sale_price").val());
+                    var product_stocks = $.trim($("#input_product_stocks").val());
 
                     //校验数据合法性
                     var yn = true;
@@ -151,6 +152,9 @@
                         styleUtil.basicErrorShow($("#lbl_product_sale_price"));
                         yn = false;
                     }
+                    if (product_stocks === "" || isNaN(product_stocks)) {
+                        styleUtil.basicErrorShow($("#lbl_product_stocks"));
+                    } 
                     if (!yn) {
                         return;
                     }
@@ -204,6 +208,7 @@
                         "product_title": product_title,
                         "product_price": product_price,
                         "product_sale_price": product_sale_price,
+                        "product_stocks": product_stocks,
                         "propertyAddJson": JSON.stringify(propertyAddMap),
                         "propertyUpdateJson": JSON.stringify(propertyUpdateMap),
                         "propertyDeleteList": propertyDeleteList,
@@ -473,13 +478,17 @@
         <label class="frm_label text_info" id="lbl_product_title" for="input_product_title">产品标题</label>
         <input class="frm_input" id="input_product_title" type="text" maxlength="50" value="${requestScope.product.product_title}"/>
     </div>
-    <div class="frm_div_last">
+    <div class="frm_div">
         <label class="frm_label text_info" id="lbl_product_price" for="input_product_price">产品原价</label>
         <input class="frm_input details_unit"  id="input_product_price" type="text" maxlength="10" value="${requestScope.product.product_price}"/>
         <span class="details_unit text_info">元</span>
         <label class="frm_label text_info" id="lbl_product_sale_price" for="input_product_sale_price">产品促销价</label>
         <input class="frm_input details_unit"  id="input_product_sale_price" type="text" maxlength="10" value="${requestScope.product.product_sale_price}"/>
         <span class="details_unit text_info">元</span>
+    </div>
+    <div  class="frm_div_last">
+        <label class="frm_label text_info" id="lbl_product_stocks" for="input_product_stocks">产品库存</label>
+        <input class="frm_input details_unit"  id="input_product_stocks" type="text"  min="0" max="10000" value="${requestScope.product.product_stocks}"/>
     </div>
 </div>
 <div class="details_div">
