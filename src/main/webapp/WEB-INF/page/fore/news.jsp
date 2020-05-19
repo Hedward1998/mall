@@ -29,7 +29,7 @@
             border-bottom: 1px solid #e5e5e5;
         }
     </style>
-    <script>
+    <script type="text/javascript" defer="true">
         var newsArry = null;
         var isFirstPage = true;
         //取得新闻列表数据
@@ -39,7 +39,7 @@
                 var arry = new Array();
                 arry.push("${news.news_id}");
                 arry.push("${news.news_title}");
-                arry.push("${news.news_content}");
+                arry.push('${news.news_content}');
                 arry.push("${news.news_publish_date}");
                 arry.push("${news.news_publish_person_name}");
                 newsArry.push(arry);
@@ -47,7 +47,7 @@
         }
         //换页后加载数据
         function getNewsArryByData(data) {
-            newsArry = new Array();
+            newsArry = Array();
             for (let i = 0;i < data.newsList.length; i++) {
                 var arry = new Array();
                 arry.push(data.newsList[i].news_id);
@@ -64,24 +64,35 @@
                 getNewsArry();
             } else {
                 getNewsArryByData(data);
-            } 
+            }
+            //清除之前的数据
+            $("#news_content").text("");
+            $("#news_publish_date").text("发布时间：");
+            $("#news_publish_person_name").text("发布人：");
+            
             $("#news_title_name").text(newsArry[0][1]);
-            $("#news_content").text(newsArry[0][2]);
-            $("#news_publish_date").text(newsArry[0][3]);
-            $("#news_publish_person_name").text(newsArry[0][4]);
+            $("#news_content").append(newsArry[0][2]);//append尾部内容追加
+            $("#news_publish_date").append(newsArry[0][3]);
+            $("#news_publish_person_name").append(newsArry[0][4]);
         }
         //页面加载完毕执行方法
         $(function () {
+            isFirstPage = true;
             setDefaultNewsContent(null);
         });
         //获取点击行数据
         function getClickNews(news_id) {
             for (let i = 0;i < newsArry.length;i++) {
                 if (news_id == newsArry[i][0]) {
+                    //清除之前的数据
+                    $("#news_content").text("");
+                    $("#news_publish_date").text("发布时间：");
+                    $("#news_publish_person_name").text("发布人：");
+                    
                     $("#news_title_name").text(newsArry[i][1]);
-                    $("#news_content").text(newsArry[i][2]);
-                    $("#news_publish_date").text(newsArry[i][3]);
-                    $("#news_publish_person_name").text(newsArry[i][4]);
+                    $("#news_content").append(newsArry[i][2]);
+                    $("#news_publish_date").append(newsArry[i][3]);
+                    $("#news_publish_person_name").append(newsArry[i][4]);
                     break;
                 }
             } 
@@ -194,14 +205,16 @@
         <div class="loader"></div>
     </div>
     <div class="news_details" id="news_details">
-        <h1 class="news_title_name" id="news_title_name">测试</h1>
-        <span style="margin-left: 20px">发布时间:</span><span class="news_publish_date" id="news_publish_date">2020-04-20 16:16:16</span>&nbsp;&nbsp;
-        <span>发布人:</span><span class="news_publish_person_name" id="news_publish_person_name">测试</span>
-        <P class="news_content" id="news_content">
-                这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！
-                这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！
-                这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！
-        </P>
+        <h3 class="news_title_name" id="news_title_name">测试</h3>
+        <span class="news_publish_date" id="news_publish_date">发布时间:</span>&nbsp;&nbsp;
+        <span class="news_publish_person_name" id="news_publish_person_name">发布人:</span>
+        <div>
+            <div class="news_content" id="news_content">
+                <%--这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！--%>
+                <%--这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！--%>
+                <%--这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！这是文章的测试文字！--%>
+            </div>
+        </div>
     </div>
 </div>
 <%@include file="include/footer.jsp" %>

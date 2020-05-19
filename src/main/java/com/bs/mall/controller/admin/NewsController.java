@@ -93,18 +93,21 @@ public class NewsController extends BaseController {
         return "admin/include/newsDetails";
     }
     
-    //转到后台管理-产品添加页-ajax
+    //转到后台管理-新闻公告添加页-ajax
     @RequestMapping(value = "admin/news/new", method = RequestMethod.GET)
     public String goToAddPage() {
-        logger.info("转到后台管理-产品添加页-ajax方式");
+        logger.info("转到后台管理-新闻公告添加页-ajax方式");
         return "admin/include/newsDetails";
     }
 
     //后台-添加新闻公告
-    @RequestMapping(value = "admin/news", method = RequestMethod.POST)
+    @ResponseBody
+    @RequestMapping(value = "admin/news", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     public String addNews(HttpSession session,
                           @RequestParam String news_title/* 新闻公告标题 */,
+                          @RequestParam Byte news_status/* 新闻公发布状态 */,
                           @RequestParam String news_content/* 内容 */){
+        JSONObject jsonObject = new JSONObject();
         logger.info("获取管理员信息");
         Object adminId = checkAdmin(session);
         if (adminId == null) {
@@ -116,18 +119,20 @@ public class NewsController extends BaseController {
                 .setNews_content(news_content)
                 .setNews_publish_date(new Date())
                 .setNews_publish_person_id(new Admin().setAdmin_id(Integer.parseInt(adminId.toString())))
-                .setNews_status((byte)1);
+                .setNews_status(news_status);
         logger.info("添加新闻公告");
         boolean yn = newsService.add(news);
         if (!yn) {
             logger.info("新闻公告添加失败！事务回滚");
+            jsonObject.put("success",false);
             throw new RuntimeException();
         }
-        int new_id = lastIDService.selectLastID();
-        logger.info("新闻公告添加成功！新发布的新闻公告ID为：{}", new_id);
+        int news_id = lastIDService.selectLastID();
+        logger.info("新闻公告添加成功！新发布的新闻公告ID为：{}", news_id);
 
-        logger.info("转到后台-新闻公告列表");
-        return "redirect:/news/0/10";
+        jsonObject.put("success", true);
+        jsonObject.put("news_id", news_id);
+        return jsonObject.toJSONString();
     }
     
     //后台-更新新闻信息-ajax方式
@@ -138,8 +143,8 @@ public class NewsController extends BaseController {
                              @RequestParam String news_content/* 新闻公告内容 */,
                              @RequestParam Byte news_status/* 新闻公告状态（1:true,发布；2:false,未发布,删除） */,
                              @PathVariable("news_id") Integer news_id/* 新闻公告ID */) {
-        logger.info("获取管理员信息");
         JSONObject jsonObject = new JSONObject();
+        logger.info("获取管理员信息");
         Object adminId = checkAdmin(session);
         if (adminId == null) {
             return "redirect:/admin/login";
@@ -153,15 +158,17 @@ public class NewsController extends BaseController {
                 .setNews_publish_person_id(new Admin().setAdmin_id(Integer.parseInt(adminId.toString())))
                 .setNews_status(news_status);
         logger.info("更新新闻公告");
-        boolean yn = newsService.add(news);
+        boolean yn = newsService.update(news);
         if (!yn) {
             logger.info("新闻公告更新失败！事务回滚");
+            jsonObject.put("success", false);
             throw new RuntimeException();
         }
         int new_id = lastIDService.selectLastID();
         logger.info("新闻公告更新成功！更新的新闻公告ID为：{}", new_id);
 
-        logger.info("转到后台-新闻公告列表");
-        return "redirect:/news/0/10";
+        jsonObject.put("success", true);
+        jsonObject.put("news_id", news_id);
+        return jsonObject.toJSONString();
     }
 }

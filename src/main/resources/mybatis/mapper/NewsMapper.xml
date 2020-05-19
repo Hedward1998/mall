@@ -17,7 +17,7 @@
     </resultMap>
 
     <insert id="insertOne" parameterType="news">
-        INSERT INTO news(news_id,news_title,news_content,news_publish_date,news_publish_person_id)
+        INSERT INTO news(news_id,news_title,news_content,news_publish_date,news_publish_person_id,news_status)
             VALUES (
             null,
             #{news.news_title},

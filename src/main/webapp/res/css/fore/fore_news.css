@@ -152,6 +152,9 @@ nav {
     text-align: center;
     padding: 10px;
 }
+.news_publish_date{
+    margin-left: 280px;
+}
 .news_details>span{
     font-family: "Microsoft YaHei UI Light", serif;
     font-size: 16px;
@@ -164,4 +167,6 @@ nav {
     white-space: pre-line;
     text-indent: 2em;
     text-align: justify!important;
+    overflow-y: scroll;
+    height: 450px;
 }

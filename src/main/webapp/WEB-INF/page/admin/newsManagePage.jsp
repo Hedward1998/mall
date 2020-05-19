@@ -170,7 +170,9 @@
         <label class="frm_label" id="lbl_news_status_no_publish" for="checkbox_news_status_no_publish">未发布</label>
     </div>
     <div class="frm_group_last">
+        <input class="frm_btn frm_add" id="btn_news_add" type="button" value="添加新闻公告" onclick="getChildPage(null)"/>
         <input class="frm_btn frm_refresh" id="btn_news_refresh" type="button" value="刷新新闻公告列表"/>
+        <span class="frm_error_msg" id="text_tools_msg"></span>
     </div>
 </div>
 <div class="data_count_div text_info">
