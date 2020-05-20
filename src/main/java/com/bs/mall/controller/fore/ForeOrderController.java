@@ -8,6 +8,7 @@ import com.bs.mall.service.*;
 import com.bs.mall.util.OrderUtil;
 import com.bs.mall.util.PageUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -44,6 +45,9 @@ public class ForeOrderController extends BaseController {
     private ReviewService reviewService;
     @Resource(name = "lastIDService")
     private LastIDService lastIDService;
+    
+    
+    private static final Short STOCKS_ONE = 1;
 
     //转到商城前台-订单列表页
     @RequestMapping(value = "order", method = RequestMethod.GET)
@@ -200,7 +204,7 @@ public class ForeOrderController extends BaseController {
 
         List<ProductOrderItem> productOrderItemList = new ArrayList<>();
         productOrderItemList.add(productOrderItem);
-
+        
         map.put("orderItemList", productOrderItemList);
         map.put("addressList", addressList);
         map.put("cityList", cityAddress);
@@ -827,12 +831,31 @@ public class ForeOrderController extends BaseController {
                 .setProductOrder_id(order.getProductOrder_id())
                 .setProductOrder_status((byte) 4);
 
-        boolean yn = productOrderService.update(productOrder);
-        if (yn) {
-            object.put("success", true);
-        } else {
-            object.put("success", false);
+        logger.info("取消订单，还原库存");
+        //查询该订单订购的商品信息
+        Integer productOrder_id = productOrder.getProductOrder_id();
+        List<ProductOrderItem> productOrderItemList = productOrderItemService.getListByOrderId(productOrder_id, null);
+        if (productOrderItemList != null) {
+            for (ProductOrderItem productOrderItem : productOrderItemList) {
+                Integer product_id = productOrderItem.getProductOrderItem_product().getProduct_id();
+                Integer number = Integer.valueOf(productOrderItem.getProductOrderItem_number());
+                //取消订单，还原库存
+                boolean yn = productService.addStocks(number, product_id);
+                if (!yn) {
+                    object.put("success", false);
+                    return object.toJSONString();
+                }
+            }
         }
+        
+        boolean yn = productOrderService.update(productOrder);
+        if (!yn) {
+            logger.info("订单信息更新失败");
+            object.put("success", false);
+            return object.toJSONString();
+        }
+        object.put("success", true);
+        object.put("message", "订单取消成功！");
         return object.toJSONString();
     }
 
@@ -965,7 +988,21 @@ public class ForeOrderController extends BaseController {
         if (!yn) {
             throw new RuntimeException();
         }
-
+        //查询剩余产品库存
+        Integer product_stocks_now = productService.selectStocks(orderItem_product_id);
+        if (orderItem_number > product_stocks_now) {
+            logger.warn("产品库存不足");
+            object.put("success", false);
+            object.put("url", "/");
+            object.put("message", "商品库存不足！");
+            return object.toJSONString();
+        }
+        yn = productService.decreaseStocks(Integer.valueOf(orderItem_number), orderItem_product_id);
+        if (!yn) {
+            throw new RuntimeException();
+        }
+        logger.info("创建订单，减少库存");
+        
         object.put("success", true);
         object.put("url", "/order/pay/" + productOrder.getProductOrder_code());
         return object.toJSONString();
@@ -1072,6 +1109,19 @@ public class ForeOrderController extends BaseController {
         object.put("url", "/order/pay/" + productOrder.getProductOrder_code());
         return object.toJSONString();
     }
+    
+    //判断减少商品库存
+    private boolean checkProductStocks(Integer product_id, Short product_number, JSONObject object) {
+        //查询剩余产品库存
+        Integer product_stocks_now = productService.selectStocks(product_id);
+        if (product_number > product_stocks_now) {
+            logger.warn("产品库存不足");
+            object.put("success", false);
+            object.put("message", "商品库存不足！");
+            return false;
+        }
+        return productService.decreaseStocks(Integer.valueOf(product_number), product_id);
+    }
 
     //创建订单项-购物车-ajax
     @ResponseBody
@@ -1102,32 +1152,206 @@ public class ForeOrderController extends BaseController {
         List<ProductOrderItem> orderItemList = productOrderItemService.getListByUserId(Integer.valueOf(userId.toString()), null);
         for (ProductOrderItem orderItem : orderItemList) {
             if (orderItem.getProductOrderItem_product().getProduct_id().equals(product_id)) {
+                logger.info("加入购物车，减少库存");
+                //查询剩余产品库存
+                if (!checkProductStocks(product_id, product_number, object)){
+                    object.put("success", false);
+                    return object.toJSONString();
+                }
                 logger.info("找到已有的产品，进行数量追加");
                 int number = orderItem.getProductOrderItem_number();
-                number += 1;
+                number += product_number;
                 productOrderItem.setProductOrderItem_id(orderItem.getProductOrderItem_id());
                 productOrderItem.setProductOrderItem_number((short) number);
                 productOrderItem.setProductOrderItem_price(number * product.getProduct_sale_price());
                 boolean yn = productOrderItemService.update(productOrderItem);
                 if (yn) {
                     object.put("success", true);
+                    object.put("message", "加入购物车成功！");
                 } else {
                     object.put("success", false);
                 }
                 return object.toJSONString();
             }
         }
+        logger.info("加入购物车，减少库存");
+        //查询剩余产品库存
+        if (!checkProductStocks(product_id, product_number, object)){
+            object.put("success", false);
+            return object.toJSONString();
+        }
+        
         logger.info("封装订单项对象");
         productOrderItem.setProductOrderItem_product(product);
         productOrderItem.setProductOrderItem_number(product_number);
         productOrderItem.setProductOrderItem_price(product.getProduct_sale_price() * product_number);
         productOrderItem.setProductOrderItem_user(new User().setUser_id(Integer.valueOf(userId.toString())));
         boolean yn = productOrderItemService.add(productOrderItem);
-        if (yn) {
-            object.put("success", true);
-        } else {
+        if (!yn) {
             object.put("success", false);
+            return object.toJSONString();
         }
+        object.put("message", "加入购物车成功！");
+        return object.toJSONString();
+    }
+    
+    //减少订单项数量-购物车-ajax
+    @ResponseBody
+    @Transactional
+    @RequestMapping(value = "orderItem/number/down", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
+    public String orderItemNumberDown(HttpSession session,
+                                      @RequestParam("orderItem_id") Integer orderItem_id,
+                                      @RequestParam("product_id") Integer product_id,
+                                      @RequestParam("product_number") Integer product_number){
+        JSONObject object = new JSONObject();
+        logger.info("检查用户是否登录");
+        Object userId = checkUser(session);
+        if (userId == null) {
+            object.put("url", "/login");
+            object.put("success", false);
+            return object.toJSONString();
+        }
+        Product product = productService.get(product_id);
+        if (product == null) {
+            object.put("success", false);
+            object.put("message", "商品不存在！");
+            return object.toJSONString();
+        }
+        logger.info("用户减少购物车订单项数量，库存增加");
+        boolean yn = productService.addStocks(1, product_id);
+        if (!yn) {
+            throw new RuntimeException();
+        }
+        logger.info("订单项数量减少写入,总价减少");
+        ProductOrderItem productOrderItem = new ProductOrderItem()
+                .setProductOrderItem_id(orderItem_id)
+                .setProductOrderItem_number(STOCKS_ONE)
+                .setProductOrderItem_price((product_number-1) * product.getProduct_sale_price());
+        yn = productOrderItemService.decreaseOrderNumber(productOrderItem);
+        if (!yn) {
+            throw new RuntimeException();
+        }
+        object.put("success", true);
+        return object.toJSONString();
+    }
+
+    //增加订单项数量-购物车-ajax
+    @ResponseBody
+    @Transactional
+    @RequestMapping(value = "orderItem/number/up", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
+    public String orderItemNumberUp(HttpSession session,
+                                      @RequestParam("orderItem_id") Integer orderItem_id,
+                                      @RequestParam("product_id") Integer product_id,
+                                    @RequestParam("product_number") Integer product_number){
+        JSONObject object = new JSONObject();
+        logger.info("检查用户是否登录");
+        Object userId = checkUser(session);
+        if (userId == null) {
+            object.put("url", "/login");
+            object.put("success", false);
+            return object.toJSONString();
+        }
+        Product product = productService.get(product_id);
+        if (product == null) {
+            object.put("success", false);
+            object.put("message", "商品不存在！");
+            return object.toJSONString();
+        }
+        if (product.getProduct_stocks() == 0) {
+            object.put("success", false);
+            object.put("message", "商品没有库存了，请等待买家补货哦！");
+            return object.toJSONString();
+        }
+        logger.info("用户增加购物车订单项数量，库存减少");
+        boolean yn = productService.decreaseStocks(1, product_id);
+        if (!yn) {
+            throw new RuntimeException();
+        }
+        logger.info("订单项数量增加写入，总价增加");
+        ProductOrderItem productOrderItem = new ProductOrderItem()
+                .setProductOrderItem_id(orderItem_id)
+                .setProductOrderItem_number(STOCKS_ONE)
+                .setProductOrderItem_price((product_number+1) * product.getProduct_sale_price());
+        yn = productOrderItemService.addOrderNumber(productOrderItem);
+        if (!yn) {
+            throw new RuntimeException();
+        }
+        object.put("success", true);
+        return object.toJSONString();
+    }
+
+    //手动输入订单项数量-购物车-ajax
+    @ResponseBody
+    @Transactional
+    @RequestMapping(value = "orderItem/number/change", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
+    public String orderItemNumberChange(HttpSession session,
+                                    @RequestParam("orderItem_id") Integer orderItem_id,
+                                    @RequestParam("product_id") Integer product_id,
+                                    @RequestParam("product_number") Integer product_number){
+        JSONObject object = new JSONObject();
+        logger.info("检查用户是否登录");
+        Object userId = checkUser(session);
+        if (userId == null) {
+            object.put("url", "/login");
+            object.put("success", false);
+            return object.toJSONString();
+        }
+        Product product = productService.get(product_id);
+        if (product == null) {
+            object.put("success", false);
+            object.put("message", "商品不存在！");
+            return object.toJSONString();
+        }
+        boolean yn;
+        ProductOrderItem productOrderItem;
+        //获购物车商品原数量
+        Integer orderItemNum = productOrderItemService.selectOrderNumber(orderItem_id);
+        //输入小于原数量，减少数量
+        if (product_number < orderItemNum) {
+            Integer number_decrease = orderItemNum - product_number;
+            logger.info("增加库存");
+            yn = productService.addStocks(orderItemNum - product_number, product_id);
+            if (!yn) {
+                throw new RuntimeException();
+            }
+            productOrderItem = new ProductOrderItem()
+                    .setProductOrderItem_id(orderItem_id)
+                    .setProductOrderItem_number(Short.parseShort(number_decrease.toString()))
+                    .setProductOrderItem_price(product_number * product.getProduct_sale_price());
+            logger.info("减少购物车商品数量和总价格");
+            yn = productOrderItemService.decreaseOrderNumber(productOrderItem);
+            if (!yn){
+                throw new RuntimeException();
+            }
+        }
+        //输入大于原数量，增加数量
+        if (product_number > orderItemNum) {
+            Integer number_increase = product_number - orderItemNum;
+            //输入数量增量大于现有库存
+            if (number_increase > product.getProduct_stocks()) {
+                //获取最大可增加商品数量
+                product_number = orderItemNum + product.getProduct_stocks();
+                number_increase = product.getProduct_stocks();
+                object.put("success", false);
+                object.put("message", "商品库存不足，请等待买家补货哦！");
+                object.put("number", product_number);
+            }
+            logger.info("减少库存");
+            yn = productService.decreaseStocks(number_increase, product_id);
+            if (!yn) {
+                throw new RuntimeException();
+            }
+            productOrderItem = new ProductOrderItem()
+                    .setProductOrderItem_id(orderItem_id)
+                    .setProductOrderItem_number(Short.parseShort(number_increase.toString()))
+                    .setProductOrderItem_price(product_number * product.getProduct_sale_price());
+            logger.info("增加购物车商品数量和总价格");
+            yn = productOrderItemService.addOrderNumber(productOrderItem);
+            if (!yn) {
+                throw new RuntimeException();
+            }
+        }
+        object.put("success", true);
         return object.toJSONString();
     }
 
@@ -1152,14 +1376,24 @@ public class ForeOrderController extends BaseController {
             logger.info("找到匹配的购物车项");
             if (orderItem.getProductOrderItem_id().equals(orderItem_id)) {
                 isMine = true;
+
+                //删除购物车商品，还原库存
+                boolean yn = productService.addStocks(Integer.valueOf(orderItem.getProductOrderItem_number()), orderItem.getProductOrderItem_product().getProduct_id());
+                if (!yn) {
+                    logger.info("删除购物车商品，还原库存");
+                    object.put("success", false);
+                    return object.toJSONString();
+                }
                 break;
             }
         }
+        
         if (isMine) {
             logger.info("删除订单项信息");
             boolean yn = productOrderItemService.deleteList(new Integer[]{orderItem_id});
             if (yn) {
                 object.put("success", true);
+                object.put("message", "删除成功！");
             } else {
                 object.put("success", false);
             }

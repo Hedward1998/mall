@@ -145,4 +145,23 @@
         </where>
         GROUP BY productOrder.productOrder_pay_date,productOrder.productOrder_status
     </select>
+
+    <select id="selectOrderNumber" parameterType="Integer" resultType="Integer">
+        SELECT productOrderItem_number FROM productOrderItem 
+        WHERE productOrderItem_id = #{orderItem_id}
+    </select>
+    
+    <update id="decreaseOrderNumber">
+        UPDATE productOrderItem SET 
+            productOrderItem_number = productOrderItem_number - #{productOrderItem.productOrderItem_number},
+            productOrderItem_price = #{productOrderItem.productOrderItem_price}
+        WHERE productOrderItem_id = #{productOrderItem.productOrderItem_id}
+    </update>
+
+    <update id="addOrderNumber">
+        UPDATE productOrderItem SET 
+            productOrderItem_number = productOrderItem_number + #{productOrderItem.productOrderItem_number},
+            productOrderItem_price = #{productOrderItem.productOrderItem_price}
+        WHERE productOrderItem_id = #{productOrderItem.productOrderItem_id}
+    </update>
 </mapper>

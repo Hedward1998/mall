@@ -19,4 +19,11 @@ public interface ProductService {
     List<Product> getMoreList(Product product, Byte[] bytes, OrderUtil orderUtil, PageUtil pageUtil, String[] product_name_split);
 
     Integer getMoreListTotal(Product product, Byte[] bytes, String[] product_name_split);
+    
+    Integer selectStocks(Integer product_id);
+    
+    boolean decreaseStocks(Integer number, Integer product_id);
+
+    boolean addStocks(Integer number, Integer product_id);
+
 }

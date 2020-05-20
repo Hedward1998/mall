@@ -226,4 +226,18 @@
             </if>
         </where>
     </select>
+    <select id="selectStocks" parameterType="Integer" resultType="Integer">
+        select product_stocks from product where product_id = #{product_id}
+    </select>
+    <update id="decreaseStocks">
+        UPDATE product
+        set product_stocks = product_stocks - #{number}
+        where product_id = #{product_id}
+    </update>
+
+    <update id="addStocks">
+        UPDATE product
+        set product_stocks = product_stocks + #{number}
+        where product_id = #{product_id}
+    </update>
 </mapper>

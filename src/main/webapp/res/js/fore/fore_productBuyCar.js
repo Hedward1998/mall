@@ -51,7 +51,7 @@ $(function () {
     });
 });
 
-function up(obj) {
+function down(obj) {
     obj = $(obj);
     var number = obj.next("input");
     var value = parseInt(number.val());
@@ -86,7 +86,7 @@ function up(obj) {
     }
 }
 
-function down(obj) {
+function up(obj) {
     obj = $(obj);
     var number = obj.prev("input");
     var value = parseInt(number.val());
@@ -121,7 +121,6 @@ function sumPrice() {
     });
     $(".total_value").text(price_sum.toFixed(2));
     $(".total-symbol").text(price_sum.toFixed(2));
-    debugger;
     if (obj.length > 0) {
         $("#J_Go").addClass("selected");
     } else {

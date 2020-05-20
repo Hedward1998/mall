@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service("productService")
@@ -63,5 +62,24 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Integer getMoreListTotal(Product product, Byte[] bytes, String[] product_name_split) {
         return productMapper.selectMoreListTotal(product, bytes, product_name_split);
+    }
+
+    @Override
+    public Integer selectStocks(Integer product_id) {
+        return productMapper.selectStocks(product_id);
+    }
+
+    //减少库存
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public boolean decreaseStocks(Integer number, Integer product_id) {
+        return productMapper.decreaseStocks(number, product_id)>0;
+    }
+
+    //增加库存
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public boolean addStocks(Integer number, Integer product_id) {
+        return productMapper.addStocks(number, product_id)>0;
     }
 }

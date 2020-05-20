@@ -1,10 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="include/header.jsp" %>
 <head>
+    <script src="${pageContext.request.contextPath}/res/js/sweet-alert-dev.js"></script>
+    <link href="${pageContext.request.contextPath}/res/css/sweet-alert.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/res/js/fore/fore_productBuyCar.js"></script>
     <link href="${pageContext.request.contextPath}/res/css/fore/fore_productBuyCarPage.css" rel="stylesheet"/>
     <title>Mall.com - 购物车</title>
     <script>
+        var dataList ={
+            "orderItem_id": null,
+            "product_id": null,
+            "product_number": null
+        };
         $(function () {
             $('#btn-ok').click(function () {
                 $.ajax({
@@ -14,21 +21,122 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.success !== true) {
-                            alert("购物车商品删除异常，请稍候再试！");
+                            swal("购物车商品删除异常，请稍候再试！");
                         }
+                        swal(data.message,null,"success");
                         location.href = "/mall/cart";
                     },
                     beforeSend: function () {
 
                     },
                     error: function () {
-                        alert("购物车产品删除异常，请稍后再试！");
+                        swal("购物车产品删除异常，请稍后再试！");
                         location.href = "/mall/cart";
                     }
                 });
             });
         });
+        
+        //购物车商品数量减少
+        function getNumberDown(orderItem_id, product_id, obj) {
+            iobj = $(obj);
+            var number = iobj.next("input");
+            var product_number = parseInt(number.val());
+            if (product_number > 1) {
+                dataList.orderItem_id = orderItem_id;
+                dataList.product_id = product_id;
+                dataList.product_number = product_number;
+                $.ajax({
+                    url: "/mall/orderItem/number/down",
+                    type: "PUT",
+                    data: dataList,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success) {
+                            down(obj);
+                        }
+                    },
+                    beforeSend: function () {
 
+                    },
+                    error: function () {
+                        location.href = "/mall/cart";
+                    }
+                });
+            } else {
+                swal("商品不能再少了！");
+            }
+        }
+        
+        //购物车商品数量增加
+        function getNumberUp(orderItem_id, product_id, obj) {
+            iobj = $(obj);
+            var number = iobj.prev("input");
+            var product_number = parseInt(number.val());
+            dataList.orderItem_id = orderItem_id;
+            dataList.product_id = product_id;
+            dataList.product_number = product_number;
+            $.ajax({
+                url: "/mall/orderItem/number/up",
+                type: "PUT",
+                data: dataList,
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        up(obj);
+                    }
+                    if (data.message != null) {
+                        swal(data.message);
+                    }
+                },
+                beforeSend: function () {
+
+                },
+                error: function () {
+                    location.href = "/mall/cart";
+                }
+            });
+        }
+        
+        //手动输入购物车商品数量
+        function changeOrderItemNum(orderItem_id, product_id, obj) {
+            iobj = $(obj);
+            var number = iobj.parents("tr").find("#orderItemNum");
+            var product_number = parseInt(number.val());
+            if (product_number > 0 || product_number < 500) {
+                dataList.orderItem_id = orderItem_id;
+                dataList.product_id = product_id;
+                dataList.product_number = product_number;
+                $.ajax({
+                    url: "/mall/orderItem/number/change",
+                    type: "PUT",
+                    data: dataList,
+                    dataType: "json",
+                    success: function (data) {
+                        var total_price;
+                        var price = iobj.parents("tr").find(".orderItem_product_price").text().replace("￥", "");
+                        if (data.message != null) { //若输入数量为增加，且增量大于现有库存，则只增加完现有库存
+                            swal(data.message);
+                            number.val(data.number);
+                            total_price = parseFloat(price * data.number);
+                            iobj.parents("tr").find(".orderItem_product_realPrice").text("￥" + total_price.toFixed(1));
+                        } else {//正常输入增大增小
+                            total_price = parseFloat(price * product_number);
+                            iobj.parents("tr").find(".orderItem_product_realPrice").text("￥" + total_price.toFixed(1));
+                        }
+                    },
+                    beforeSend: function () {
+                    },
+                    error: function () {
+                        location.href = "/mall/cart";
+                    }
+                });
+            } else {
+                swal("请输入正确的订单数量(1~499)！");
+                location.href = "/mall/cart";
+            }
+        }
+        
         function removeItem(orderItem_id) {
             if (isNaN(orderItem_id) || orderItem_id === null) {
                 return;
@@ -89,12 +197,12 @@
                         </a>
                     </li>
                 </ul>
-                <div class="cart-sum">
-                    <span class="pay-text">已选商品（不含运费）</span>
-                    <strong class="price"><em id="J_SmallTotal"><span
-                            class="total-symbol">&nbsp;</span>0.00</em></strong>
-                    <a id="J_SmallSubmit" class="submit-btn submit-btn-disabled">结&nbsp;算</a>
-                </div>
+                <%--<div class="cart-sum">--%>
+                    <%--<span class="pay-text">已选商品（不含运费）</span>--%>
+                    <%--<strong class="price"><em id="J_SmallTotal"><span--%>
+                            <%--class="total-symbol">&nbsp;</span>0.00</em></strong>--%>
+                    <%--<a id="J_SmallSubmit" class="submit-btn submit-btn-disabled">结&nbsp;算</a>--%>
+                <%--</div>--%>
                 <div class="wrap-line">
                     <div class="floater"></div>
                 </div>
@@ -129,39 +237,40 @@
                                  style="width: 80px;height: 80px;"/><span class="orderItem_product_name"><a
                                 href="${pageContext.request.contextPath}/product/${orderItem.productOrderItem_product.product_id}">${orderItem.productOrderItem_product.product_name}</a></span>
                         </td>
-                        <td><span
-                                class="orderItem_product_price">￥${orderItem.productOrderItem_price/orderItem.productOrderItem_number}</span>
-                        </td>
+                        <td>
+                            <span class="orderItem_product_price">￥<fmt:formatNumber type="number" value="${orderItem.productOrderItem_price/orderItem.productOrderItem_number}" pattern=".0#"/></span>
+                        </td><%--${orderItem.productOrderItem_price/orderItem.productOrderItem_number}--%>
                         <td>
                             <div class="item_amount">
-                                <a href="javascript:void(0)" onclick="up(this)"
-                                   class="J_Minus <c:if test="${orderItem.productOrderItem_number<=1}">no_minus</c:if>">-</a>
-                                <input type="text" value="${orderItem.productOrderItem_number}"/>
-                                <a href="javascript:void(0)" onclick="down(this)" class="J_Plus">+</a>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="orderItem_product_realPrice">￥${orderItem.productOrderItem_price}</span>
-                        </td>
-                        <td><a href="javascript:void(0)" onclick="removeItem('${orderItem.productOrderItem_id}')"
-                               class="remove_order">删除</a></td>
-                        <td>
-                            <input type="hidden" class="input_orderItem" name="${orderItem.productOrderItem_id}"/>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-            <div id="J_FloatBar">
-                <div id="J_SelectAll2">
-                    <div class="cart_checkbox">
-                        <input class="J_checkboxShop" id="J_SelectAllCbx2" type="checkbox" value="true"/>
-                        <label for="J_SelectAllCbx2" title="勾选购物车内所有商品"></label>
-                    </div>
-                    <span class="span_selectAll">&nbsp;全选</span>
-                </div>
-                <div class="operations">
-                    <a href="javascript:void(0)" onclick="remove()">删除</a>
+                                <a href="javascript:void(0)" <%--onclick="down(this)"--%>
+                                   onclick="getNumberDown('${orderItem.productOrderItem_id}', '${orderItem.productOrderItem_product.product_id}', this)" class="J_Minus <c:if test="${orderItem.productOrderItem_number<=1}">no_minus</c:if>">-</a>
+                                <input id="orderItemNum" type="text" onchange="changeOrderItemNum('${orderItem.productOrderItem_id}', '${orderItem.productOrderItem_product.product_id}', this)" value="${orderItem.productOrderItem_number}"/>
+                                <a href="javascript:void(0)" <%--onclick="up(this)"--%>
+                                    onclick="getNumberUp('${orderItem.productOrderItem_id}', '${orderItem.productOrderItem_product.product_id}', this)" class="J_Plus">+</a>
+                             </div>
+                         </td>
+                         <td>
+                             <span class="orderItem_product_realPrice">￥${orderItem.productOrderItem_price}</span>
+                         </td>
+                         <td><a href="javascript:void(0)" onclick="removeItem('${orderItem.productOrderItem_id}')"
+                                class="remove_order">删除</a></td>
+                         <td>
+                             <input type="hidden" class="input_orderItem" name="${orderItem.productOrderItem_id}"/>
+                         </td>
+                     </tr>
+                 </c:forEach>
+                 </tbody>
+             </table>
+             <div id="J_FloatBar">
+                 <div id="J_SelectAll2">
+                     <div class="cart_checkbox">
+                         <input class="J_checkboxShop" id="J_SelectAllCbx2" type="checkbox" value="true"/>
+                         <label for="J_SelectAllCbx2" title="勾选购物车内所有商品"></label>
+                     </div>
+                     <span class="span_selectAll">&nbsp;全选</span>
+                 </div>
+                 <div class="operations">
+                     <%--<a href="javascript:void(0)" onclick="remove()">删除</a>undo--%>
                 </div>
                 <div class="float-bar-right">
                     <div id="J_ShowSelectedItems">
@@ -196,7 +305,7 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="myModalLabel">提示</h4>
             </div>
-            <div class="modal-body">您确定要取消该宝贝吗？</div>
+            <div class="modal-body">您确定要取消该商品吗？</div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" id="btn-ok">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" id="btn-close">关闭</button>

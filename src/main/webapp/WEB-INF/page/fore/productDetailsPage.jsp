@@ -3,6 +3,8 @@
 <head>
     <script src="${pageContext.request.contextPath}/res/js/fore/fore_login.js"></script>
     <script src="${pageContext.request.contextPath}/res/js/fore/fore_productDetails.js"></script>
+    <script src="${pageContext.request.contextPath}/res/js/sweet-alert-dev.js"></script>
+    <link href="${pageContext.request.contextPath}/res/css/sweet-alert.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/res/css/fore/fore_productDetails.css" rel="stylesheet">
     <title>${requestScope.product.product_name}-Mall.com</title>
 </head>
@@ -128,12 +130,28 @@
                          class="amount_value-down">
                 </span>
                 <span class="amount_unit">件</span>
-                <em>库存1000件</em>
+                <%--<em>库存1000件</em>--%>
+                <em>库存<span id="product_stocks">${requestScope.product.product_stocks}</span>件</em>
             </dd>
         </dl>
         <div class="context_buy">
             <script>
+                function checkStocks(num) {
+                    if (num <= 0) {
+                        swal("商品数量输入错误！");
+                        return false;
+                    } else if (num > parseInt($("#product_stocks").text())) {
+                        if (parseInt($("#product_stocks").text()) === 0)  {
+                            swal("商品暂无库存，请选择其他商品！");
+                        } else {
+                            swal("商品库存不足，请重新选择数量！");
+                        }
+                        return false;
+                    }
+                    return true;
+                }
                 $(function () {
+                    
                     //点击购买按钮时
                     $(".context_buy_form").submit(function () {
                         if ('${sessionScope.userId}' === "") {
@@ -142,6 +160,10 @@
                             return false;
                         }
                         var number = isNaN($.trim($(".context_buymember").val()));
+                        //检查库存
+                        if (!checkStocks($.trim($(".context_buymember").val()))) {
+                            return false;
+                        }
                         if (number) {
                             location.reload();
                         } else {
@@ -157,6 +179,10 @@
                             return false;
                         }
                         var number = isNaN($.trim($(".context_buymember").val()));
+                        //检查库存
+                        if (!checkStocks($.trim($(".context_buymember").val()))) {
+                            return false;
+                        }
                         if (number) {
                             location.reload();
                         } else {
@@ -167,6 +193,7 @@
                                 dataType: "json",
                                 success: function (data) {
                                     if (data.success) {
+                                        swal(data.message,null,"success");
                                         $(".msg").stop(true, true).animate({
                                             opacity: 1
                                         }, 550, function () {
@@ -174,19 +201,21 @@
                                                 opacity: 0
                                             }, 1500);
                                         });
+                                        location = "/mall/product/" + ${requestScope.product.product_id};
                                     } else {
-                                        if (data.url != null) {
-                                            location.href = "/mall" + data.url;
+                                        if (data.message != null) {
+                                            swal(data.message);
                                         } else {
-                                            alert("加入购物车失败，请稍后再试！");
+                                            swal("加入购物车失败，请稍后再试！");
                                         }
+                                        location = "/mall/product/" + ${requestScope.product.product_id};
                                     }
                                 },
                                 beforeSend: function () {
 
                                 },
                                 error: function () {
-                                    alert("加入购物车失败，请稍后再试！");
+                                    swal("加入购物车失败，请稍后再试！");
                                 }
                             });
                             return false;

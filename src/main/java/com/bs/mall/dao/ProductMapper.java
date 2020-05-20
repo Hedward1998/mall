@@ -22,4 +22,10 @@ public interface ProductMapper {
     List<Product> selectMoreList(@Param("product") Product product, @Param("product_isEnabled_array") Byte[] bytes, @Param("orderUtil") OrderUtil orderUtil, @Param("pageUtil") PageUtil pageUtil, @Param("product_name_split") String[] product_name_split);
 
     Integer selectMoreListTotal(@Param("product") Product product, @Param("product_isEnabled_array") Byte[] product_isEnabled_array, @Param("product_name_split") String[] product_name_split);
+    
+    Integer selectStocks(@Param("product_id") Integer product_id);
+    
+    Integer decreaseStocks(@Param("number") Integer number, @Param("product_id") Integer product_id);
+    
+    Integer addStocks(@Param("number") Integer number, @Param("product_id") Integer product_id);
 }

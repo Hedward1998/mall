@@ -24,4 +24,10 @@ public interface ProductOrderItemService {
     List<OrderGroup> getTotalByProductId(Integer product_id, Date beginDate, Date endDate);
 
     Integer getSaleCountByProductId(Integer product_id);
+
+    Integer selectOrderNumber(Integer orderItem_id);
+
+    boolean decreaseOrderNumber(ProductOrderItem productOrderItem);
+
+    boolean addOrderNumber(ProductOrderItem productOrderItem);
 }

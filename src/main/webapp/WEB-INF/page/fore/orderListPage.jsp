@@ -1,10 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="include/header.jsp" %>
 <head>
+    <script src="${pageContext.request.contextPath}/res/js/sweet-alert-dev.js"></script>
+    <link href="${pageContext.request.contextPath}/res/css/sweet-alert.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/res/css/fore/fore_orderList.css" rel="stylesheet"/>
     <title>历史订单</title>
     <script>
         $(function () {
+            //取消订单
             $('#btn-ok').click(function () {
                 $.ajax({
                     url: "${pageContext.request.contextPath}/order/close/" + $("#order_id_hidden").val(),
@@ -13,15 +16,16 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.success !== true) {
-                            alert("订单处理异常，请稍候再试！");
+                            swal("订单处理异常，请稍候再试！");
                         }
+                        swal(data.message,null,"success");
                         location.href = "/mall/order/0/10";
                     },
                     beforeSend: function () {
 
                     },
                     error: function () {
-                        alert("订单取消出现问题，请稍后再试！");
+                        swal("订单取消出现问题，请稍后再试！");
                         location.href = "/mall/order/0/10";
                     }
                 });
@@ -88,7 +92,7 @@
     <table class="table_orderList">
         <thead>
         <tr>
-            <th>宝贝</th>
+            <th>商品</th>
             <th width="80px">单价</th>
             <th width="80px">数量</th>
             <th width="140px">实付款</th>

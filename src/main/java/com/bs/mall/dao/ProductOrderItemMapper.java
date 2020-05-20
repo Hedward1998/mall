@@ -26,4 +26,10 @@ public interface ProductOrderItemMapper {
     Integer selectSaleCount(@Param("product_id") Integer product_id);
 
     List<OrderGroup> getTotalByProductId(@Param("product_id") Integer product_id, @Param("beginDate") Date beginDate, @Param("endDate") Date endDate);
+
+    Integer selectOrderNumber(@Param("orderItem_id") Integer orderItem_id);
+
+    Integer decreaseOrderNumber(@Param("productOrderItem") ProductOrderItem productOrderItem);
+
+    Integer addOrderNumber(@Param("productOrderItem") ProductOrderItem productOrderItem);
 }

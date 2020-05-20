@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -89,5 +88,20 @@ public class ProductOrderItemServiceImpl implements ProductOrderItemService{
     @Override
     public Integer getSaleCountByProductId(Integer product_id) {
         return productOrderItemMapper.selectSaleCount(product_id);
+    }
+
+    @Override
+    public Integer selectOrderNumber(Integer orderItem_id) {
+        return productOrderItemMapper.selectOrderNumber(orderItem_id);
+    }
+
+    @Override
+    public boolean decreaseOrderNumber(ProductOrderItem productOrderItem) {
+        return productOrderItemMapper.decreaseOrderNumber(productOrderItem)>0;
+    }
+
+    @Override
+    public boolean addOrderNumber(ProductOrderItem productOrderItem) {
+        return productOrderItemMapper.addOrderNumber(productOrderItem)>0;
     }
 }

@@ -68,7 +68,7 @@
         <table class="table_order_orderItem">
             <thead>
             <tr>
-                <th>店铺宝贝</th>
+                <th>店铺商品</th>
                 <th>单价</th>
                 <th>数量</th>
                 <th>小计</th>
