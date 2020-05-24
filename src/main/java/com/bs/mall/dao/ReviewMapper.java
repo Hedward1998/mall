@@ -2,7 +2,6 @@ package com.bs.mall.dao;
 
 import com.bs.mall.entity.Review;
 import com.bs.mall.util.PageUtil;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +22,5 @@ public interface ReviewMapper {
     Integer selectTotalByProductId(@Param("product_id") Integer product_id);
 
     Integer selectTotalByOrderItemId(@Param("productOrderItem_id") Integer productOrderItem_id);
+    Review selectReviewByOrderItemId(@Param("productOrderItem_id") Integer productOrderItem_id);
 }

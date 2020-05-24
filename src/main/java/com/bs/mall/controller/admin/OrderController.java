@@ -4,22 +4,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bs.mall.controller.BaseController;
-import com.bs.mall.entity.Address;
-import com.bs.mall.entity.Product;
-import com.bs.mall.entity.ProductOrder;
-import com.bs.mall.entity.ProductOrderItem;
+import com.bs.mall.entity.*;
 import com.bs.mall.service.*;
 import com.bs.mall.util.OrderUtil;
 import com.bs.mall.util.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * 后台管理-订单页
@@ -41,6 +36,8 @@ OrderController extends BaseController{
     private ProductImageService productImageService;
     @Resource(name = "lastIDService")
     private LastIDService lastIDService;
+    @Autowired
+    private ReviewService reviewService;
 
     //转到后台管理-订单页-ajax
     @RequestMapping(value = "admin/order", method = RequestMethod.GET)
@@ -92,6 +89,8 @@ OrderController extends BaseController{
         order.setProductOrder_user(userService.get(order.getProductOrder_user().getUser_id()));
         logger.info("获取订单详情-订单项信息");
         List<ProductOrderItem> productOrderItemList = productOrderItemService.getListByOrderId(oid, null);
+        //如果订单已经交易成功，则获取评论信息
+        List<Review> reviewList = new ArrayList<>();
         if (productOrderItemList != null) {
             logger.info("获取订单详情-订单项对应的产品信息");
             for (ProductOrderItem productOrderItem : productOrderItemList) {
@@ -103,10 +102,21 @@ OrderController extends BaseController{
                     product.setSingleProductImageList(productImageService.getList(productId, (byte) 0, new PageUtil(0, 1)));
                 }
                 productOrderItem.setProductOrderItem_product(product);
+                if (order.getProductOrder_status() == 3) {
+                    logger.info("获取订单评论信息");
+                    Review review = reviewService.getReviewByOrderItemId(productOrderItem.getProductOrderItem_id());
+                    if (review == null) {
+                        review = new Review().setReview_content("用户暂未评价！");
+                    }
+                    review.setReview_product(product);
+                    reviewList.add(review);
+                }
+                
             }
         }
         order.setProductOrderItemList(productOrderItemList);
         map.put("order", order);
+        map.put("reviewList", reviewList);
         logger.info("转到后台管理-订单详情页-ajax方式");
         return "admin/include/orderDetails";
     }

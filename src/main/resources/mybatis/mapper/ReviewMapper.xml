@@ -24,9 +24,9 @@
             null,
             #{review.review_content},
             #{review.review_createDate},
-        #{review.review_user.user_id},
-        #{review.review_product.product_id},
-        #{review.review_orderItem.productOrderItem_id})
+            #{review.review_user.user_id},
+            #{review.review_product.product_id},
+            #{review.review_orderItem.productOrderItem_id})
     </insert>
     <update id="updateOne" parameterType="review">
         UPDATE review
@@ -105,6 +105,12 @@
     </select>
     <select id="selectTotalByOrderItemId" resultType="int" parameterType="int">
         SELECT COUNT(review_id) FROM review
+        <where>
+            review_orderItem_id = #{productOrderItem_id}
+        </where>
+    </select>
+    <select id="selectReviewByOrderItemId" parameterType="int" resultType="review">
+        SELECT review_id,review_content,review_createDate,review_user_id,review_product_id FROM review
         <where>
             review_orderItem_id = #{productOrderItem_id}
         </where>

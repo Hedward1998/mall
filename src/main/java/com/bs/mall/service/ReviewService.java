@@ -19,4 +19,5 @@ public interface ReviewService {
     Integer getTotalByProductId(Integer product_id);
 
     Integer getTotalByOrderItemId(Integer productOrderItem_id);
+    Review getReviewByOrderItemId(Integer productOrderItem_id);
 }

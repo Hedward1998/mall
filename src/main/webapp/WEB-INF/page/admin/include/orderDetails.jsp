@@ -123,7 +123,7 @@
             height: 110px;
         }
 
-        #table_orderItem_list th:first-child {
+        #table_orderItem_list th,#table_review_list th:first-child {
             width: auto;
         }
     </style>
@@ -217,7 +217,7 @@
     </table>
 </div>
 <c:if test="${requestScope.order.productOrder_status != 0 && requestScope.order.productOrder_status != 4}">
-    <div class="details_div details_div_last">
+    <div class="details_div">
         <span class="details_title text_info">流程时间</span>
         <div class="frm_div">
             <label class="frm_label text_info" id="lbl_order_pay_date">支付日期</label>
@@ -238,6 +238,33 @@
                 </div>
             </c:if>
         </c:if>
+    </div>
+</c:if>
+<c:if test="${requestScope.order.productOrder_status == 3}">
+    <div class="details_div details_div_last">
+        <span class="details_title text_info">订单评价</span>
+        <table class="table_normal" id="table_review_list">
+            <thead class="text_info">
+            <tr>
+                <th style="width: 100px;">产品图片</th>
+                <th>产品名称</th>
+                <th>产品评价</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${requestScope.reviewList}" var="item" varStatus="i">
+                <tr>
+                    <td title="产品图片"><img
+                            src="${pageContext.request.contextPath}/res/images/item/productSinglePicture/${item.review_product.singleProductImageList[0].productImage_src}"
+                            id="pic_single_${item.review_product.singleProductImageList[0].productImage_id}"
+                            width="42px" height="42px"
+                            name="${item.review_product.singleProductImageList[0].productImage_id}"/></td>
+                    <td title="${item.review_product.product_name}">${item.review_product.product_name}</td>
+                    <td title="${item.review_content}">${item.review_content}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
     </div>
 </c:if>
 <div class="details_tools_div">

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service("reviewService")
@@ -32,6 +31,11 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public boolean update(Review review) {
         return reviewMapper.updateOne(review)>0;
+    }
+
+    @Override
+    public Review getReviewByOrderItemId(Integer productOrderItem_id) {
+        return reviewMapper.selectReviewByOrderItemId(productOrderItem_id);
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
