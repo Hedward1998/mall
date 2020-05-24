@@ -21,7 +21,7 @@
                     <em>欢迎来到Mall商城</em>
                     <a href="${pageContext.request.contextPath}/login">请登录</a>
                     <a href="${pageContext.request.contextPath}/register">免费注册</a>
-                    <a href="${pageContext.request.contextPath}/login/logout">新闻公告</a>
+                    <a href="${pageContext.request.contextPath}/news">新闻公告</a>
                 </c:when>
                 <c:otherwise>
                     <em>Hi，</em>
