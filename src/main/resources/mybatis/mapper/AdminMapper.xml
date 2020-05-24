@@ -7,7 +7,6 @@
         INSERT admin(admin_id,admin_name,admin_nickname,admin_password,admin_profile_picture_src)
             VALUES (
             null,
-            #{admin.admin_id},
             #{admin.admin_name},
             #{admin.admin_nickname},
             #{admin.admin_password},
@@ -26,14 +25,17 @@
     </update>
     <select id="select" resultType="admin">
         SELECT admin_id,admin_name,admin_nickname,admin_profile_picture_src FROM admin
-        <if test="pageUtil != null">
-            LIMIT #{pageUtil.index},#{pageUtil.count}
-        </if>
         <where>
             <if test="admin_name != null">
                 admin_name LIKE concat('%',#{admin_name},'%')
             </if>
         </where>
+        <if test="orderUtil != null">
+            ORDER BY ${orderUtil.orderBy}<if test="orderUtil.isDesc">desc </if>
+        </if>
+        <if test="pageUtil != null">
+            LIMIT #{pageUtil.index},#{pageUtil.count}
+        </if>
     </select>
     <select id="selectOne" resultType="admin" parameterType="int">
         SELECT admin_id,admin_name,admin_nickname,admin_profile_picture_src FROM admin
@@ -58,4 +60,7 @@
             <if test="admin_name != null">admin_name LIKE concat('%',#{admin_name},'%')</if>
         </where>
     </select>
+    <delete id="deleteOne" parameterType="Integer">
+        DELETE FROM admin WHERE admin_id = #{admin_id}
+    </delete>
 </mapper>

@@ -1,22 +1,22 @@
 package com.bs.mall.controller.admin;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bs.mall.controller.BaseController;
 import com.bs.mall.entity.Admin;
 import com.bs.mall.entity.OrderGroup;
-import com.bs.mall.service.AdminService;
-import com.bs.mall.service.ProductOrderService;
-import com.bs.mall.service.ProductService;
-import com.bs.mall.service.UserService;
+import com.bs.mall.service.*;
+import com.bs.mall.util.OrderUtil;
+import com.bs.mall.util.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -34,6 +34,8 @@ public class AdminHomeController extends BaseController {
     private ProductService productService;
     @Resource(name = "userService")
     private UserService userService;
+    @Autowired
+    private LastIDService lastIDService;
 
     /**
      * 转到后台管理-主页
@@ -207,8 +209,132 @@ public class AdminHomeController extends BaseController {
         jsonObject.put("orderUnpaidArray", orderUnpaidArray);
         jsonObject.put("orderNotShippedArray", orderNotShippedArray);
         jsonObject.put("orderUnconfirmedArray", orderUnconfirmedArray);
-        jsonObject.put("orderSuccessArray", orderSuccessArray);
+        jsonObject.put("ordaaerSuccessArray", orderSuccessArray);
         jsonObject.put("dateStr",dateStr);
         return jsonObject;
+    }
+
+    //转到后台管理-管理员页-ajax
+    @RequestMapping(value = "admin/admin", method = RequestMethod.GET)
+    public String goUserManagePage(HttpSession session, Map<String, Object> map){
+        logger.info("获取前十条管理员信息");
+        PageUtil pageUtil = new PageUtil(0, 10);
+        List<Admin> adminList = adminService.getList(null, null, pageUtil);
+        map.put("adminList", adminList);
+        logger.info("获取管理员总数量");
+        Integer adminCount = adminService.getTotal(null);
+        map.put("adminCount", adminCount);
+        logger.info("获取分页信息");
+        pageUtil.setTotal(adminCount);
+        map.put("pageUtil", pageUtil);
+
+        logger.info("转到后台管理-管理员页-ajax方式");
+        return "admin/adminManagePage";
+    }
+
+    //转到后台管理-管理员详情页-ajax
+    @RequestMapping(value = "admin/admin/{aid}", method = RequestMethod.GET)
+    public String getUserById(HttpSession session, Map<String,Object> map, @PathVariable Integer aid/* 管理员ID */){
+        logger.info("获取admin_id为{}的管理员信息",aid);
+        Admin admin = adminService.get(null, aid);
+        map.put("admin",admin);
+        logger.info("转到后台管理-管理员详情页-ajax方式");
+        return "admin/include/adminDetails";
+    }
+
+    //按条件查询管理员-ajax
+    @ResponseBody
+    @RequestMapping(value = "admin/admin/{index}/{count}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public String getUserBySearch(@RequestParam(required = false) String admin_name/* 管理员名称 */,
+                                  @RequestParam(required = false) String orderBy/* 排序字段 */,
+                                  @RequestParam(required = false,defaultValue = "true") Boolean isDesc/* 是否倒序 */,
+                                  @PathVariable Integer index/* 页数 */,
+                                  @PathVariable Integer count/* 行数 */) throws UnsupportedEncodingException {
+        if (admin_name != null) {
+            //如果为非空字符串则解决中文乱码：URLDecoder.decode(String,"UTF-8");
+            admin_name = "".equals(admin_name) ? null : URLDecoder.decode(admin_name, "UTF-8");
+        }
+        if (orderBy != null && "".equals(orderBy)) {
+            orderBy = null;
+        }
+        OrderUtil orderUtil = null;
+        if (orderBy != null) {
+            logger.info("根据{}排序，是否倒序:{}",orderBy,isDesc);
+            orderUtil = new OrderUtil(orderBy, isDesc);
+        }
+
+        JSONObject object = new JSONObject();
+        logger.info("按条件获取第{}页的{}条管理员", index + 1, count);
+        PageUtil pageUtil = new PageUtil(index, count);
+        List<Admin> adminList = adminService.getList(admin_name, orderUtil, pageUtil);
+        object.put("adminList", JSONArray.parseArray(JSON.toJSONString(adminList)));
+        logger.info("按条件获取管理员总数量");
+        Integer adminCount = adminService.getTotal(admin_name);
+        object.put("adminCount", adminCount);
+        logger.info("获取分页信息");
+        pageUtil.setTotal(adminCount);
+        object.put("totalPage", pageUtil.getTotalPage());
+        object.put("pageUtil", pageUtil);
+
+        return object.toJSONString();
+    }
+    
+    //转到后台管理-管理员添加页-ajax
+    @RequestMapping(value = "admin/admin/new",method = RequestMethod.GET)
+    public String goToAddPage(){
+        logger.info("转到后台管理-管理员添加页-ajax方式");
+        return "admin/include/adminAdd";
+    }
+
+    //管理员添加-ajax
+    @ResponseBody
+    @RequestMapping(value = "admin/admin/add",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    public String addAdmin(@RequestParam String admin_name/* 管理员账户名称 */,
+                           @RequestParam String admin_password/* 管理员登录密码 */,
+                           @RequestParam String admin_nickname/* 管理员昵称 */,
+                           @RequestParam String admin_profile_picture_src/*管理员头像路径*/){
+        JSONObject jsonObject = new JSONObject();
+        //检查管理员账号是否重复
+        if (adminService.get(admin_name, null) != null) {
+            jsonObject.put("success", false);
+            jsonObject.put("message", "管理员账号重复！");
+            return jsonObject.toJSONString();
+        }
+        logger.info("整合管理员信息");
+        //如果未设置密码着默认密码1234
+        admin_password = (admin_password == null || "".equals(admin_password)) ? "1234" : admin_password;
+        admin_profile_picture_src = (admin_profile_picture_src == null || "".equals(admin_profile_picture_src)) ? null : admin_profile_picture_src.substring(admin_profile_picture_src.lastIndexOf("/") + 1);
+        Admin admin = new Admin()
+                .setAdmin_name(admin_name)
+                .setAdmin_password(admin_password)
+                .setAdmin_nickname(admin_nickname)
+                .setAdmin_profile_picture_src(admin_profile_picture_src);
+        logger.info("添加管理员信息");
+        boolean yn = adminService.add(admin);
+        if (!yn) {
+            jsonObject.put("success", false);
+            jsonObject.put("message", "新增失败，请重试！");
+        } else {
+            int admin_id = lastIDService.selectLastID();
+            logger.info("管理员添加成功！新增管理员ID为：" + admin_id);
+            jsonObject.put("success", true);
+            jsonObject.put("admin_id", admin_id);
+        }
+        return jsonObject.toJSONString();
+    }
+    
+    //删除管理员-ajax
+    @ResponseBody
+    @RequestMapping(value = "admin/admin/del",method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
+    public String deleteAdmin(@RequestParam Integer admin_id/* 管理员ID */){
+        JSONObject jsonObject = new JSONObject();
+        logger.info("删除管理员，id为{}", admin_id);
+        boolean yn = adminService.delete(admin_id);
+        if (!yn) {
+            jsonObject.put("success", false);
+        } else {
+            jsonObject.put("success", true);
+        }
+        return jsonObject.toJSONString();
     }
 }

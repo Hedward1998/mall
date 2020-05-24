@@ -3,13 +3,13 @@ package com.bs.mall.service.impl;
 import com.bs.mall.dao.AdminMapper;
 import com.bs.mall.entity.Admin;
 import com.bs.mall.service.AdminService;
+import com.bs.mall.util.OrderUtil;
 import com.bs.mall.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service("adminService")
@@ -34,9 +34,15 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.updateOne(admin)>0;
     }
 
+    @Transactional
     @Override
-    public List<Admin> getList(String admin_name, PageUtil pageUtil) {
-        return adminMapper.select(admin_name,pageUtil);
+    public boolean delete(Integer admin_id){
+        return adminMapper.deleteOne(admin_id)>0;
+    }
+    
+    @Override
+    public List<Admin> getList(String admin_name, OrderUtil orderUtil, PageUtil pageUtil) {
+        return adminMapper.select(admin_name,orderUtil,pageUtil);
     }
 
     @Override
