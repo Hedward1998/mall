@@ -14,6 +14,6 @@ public interface AdminService {
 
     List<Admin> getList(String admin_name, OrderUtil orderUtil, PageUtil pageUtil);
     Admin get(String admin_name, Integer admin_id);
-    Admin login(String admin_name, String admin_password);
+    Admin login(String admin_name);
     Integer getTotal(String admin_name);
 }

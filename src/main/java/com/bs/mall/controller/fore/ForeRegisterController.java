@@ -6,6 +6,7 @@ import com.bs.mall.entity.Address;
 import com.bs.mall.entity.User;
 import com.bs.mall.service.AddressService;
 import com.bs.mall.service.UserService;
+import com.bs.mall.util.Md5Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -82,7 +83,7 @@ public class ForeRegisterController extends BaseController{
         User user = new User()
                 .setUser_name(user_name)
                 .setUser_nickname(user_nickname)
-                .setUser_password(user_password)
+                .setUser_password(Md5Util.md5(user_password, null))
                 .setUser_gender(Byte.valueOf(user_gender))
                 .setUser_birthday(new SimpleDateFormat("yyyy-MM-dd").parse(user_birthday))
                 .setUser_phone(user_phone)

@@ -38,7 +38,7 @@
         </if>
     </select>
     <select id="selectOne" resultType="admin" parameterType="int">
-        SELECT admin_id,admin_name,admin_nickname,admin_profile_picture_src FROM admin
+        SELECT admin_id,admin_name,admin_nickname,admin_password,admin_profile_picture_src FROM admin
         <where>
             <if test="admin_id != null">
                 admin_id = #{admin_id}
@@ -49,9 +49,9 @@
         </where>
     </select>
     <select id="selectByLogin" resultType="admin">
-        SELECT admin_id FROM admin
+        SELECT admin_id,admin_name,admin_nickname,admin_password,admin_profile_picture_src FROM admin
         <where>
-            admin_name = #{admin_name} and admin_password = #{admin_password}
+            admin_name = #{admin_name}
         </where>
     </select>
     <select id="selectTotal" resultType="int">

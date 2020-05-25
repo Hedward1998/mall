@@ -52,7 +52,7 @@ $(function () {
                     cookieUtil.setCookie("username", username, 30);
                     location.href = "/mall/admin";
                 } else {
-                    styleUtil.errorShow($("#txt_error_msg"), "用户名或密码错误");
+                    styleUtil.errorShow($("#txt_error_msg"), data.message);
                 }
             },
             beforeSend:function () {

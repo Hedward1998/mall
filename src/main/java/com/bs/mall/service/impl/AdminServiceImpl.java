@@ -52,8 +52,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin login(String admin_name, String admin_password) {
-        return adminMapper.selectByLogin(admin_name,admin_password);
+    public Admin login(String admin_name) {
+        return adminMapper.selectByLogin(admin_name);
     }
 
     @Override

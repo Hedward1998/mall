@@ -7,6 +7,7 @@ import com.bs.mall.controller.BaseController;
 import com.bs.mall.entity.Admin;
 import com.bs.mall.entity.OrderGroup;
 import com.bs.mall.service.*;
+import com.bs.mall.util.Md5Util;
 import com.bs.mall.util.OrderUtil;
 import com.bs.mall.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -306,7 +307,7 @@ public class AdminHomeController extends BaseController {
         admin_profile_picture_src = (admin_profile_picture_src == null || "".equals(admin_profile_picture_src)) ? null : admin_profile_picture_src.substring(admin_profile_picture_src.lastIndexOf("/") + 1);
         Admin admin = new Admin()
                 .setAdmin_name(admin_name)
-                .setAdmin_password(admin_password)
+                .setAdmin_password(Md5Util.md5(admin_password, null))
                 .setAdmin_nickname(admin_nickname)
                 .setAdmin_profile_picture_src(admin_profile_picture_src);
         logger.info("添加管理员信息");
@@ -344,7 +345,7 @@ public class AdminHomeController extends BaseController {
     public String resetPassword(@RequestParam Integer admin_id/* 管理员ID */){
         JSONObject jsonObject = new JSONObject();
         Admin admin = new Admin()
-                .setAdmin_password("1234")
+                .setAdmin_password(Md5Util.md5("1234", null)) //1234:e57394b28d78b35fe3862b6d32f6e8a9
                 .setAdmin_id(admin_id);
         logger.info("重置管理员密码，id为{}", admin_id);
         boolean yn = adminService.resetPassword(admin);

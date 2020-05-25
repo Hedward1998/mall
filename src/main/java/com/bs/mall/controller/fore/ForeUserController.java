@@ -6,6 +6,7 @@ import com.bs.mall.entity.Address;
 import com.bs.mall.entity.User;
 import com.bs.mall.service.AddressService;
 import com.bs.mall.service.UserService;
+import com.bs.mall.util.Md5Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -140,7 +141,7 @@ public class ForeUserController extends BaseController{
                 .setUser_phone(user_phone)
                 .setUser_address(new Address().setAddress_areaId(user_address))
                 .setUser_profile_picture_src(user_profile_picture_src)
-                .setUser_password(user_password);
+                .setUser_password(Md5Util.md5(user_password, null));
         logger.info("执行修改");
         if (userService.update(userUpdate)){
              logger.info("修改成功!跳转到用户详情页面");
@@ -161,15 +162,14 @@ public class ForeUserController extends BaseController{
     @RequestMapping(value="forgetPwd",method=RequestMethod.POST,produces ="application/json;charset=utf-8")
     public String forgetPwd(@RequestParam(value = "user_name") String user_name  /*用户名 */,
                             @RequestParam(value = "user_phone") String user_phone /*用户电话*/,
-                            @RequestParam(value = "user_password") String user_password  /*用户密码*/
-    ) throws ParseException {
+                            @RequestParam(value = "user_password") String user_password  /*用户密码*/) throws ParseException {
         logger.info("验证用户名是否存在");
         Integer count = userService.getTotal(new User().setUser_name(user_name));
         if (count == 0) {
             logger.info("重置密码的用户名不存在，返回错误信息!");
             JSONObject object = new JSONObject();
             object.put("success", false);
-            object.put("user_name", "用户名不存在，请重新输入！");System.out.println("user_name" + user_name);
+            object.put("user_name", "用户名不存在，请重新输入！");
             return object.toJSONString();
         }
         logger.info("验证电话号码是否存在");
@@ -178,16 +178,16 @@ public class ForeUserController extends BaseController{
             logger.info("重置密码的用户电话输入不正确，返回错误信息!");
             JSONObject object = new JSONObject();
             object.put("success", false);
-            object.put("user_phone", "电话号码验证失败，请重新输入！");System.out.println("user_phone" + user_phone);
+            object.put("user_phone", "电话号码验证失败，请重新输入！");
             return object.toJSONString();
         }
         logger.info("用户：" + user_name + "重置密码");
-        if (userService.forgetPassword(user_name, user_password)) {
+        if (userService.forgetPassword(user_name, Md5Util.md5(user_password, null))) {
             logger.info("修改成功!跳转到登录页面！");
             JSONObject object = new JSONObject();
-            object.put("success", true);System.out.println("success");
+            object.put("success", true);
             return object.toJSONString();
-        } else {System.out.println("error");
+        } else {
             throw new RuntimeException();
         }
     }

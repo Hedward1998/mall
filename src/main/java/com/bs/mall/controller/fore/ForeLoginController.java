@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bs.mall.controller.BaseController;
 import com.bs.mall.entity.User;
 import com.bs.mall.service.UserService;
+import com.bs.mall.util.Md5Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,18 +35,24 @@ public class ForeLoginController extends BaseController {
     @RequestMapping(value = "login/doLogin", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     public String checkLogin(HttpSession session, @RequestParam String username, @RequestParam String password) {
         logger.info("用户验证登录");
-        User user = userService.login(new User().setUser_name(username).setUser_password(password));
-
-        JSONObject jsonObject = new JSONObject();
-        if (user == null) {
-            logger.info("登录验证失败");
-            jsonObject.put("success", false);
+        JSONObject object = new JSONObject();
+        User user = userService.login(new User().setUser_name(username).setUser_phone(username));
+        if (user != null) {
+            if (Md5Util.verify(password, null, user.getUser_password())) {
+                logger.info("登录验证成功，用户ID传入会话");
+                session.setAttribute("userId", user.getUser_id());
+                object.put("success",true);
+            } else {
+                logger.info("用户登录-密码错误");
+                object.put("message", "密码错误！");
+                object.put("success",false);
+            }
         } else {
-            logger.info("登录验证成功,用户ID传入会话");
-            session.setAttribute("userId", user.getUser_id());
-            jsonObject.put("success", true);
+            logger.info("用户登录-用户不存在");
+            object.put("message", "不存在此账号！");
+            object.put("success",false);
         }
-        return jsonObject.toJSONString();
+        return object.toJSONString();
     }
 
     //退出当前账号

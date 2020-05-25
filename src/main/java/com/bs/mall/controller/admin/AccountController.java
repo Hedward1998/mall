@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bs.mall.controller.BaseController;
 import com.bs.mall.entity.Admin;
 import com.bs.mall.service.AdminService;
+import com.bs.mall.util.Md5Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -107,9 +108,9 @@ public class AccountController extends BaseController{
         if (admin_password != null && !"".equals(admin_password) && admin_newPassword != null && !"".equals(admin_newPassword)) {
             logger.info("获取需要修改的管理员信息");
             Admin admin = adminService.get(null, Integer.valueOf(adminId.toString()));
-            if (adminService.login(admin.getAdmin_name(), admin_password) != null) {
+            if (admin != null && Md5Util.verify(admin_password, null, admin.getAdmin_password())) {
                 logger.info("原密码正确");
-                putAdmin.setAdmin_password(admin_newPassword);
+                putAdmin.setAdmin_password(Md5Util.md5(admin_newPassword, null));
             } else {
                 logger.info("原密码错误，返回错误信息");
                 jsonObject.put("success", false);

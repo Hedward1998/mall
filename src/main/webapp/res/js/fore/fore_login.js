@@ -41,7 +41,7 @@ $(function () {
                     if (data.success) {
                         location.href = "/mall";
                     } else {
-                        styleUtil.errorShow($("#error_message_p"), "用户名或者密码错误！");
+                        styleUtil.errorShow($("#error_message_p"), data.message);
                     }
                 },
                 error: function (data) {

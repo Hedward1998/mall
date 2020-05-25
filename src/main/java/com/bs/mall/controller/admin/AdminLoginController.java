@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bs.mall.controller.BaseController;
 import com.bs.mall.entity.Admin;
 import com.bs.mall.service.AdminService;
+import com.bs.mall.util.Md5Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,18 +34,23 @@ public class AdminLoginController extends BaseController {
     @RequestMapping(value = "admin/login/doLogin",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public String checkLogin(HttpSession session, @RequestParam String username, @RequestParam String password) {
         logger.info("管理员登录验证");
-        Admin admin = adminService.login(username,password);
-
         JSONObject object = new JSONObject();
-        if(admin == null){
-            logger.info("登录验证失败");
-            object.put("success",false);
+        Admin admin = adminService.login(username);
+        if (admin != null) {
+            if (Md5Util.verify(password, null, admin.getAdmin_password())) {
+                logger.info("登录验证成功，管理员ID传入会话");
+                session.setAttribute("adminId", admin.getAdmin_id());
+                object.put("success",true);
+            } else {
+                logger.info("后台管理登录-密码错误");
+                object.put("message", "密码错误！");
+                object.put("success",false);
+            }
         } else {
-            logger.info("登录验证成功，管理员ID传入会话");
-            session.setAttribute("adminId",admin.getAdmin_id());
-            object.put("success",true);
+            logger.info("后台管理登录-用户不存在");
+            object.put("message", "不存在此管理员账号！");
+            object.put("success",false);
         }
-
         return object.toJSONString();
     }
 
