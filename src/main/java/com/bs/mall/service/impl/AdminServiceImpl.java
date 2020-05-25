@@ -17,10 +17,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminMapper adminMapper;
-//    @Resource(name = "adminMapper")
-//    public void setAdminMapper(AdminMapper adminMapper) {
-//        this.adminMapper = adminMapper;
-//    }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
@@ -38,6 +34,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean delete(Integer admin_id){
         return adminMapper.deleteOne(admin_id)>0;
+    }
+
+    @Override
+    public boolean resetPassword(Admin admin) {
+        return adminMapper.resetPassword(admin)>0;
     }
     
     @Override

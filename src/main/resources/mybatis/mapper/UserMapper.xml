@@ -114,8 +114,8 @@
         </if>
     </select>
     
-    <!--重置密码-->
-    <update id="resetPassword" parameterType="string">
+    <!--忘记密码-->
+    <update id="forgetPassword" parameterType="string">
         UPDATE user set user_password = #{user_password} where user_name = #{user_name}
     </update>
 </mapper>

@@ -63,4 +63,8 @@
     <delete id="deleteOne" parameterType="Integer">
         DELETE FROM admin WHERE admin_id = #{admin_id}
     </delete>
+    <update id="resetPassword" parameterType="admin">
+        UPDATE admin SET admin_password = #{admin.admin_password}
+        WHERE admin_id = #{admin.admin_id}
+    </update>
 </mapper>

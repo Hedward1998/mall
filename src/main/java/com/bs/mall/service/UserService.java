@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserService {
     boolean add(User user);
     boolean update(User user);
-    boolean resetPassword(String user_name, String password);
+    boolean forgetPassword(String user_name, String password);
 
     List<User> getList(User user, OrderUtil orderUtil, PageUtil pageUtil);
     User get(Integer user_id);

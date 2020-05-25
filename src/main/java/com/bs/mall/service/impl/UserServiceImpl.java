@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service("userService")
@@ -38,8 +37,8 @@ public class UserServiceImpl implements UserService{
     }
     
     @Override
-    public boolean resetPassword(String user_name, String user_password) {
-        return userMapper.resetPassword(user_name, user_password)>0;
+    public boolean forgetPassword(String user_name, String user_password) {
+        return userMapper.forgetPassword(user_name, user_password)>0;
     }
 
     @Override

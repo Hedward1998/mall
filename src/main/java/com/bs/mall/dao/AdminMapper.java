@@ -18,4 +18,5 @@ public interface AdminMapper {
     Admin selectByLogin(@Param("admin_name") String admin_name, @Param("admin_password") String admin_password);
     Integer selectTotal(@Param("admin_name") String admin_name);
     Integer deleteOne(@Param("admin_id") Integer admin_id);
+    Integer resetPassword(@Param("admin") Admin admin);
 }

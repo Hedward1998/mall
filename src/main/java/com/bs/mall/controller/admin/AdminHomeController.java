@@ -337,4 +337,22 @@ public class AdminHomeController extends BaseController {
         }
         return jsonObject.toJSONString();
     }
+
+    //重置管理员密码-ajax
+    @ResponseBody
+    @RequestMapping(value = "admin/resetPwd",method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
+    public String resetPassword(@RequestParam Integer admin_id/* 管理员ID */){
+        JSONObject jsonObject = new JSONObject();
+        Admin admin = new Admin()
+                .setAdmin_password("1234")
+                .setAdmin_id(admin_id);
+        logger.info("重置管理员密码，id为{}", admin_id);
+        boolean yn = adminService.resetPassword(admin);
+        if (!yn) {
+            jsonObject.put("success", false);
+        } else {
+            jsonObject.put("success", true);
+        }
+        return jsonObject.toJSONString();
+    }
 }

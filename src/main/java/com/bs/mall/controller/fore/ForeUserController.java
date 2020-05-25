@@ -149,9 +149,9 @@ public class ForeUserController extends BaseController{
          throw new RuntimeException();
     }
 
-    //商城前台-跳转密码重置页面
+    //商城前台-跳转忘记密码页面
     @RequestMapping(value="forgetPwd", method = RequestMethod.GET)
-    public String resetPwd() {
+    public String forgetPwd() {
         return "fore/forgetPwd";
     }
     
@@ -182,7 +182,7 @@ public class ForeUserController extends BaseController{
             return object.toJSONString();
         }
         logger.info("用户：" + user_name + "重置密码");
-        if (userService.resetPassword(user_name, user_password)) {
+        if (userService.forgetPassword(user_name, user_password)) {
             logger.info("修改成功!跳转到登录页面！");
             JSONObject object = new JSONObject();
             object.put("success", true);System.out.println("success");

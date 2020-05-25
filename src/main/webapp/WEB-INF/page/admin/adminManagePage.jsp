@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
+    <script src="${pageContext.request.contextPath}/res/js/sweet-alert-dev.js"></script>
+    <link href="${pageContext.request.contextPath}/res/css/sweet-alert.css" rel="stylesheet">
     <script>
         //检索数据集
         var dataList = {
@@ -132,6 +134,25 @@
         function getPage(index) {
             getData($(this), "admin/admin/" + index + "/10", dataList);
         }
+        function resetPwd(admin_id) {
+            $.ajax({
+                url: "/mall/admin/resetPwd?admin_id="+admin_id,
+                type: "PUT",
+                data: null,
+                traditional: true,
+                success: function (data) {
+                    if (data.success) {
+                        swal("重置密码成功！");
+                    } else {
+                        swal("重置密码失败！");
+                    }
+                },
+                beforeSend: function () {
+                },
+                error: function () {
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -178,6 +199,7 @@
                 <span class="orderByAsc orderBySelect"></span>
             </th>
             <th>操作</th>
+            <th>密码重置</th>
             <th hidden>用户ID</th>
         </tr>
         </thead>
@@ -189,6 +211,7 @@
                 <td title="${admin.admin_nickname}">${admin.admin_nickname}</td>
                 <td><span class="td_special" title="查看管理员详情"><a href='javascript:void(0)'
                                                                onclick='getChildPage(this)'>详情</a></span></td>
+                <td><span class="td_special" title="重置密码"><a href="javascript:void(0)" onclick="resetPwd(${admin.admin_id})">重置</a></span></td>
                 <td hidden class="admin_id">${admin.admin_id}</td>
             </tr>
         </c:forEach>
