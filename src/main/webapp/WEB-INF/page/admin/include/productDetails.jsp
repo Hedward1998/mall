@@ -20,6 +20,7 @@
                     var product_title = $.trim($("#input_product_title").val());
                     var product_price = $.trim($("#input_product_price").val());
                     var product_sale_price = $.trim($("#input_product_sale_price").val());
+                    var product_stocks = parseInt($.trim($("#input_product_stocks").val()));
 
                     //校验数据合法性
                     var yn = true;
@@ -42,6 +43,9 @@
                     if(product_sale_price === "" || isNaN(product_sale_price)){
                         styleUtil.basicErrorShow($("#lbl_product_sale_price"));
                         yn = false;
+                    }
+                    if (product_stocks === "" || isNaN(product_stocks)) {
+                        styleUtil.basicErrorShow($("#lbl_product_stocks"));
                     }
                     if(!yn){
                         return;
@@ -82,6 +86,7 @@
                         "product_title": product_title,
                         "product_price": product_price,
                         "product_sale_price": product_sale_price,
+                        "product_stocks": product_stocks,
                         "propertyJson": JSON.stringify(propertyMap),
                         "productSingleImageList": productSingleImageList,
                         "productDetailsImageList": productDetailsImageList

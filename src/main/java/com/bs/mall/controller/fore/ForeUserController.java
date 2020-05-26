@@ -140,8 +140,11 @@ public class ForeUserController extends BaseController{
                 .setUser_birthday(new SimpleDateFormat("yyyy-MM-dd").parse(user_birthday))
                 .setUser_phone(user_phone)
                 .setUser_address(new Address().setAddress_areaId(user_address))
-                .setUser_profile_picture_src(user_profile_picture_src)
-                .setUser_password(Md5Util.md5(user_password, null));
+                .setUser_profile_picture_src(user_profile_picture_src);
+        //如果修改了密码，才传入数据库
+        if (!user.getUser_password().equals(user_password)) {
+            userUpdate.setUser_password(Md5Util.md5(user_password, null));
+        }
         logger.info("执行修改");
         if (userService.update(userUpdate)){
              logger.info("修改成功!跳转到用户详情页面");

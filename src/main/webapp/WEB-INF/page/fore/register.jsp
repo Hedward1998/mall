@@ -76,8 +76,10 @@
         </div>
         <div class="form-item">
             <label class="form-label tsl">性别：</label>
-            <input name="user_gender" type="radio" id="form_radion" value="0" checked="checked">男
-            <input name="user_gender" type="radio" id="form_radions" value="1">女
+            <input name="user_gender" type="radio" id="form_radion" value="0" checked="checked">
+            <span class="radio_value">男</span>
+            <input name="user_gender" type="radio" id="form_radions" value="1">
+            <span class="radio_value">女</span>
         </div>
         <div class="form-item">
             <label class="form-label tsl">出生日期：</label>
