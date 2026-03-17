@@ -25,7 +25,7 @@ $(function () {
         var yn = true;
         $(this).find(":text,:password").each(function () {
             if ($.trim($(this).val()) === "") {
-                styleUtil.errorShow($("#error_message_p"), "请输入用户名和密码！");
+                styleUtil.errorShow($("#error_message_p"), "请输入用户名或密码！");
                 yn = false;
                 return yn;
             }

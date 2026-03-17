@@ -7,6 +7,7 @@ import com.bs.mall.entity.User;
 import com.bs.mall.service.AddressService;
 import com.bs.mall.service.UserService;
 import com.bs.mall.util.Md5Util;
+import com.bs.mall.util.Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -124,7 +125,7 @@ public class ForeUserController extends BaseController{
                 logger.info("用户电话已存在，返回错误信息!");
                 JSONObject object = new JSONObject();
                 object.put("success", false);
-                object.put("msg", "用户联系电话已存在，请重新输入！");
+                object.put("message", "电话号码已存在，请重新输入！");
                 return object.toJSONString();
             }
         }
@@ -166,22 +167,29 @@ public class ForeUserController extends BaseController{
     public String forgetPwd(@RequestParam(value = "user_name") String user_name  /*用户名 */,
                             @RequestParam(value = "user_phone") String user_phone /*用户电话*/,
                             @RequestParam(value = "user_password") String user_password  /*用户密码*/) throws ParseException {
+        logger.info("验证密码符合规范");  // 4~11位数字、字母，必须包含数字和字母
+        if (Util.validData("^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{4,11}$", user_password)) {
+            logger.info("密码不符合规范，返回错误信息!");
+            JSONObject object = new JSONObject();
+            object.put("success", false);
+            object.put("message", "密码格式错误！");
+            return object.toJSONString();
+        }
         logger.info("验证用户名是否存在");
-        Integer count = userService.getTotal(new User().setUser_name(user_name));
-        if (count == 0) {
+        User user = userService.login(new User().setUser_name(user_name));
+        if (user == null) {
             logger.info("重置密码的用户名不存在，返回错误信息!");
             JSONObject object = new JSONObject();
             object.put("success", false);
-            object.put("user_name", "用户名不存在，请重新输入！");
+            object.put("message", "用户名不存在，请重新输入！");
             return object.toJSONString();
         }
         logger.info("验证电话号码是否存在");
-        count = userService.getTotal(new User().setUser_phone(user_phone));
-        if (count == 0) {
+        if (!user_phone.equals(user.getUser_phone())) {
             logger.info("重置密码的用户电话输入不正确，返回错误信息!");
             JSONObject object = new JSONObject();
             object.put("success", false);
-            object.put("user_phone", "电话号码验证失败，请重新输入！");
+            object.put("message", "电话号码错误，请重新输入！");
             return object.toJSONString();
         }
         logger.info("用户：" + user_name + "重置密码");
@@ -189,6 +197,7 @@ public class ForeUserController extends BaseController{
             logger.info("修改成功!跳转到登录页面！");
             JSONObject object = new JSONObject();
             object.put("success", true);
+            object.put("message", "重置密码成功！");
             return object.toJSONString();
         } else {
             throw new RuntimeException();

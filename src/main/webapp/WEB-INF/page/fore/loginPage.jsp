@@ -45,13 +45,13 @@
                     <label for="name" class="loginLabel"><img
                             src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/2020-02-14_235518.png"
                             width="38px" height="39px" title="会员名"/></label>
-                    <input type="text" name="name" id="name" class="loginInput" placeholder="会员名/手机号" value="test">
+                    <input type="text" name="name" id="name" class="loginInput" placeholder="会员名/手机号">
                 </div>
                 <div class="loginInputDiv">
                     <label for="password" class="loginLabel"><img
                             src="${pageContext.request.contextPath}/res/images/fore/WebsiteImage/2020-02-14_235533.png"
                             width="38px" height="39px" title="登录密码"/></label>
-                    <input type="password" name="password" id="password" class="loginInput" value="test">
+                    <input type="password" name="password" id="password" class="loginInput">
                 </div>
                 <input type="submit" class="loginButton" value="登 录">
             </form>

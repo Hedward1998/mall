@@ -71,9 +71,9 @@
         <label for="textarea_details_address" id="label_details_address">详细地址</label><span class="mustValue">*</span>
         <textarea id="textarea_details_address">${requestScope.detailsAddress}</textarea>
         <div class="br"></div>
-        <label for="input_order_post" style="min-width: 80px;" id="label_order_post">邮政编码</label><span></span>
-        <input id="input_order_post" type="text" value="${requestScope.order_post}" maxlength="6"/>
-        <div class="br"></div>
+<%--        <label for="input_order_post" style="min-width: 80px;" id="label_order_post">邮政编码</label><span></span>--%>
+<%--        <input id="input_order_post" type="text" value="${requestScope.order_post}" maxlength="6"/>--%>
+<%--        <div class="br"></div>--%>
         <label for="input_order_receiver" id="label_order_receiver">收货人姓名</label><span class="mustValue">*</span>
         <input id="input_order_receiver" type="text" value="${requestScope.order_receiver}" maxlength="20"/>
         <div class="br"></div>
@@ -159,7 +159,7 @@
             var cityAddressId = $("#select_order_address_city").val();
             var districtAddressId = $("#select_order_address_district").val();
             var productOrder_detail_address = $.trim($("#textarea_details_address").val());
-            var productOrder_post = $.trim($("#input_order_post").val());
+            // var productOrder_post = $.trim($("#input_order_post").val());
             var productOrder_receiver = $.trim($("#input_order_receiver").val());
             var productOrder_mobile = $.trim($("#input_order_phone").val());
             var userMessage = $.trim($("#input_userMessage_1").val());
@@ -180,11 +180,11 @@
                 styleUtil.specialBasicErrorShow($("#label_order_phone"));
                 yn = false;
             }
-            re = /^[1-9][0-9]{5}$/;
-            if (!re.test(productOrder_post) && productOrder_post !== "") {
-                styleUtil.specialBasicErrorShow($("#label_order_post"));
-                yn = false;
-            }
+            // re = /^[1-9][0-9]{5}$/;
+            // if (!re.test(productOrder_post) && productOrder_post !== "") {
+            //     styleUtil.specialBasicErrorShow($("#label_order_post"));
+            //     yn = false;
+            // }
             if (!yn) {
                 window.scrollTo(0, 0);
                 return false;
@@ -197,7 +197,8 @@
                     "cityAddressId": cityAddressId,
                     "districtAddressId": districtAddressId,
                     "productOrder_detail_address": productOrder_detail_address,
-                    "productOrder_post": productOrder_post,
+                    // "productOrder_post": productOrder_post,
+                    "productOrder_post": "666666",
                     "productOrder_receiver": productOrder_receiver,
                     "productOrder_mobile": productOrder_mobile,
                     "userMessage": userMessage,
@@ -228,7 +229,7 @@
             var cityAddressId = $("#select_order_address_city").val();
             var districtAddressId = $("#select_order_address_district").val();
             var productOrder_detail_address = $.trim($("#textarea_details_address").val());
-            var productOrder_post = $.trim($("#input_order_post").val());
+            // var productOrder_post = $.trim($("#input_order_post").val());
             var productOrder_receiver = $.trim($("#input_order_receiver").val());
             var productOrder_mobile = $.trim($("#input_order_phone").val());
 
@@ -246,11 +247,11 @@
                 styleUtil.specialBasicErrorShow($("#label_order_phone"));
                 yn = false;
             }
-            re = /^[1-9][0-9]{5}$/;
-            if (!re.test(productOrder_post) && productOrder_post !== "") {
-                styleUtil.specialBasicErrorShow($("#label_order_post"));
-                yn = false;
-            }
+            // re = /^[1-9][0-9]{5}$/;
+            // if (!re.test(productOrder_post) && productOrder_post !== "") {
+            //     styleUtil.specialBasicErrorShow($("#label_order_post"));
+            //     yn = false;
+            // }
             if (!yn) {
                 window.scrollTo(0, 0);
                 return false;
@@ -273,7 +274,8 @@
                     "cityAddressId": cityAddressId,
                     "districtAddressId": districtAddressId,
                     "productOrder_detail_address": productOrder_detail_address,
-                    "productOrder_post": productOrder_post,
+                    // "productOrder_post": productOrder_post,
+                    "productOrder_post": "666666",
                     "productOrder_receiver": productOrder_receiver,
                     "productOrder_mobile": productOrder_mobile,
                     "orderItemJSON": JSON.stringify(orderItemMap)

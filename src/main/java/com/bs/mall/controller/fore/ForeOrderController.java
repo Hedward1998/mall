@@ -622,6 +622,7 @@ public class ForeOrderController extends BaseController {
         if (userId == null) {
             object.put("success", false);
             object.put("url", "/login");
+            object.put("message", "用户未登录！");
             return object.toJSONString();
         }
         logger.info("------验证订单信息------");
@@ -631,6 +632,7 @@ public class ForeOrderController extends BaseController {
             logger.warn("订单不存在，返回订单列表页");
             object.put("success", false);
             object.put("url", "/order/0/10");
+            object.put("message", "订单不存在！");
             return object.toJSONString();
         }
         logger.info("验证订单状态");
@@ -638,6 +640,7 @@ public class ForeOrderController extends BaseController {
             logger.warn("订单状态不正确，返回订单列表页");
             object.put("success", false);
             object.put("url", "/order/0/10");
+            object.put("message", "订单状态不正确！");
             return object.toJSONString();
         }
         logger.info("验证用户与订单是否一致");
@@ -645,6 +648,7 @@ public class ForeOrderController extends BaseController {
             logger.warn("用户与订单信息不一致，返回订单列表页");
             object.put("success", false);
             object.put("url", "/order/0/10");
+            object.put("message", "用户与订单信息不一致！");
             return object.toJSONString();
         }
         order.setProductOrderItemList(productOrderItemService.getListByOrderId(order.getProductOrder_id(), null));
@@ -666,6 +670,7 @@ public class ForeOrderController extends BaseController {
             if (!yn) {
                 logger.info("产品销量信息更新失败！事务回滚");
                 object.put("success", false);
+                object.put("message", "订单支付失败！");
                 throw new RuntimeException();
             }
             logger.info("产品销量信息更新成功！");
@@ -681,6 +686,7 @@ public class ForeOrderController extends BaseController {
                 if (!yn) {
                     logger.info("产品销量信息更新失败！事务回滚");
                     object.put("success", false);
+                    object.put("message", "订单支付失败！");
                     throw new RuntimeException();
                 }
                 logger.info("产品销量信息更新成功！");
@@ -698,9 +704,11 @@ public class ForeOrderController extends BaseController {
         if (yn) {
             object.put("success", true);
             object.put("url", "/order/pay/success/" + order_code);
+            object.put("message", "订单支付成功！");
         } else {
             object.put("success", false);
             object.put("url", "/order/0/10");
+            object.put("message", "订单支付失败！");
         }
         return object.toJSONString();
     }
@@ -751,6 +759,7 @@ public class ForeOrderController extends BaseController {
         if (userId == null) {
             object.put("success", false);
             object.put("url", "/login");
+            object.put("message", "用户未登录！");
             return object.toJSONString();
         }
         logger.info("------验证订单信息------");
@@ -760,6 +769,7 @@ public class ForeOrderController extends BaseController {
             logger.warn("订单不存在，返回订单列表页");
             object.put("success", false);
             object.put("url", "/order/0/10");
+            object.put("message", "订单不存在！");
             return object.toJSONString();
         }
         logger.info("验证订单状态");
@@ -767,6 +777,7 @@ public class ForeOrderController extends BaseController {
             logger.warn("订单状态不正确，返回订单列表页");
             object.put("success", false);
             object.put("url", "/order/0/10");
+            object.put("message", "订单状态不正确！");
             return object.toJSONString();
         }
         logger.info("验证用户与订单是否一致");
@@ -774,6 +785,7 @@ public class ForeOrderController extends BaseController {
             logger.warn("用户与订单信息不一致，返回订单列表页");
             object.put("success", false);
             object.put("url", "/order/0/10");
+            object.put("message", "用户与订单信息不一致！");
             return object.toJSONString();
         }
         logger.info("更新订单信息");
@@ -785,8 +797,10 @@ public class ForeOrderController extends BaseController {
         boolean yn = productOrderService.update(productOrder);
         if (yn) {
             object.put("success", true);
+            object.put("message", "订单交易成功！");
         } else {
             object.put("success", false);
+            object.put("message", "订单交易失败！");
         }
         return object.toJSONString();
     }
@@ -801,6 +815,7 @@ public class ForeOrderController extends BaseController {
         if (userId == null) {
             object.put("success", false);
             object.put("url", "/login");
+            object.put("message", "用户未登录！");
             return object.toJSONString();
         }
         logger.info("------验证订单信息------");
@@ -810,6 +825,7 @@ public class ForeOrderController extends BaseController {
             logger.warn("订单不存在，返回订单列表页");
             object.put("success", false);
             object.put("url", "/order/0/10");
+            object.put("message", "订单不存在！");
             return object.toJSONString();
         }
         logger.info("验证订单状态");
@@ -817,6 +833,7 @@ public class ForeOrderController extends BaseController {
             logger.warn("订单状态不正确，返回订单列表页");
             object.put("success", false);
             object.put("url", "/order/0/10");
+            object.put("message", "订单状态不正确！");
             return object.toJSONString();
         }
         logger.info("验证用户与订单是否一致");
@@ -824,6 +841,7 @@ public class ForeOrderController extends BaseController {
             logger.warn("用户与订单信息不一致，返回订单列表页");
             object.put("success", false);
             object.put("url", "/order/0/10");
+            object.put("message", "用户与订单信息不一致！");
             return object.toJSONString();
         }
         logger.info("更新订单信息");
@@ -843,6 +861,7 @@ public class ForeOrderController extends BaseController {
                 boolean yn = productService.addStocks(number, product_id);
                 if (!yn) {
                     object.put("success", false);
+                    object.put("message", "订单取消失败！");
                     return object.toJSONString();
                 }
             }
@@ -852,6 +871,7 @@ public class ForeOrderController extends BaseController {
         if (!yn) {
             logger.info("订单信息更新失败");
             object.put("success", false);
+            object.put("message", "订单取消失败！");
             return object.toJSONString();
         }
         object.put("success", true);
@@ -869,6 +889,7 @@ public class ForeOrderController extends BaseController {
         Object userId = checkUser(session);
         if (userId == null) {
             object.put("success", false);
+            object.put("message", "用户未登录！");
             return object.toJSONString();
         }
 
@@ -881,6 +902,7 @@ public class ForeOrderController extends BaseController {
                 if (productOrderItem == null || !productOrderItem.getProductOrderItem_user().getUser_id().equals(userId)) {
                     logger.warn("订单项为空或用户状态不一致！");
                     object.put("success", false);
+                    object.put("message", "用户与订单信息不一致！");
                     return object.toJSONString();
                 }
                 if (productOrderItem.getProductOrderItem_order() != null) {
@@ -891,6 +913,7 @@ public class ForeOrderController extends BaseController {
                 if (number <= 0 || number > 500) {
                     logger.warn("订单项产品数量不合法！");
                     object.put("success", false);
+                    object.put("message", "订单项产品数量不合法！");
                     return object.toJSONString();
                 }
                 double price = productOrderItem.getProductOrderItem_price() / productOrderItem.getProductOrderItem_number();
@@ -902,10 +925,12 @@ public class ForeOrderController extends BaseController {
             Object[] orderItemIDArray = orderItemIDSet.toArray();
             object.put("success", true);
             object.put("orderItemIDArray", orderItemIDArray);
+            object.put("message", "购物车订单更新成功！");
             return object.toJSONString();
         } else {
             logger.warn("无订单项可以处理");
             object.put("success", false);
+            object.put("message", "购物车订单更新失败！");
             return object.toJSONString();
         }
     }
@@ -930,12 +955,14 @@ public class ForeOrderController extends BaseController {
         if (userId == null) {
             object.put("success", false);
             object.put("url", "/login");
+            object.put("message", "用户未登录！");
             return object.toJSONString();
         }
         Product product = productService.get(orderItem_product_id);
         if (product == null) {
             object.put("success", false);
             object.put("url", "/");
+            object.put("message", "商品不存在！");
             return object.toJSONString();
         }
         logger.info("将收货地址等相关信息存入Cookie中,便于下次使用");
@@ -1005,6 +1032,7 @@ public class ForeOrderController extends BaseController {
         
         object.put("success", true);
         object.put("url", "/order/pay/" + productOrder.getProductOrder_code());
+        object.put("message", "订单创建成功！");
         return object.toJSONString();
     }
 
@@ -1026,6 +1054,7 @@ public class ForeOrderController extends BaseController {
         if (userId == null) {
             object.put("success", false);
             object.put("url", "/login");
+            object.put("message", "用户未登录！");
             return object.toJSONString();
         }
         JSONObject orderItemMap = JSONObject.parseObject(orderItemJSON);
@@ -1038,12 +1067,14 @@ public class ForeOrderController extends BaseController {
                     logger.warn("订单项为空或用户状态不一致！");
                     object.put("success", false);
                     object.put("url", "/cart");
+                    object.put("message", "用户与订单信息不一致！");
                     return object.toJSONString();
                 }
                 if (orderItem.getProductOrderItem_order() != null) {
                     logger.warn("用户订单项不属于购物车，回到购物车页");
                     object.put("success", false);
                     object.put("url", "/cart");
+                    object.put("message", "购物车不存在此订单！");
                     return object.toJSONString();
                 }
                 boolean yn = productOrderItemService.update(new ProductOrderItem().setProductOrderItem_id(Integer.valueOf(id)).setProductOrderItem_userMessage(orderItemMap.getString(id)));
@@ -1056,6 +1087,7 @@ public class ForeOrderController extends BaseController {
         } else {
             object.put("success", false);
             object.put("url", "/cart");
+            object.put("message", "订单创建失败！");
             return object.toJSONString();
         }
         logger.info("将收货地址等相关信息存入Cookie中,便于下次使用");
@@ -1107,6 +1139,7 @@ public class ForeOrderController extends BaseController {
 
         object.put("success", true);
         object.put("url", "/order/pay/" + productOrder.getProductOrder_code());
+        object.put("message", "订单创建成功！");
         return object.toJSONString();
     }
     
@@ -1136,6 +1169,7 @@ public class ForeOrderController extends BaseController {
         if (userId == null) {
             object.put("url", "/login");
             object.put("success", false);
+            object.put("message", "用户未登录！");
             return object.toJSONString();
         }
 
@@ -1144,6 +1178,7 @@ public class ForeOrderController extends BaseController {
         if (product == null) {
             object.put("url", "/login");
             object.put("success", false);
+            object.put("message", "商品不存在！");
             return object.toJSONString();
         }
 
@@ -1170,6 +1205,7 @@ public class ForeOrderController extends BaseController {
                     object.put("message", "加入购物车成功！");
                 } else {
                     object.put("success", false);
+                    object.put("message", "加入购物车失败！");
                 }
                 return object.toJSONString();
             }
@@ -1178,6 +1214,7 @@ public class ForeOrderController extends BaseController {
         //查询剩余产品库存
         if (!checkProductStocks(product_id, product_number, object)){
             object.put("success", false);
+            object.put("message", "加入购物车失败！");
             return object.toJSONString();
         }
         
@@ -1189,8 +1226,10 @@ public class ForeOrderController extends BaseController {
         boolean yn = productOrderItemService.add(productOrderItem);
         if (!yn) {
             object.put("success", false);
+            object.put("message", "加入购物车失败！");
             return object.toJSONString();
         }
+        object.put("success", true);
         object.put("message", "加入购物车成功！");
         return object.toJSONString();
     }
@@ -1209,6 +1248,7 @@ public class ForeOrderController extends BaseController {
         if (userId == null) {
             object.put("url", "/login");
             object.put("success", false);
+            object.put("message", "用户未登录！");
             return object.toJSONString();
         }
         Product product = productService.get(product_id);
@@ -1232,6 +1272,7 @@ public class ForeOrderController extends BaseController {
             throw new RuntimeException();
         }
         object.put("success", true);
+        object.put("message", "购物车订单更新成功！");
         return object.toJSONString();
     }
 
@@ -1249,6 +1290,7 @@ public class ForeOrderController extends BaseController {
         if (userId == null) {
             object.put("url", "/login");
             object.put("success", false);
+            object.put("message", "用户未登录！");
             return object.toJSONString();
         }
         Product product = productService.get(product_id);
@@ -1259,7 +1301,7 @@ public class ForeOrderController extends BaseController {
         }
         if (product.getProduct_stocks() == 0) {
             object.put("success", false);
-            object.put("message", "商品没有库存了，请等待买家补货哦！");
+            object.put("message", "商品库存不足！");
             return object.toJSONString();
         }
         logger.info("用户增加购物车订单项数量，库存减少");
@@ -1277,6 +1319,7 @@ public class ForeOrderController extends BaseController {
             throw new RuntimeException();
         }
         object.put("success", true);
+        object.put("message", "购物车订单更新成功！");
         return object.toJSONString();
     }
 
@@ -1294,6 +1337,7 @@ public class ForeOrderController extends BaseController {
         if (userId == null) {
             object.put("url", "/login");
             object.put("success", false);
+            object.put("message", "用户未登录！");
             return object.toJSONString();
         }
         Product product = productService.get(product_id);
@@ -1333,7 +1377,7 @@ public class ForeOrderController extends BaseController {
                 product_number = orderItemNum + product.getProduct_stocks();
                 number_increase = product.getProduct_stocks();
                 object.put("success", false);
-                object.put("message", "商品库存不足，请等待买家补货哦！");
+                object.put("message", "商品库存不足！");
                 object.put("number", product_number);
             }
             logger.info("减少库存");
@@ -1352,6 +1396,7 @@ public class ForeOrderController extends BaseController {
             }
         }
         object.put("success", true);
+        object.put("message", "购物车订单更新成功！");
         return object.toJSONString();
     }
 
@@ -1367,6 +1412,7 @@ public class ForeOrderController extends BaseController {
         if (userId == null) {
             object.put("url", "/login");
             object.put("success", false);
+            object.put("message", "用户未登录！");
             return object.toJSONString();
         }
         logger.info("检查用户的购物车项");
@@ -1382,6 +1428,7 @@ public class ForeOrderController extends BaseController {
                 if (!yn) {
                     logger.info("删除购物车商品，还原库存");
                     object.put("success", false);
+                    object.put("message", "删除失败！");
                     return object.toJSONString();
                 }
                 break;
@@ -1396,9 +1443,11 @@ public class ForeOrderController extends BaseController {
                 object.put("message", "删除成功！");
             } else {
                 object.put("success", false);
+                object.put("message", "删除失败！");
             }
         } else {
             object.put("success", false);
+            object.put("message", "删除失败！");
         }
         return object.toJSONString();
     }

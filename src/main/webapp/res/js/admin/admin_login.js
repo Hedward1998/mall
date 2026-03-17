@@ -39,7 +39,7 @@ $(function () {
         var username = $.trim($("#input_username").val());
         var password = $.trim($("#input_password").val());
         if(username === "" || password === "") {
-            styleUtil.errorShow($("#txt_error_msg"),"请输入用户名和密码");
+            styleUtil.errorShow($("#txt_error_msg"),"请输入用户名或密码！");
             return;
         }
         $.ajax({

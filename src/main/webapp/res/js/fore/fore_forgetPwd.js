@@ -3,22 +3,22 @@ $(function () {
     //用户名input获取光标
     $("#user_name").focus(function () {
         $(this).css("border", "1px solid #3879D9")
-            .next().text("请输入你的用户名称").css("display", "inline-block").css("color", "#00A0E9");
+            .next().text("4-11位数字、中英文、下划线").css("display", "inline-block").css("color", "#00A0E9");
     });
     //密码input获取光标
     $("#user_password").focus(function () {
         $(this).css("border", "1px solid #3879D9")
-            .next().text("请输入要修改的密码").css("display", "inline-block").css("color", "#00A0E9");
+            .next().text("4-11位数字、字母组合，必须包含数字和字母").css("display", "inline-block").css("color", "#00A0E9");
     });
     //再次输入密码input获取光标
     $("#user_password_one").focus(function () {
         $(this).css("border", "1px solid #3879D9")
-            .next().text("请再次输入密码").css("display", "inline-block").css("color", "#00A0E9");
+            .next().text("和登录密码保持一致").css("display", "inline-block").css("color", "#00A0E9");
     });
     //电话input获取光标
     $("#user_phone").focus(function () {
         $(this).css("border", "1px solid #3879D9")
-            .next().text("请输入你的电话号码").css("display", "inline-block").css("color", "#00A0E9");
+            .next().text("请输入中国大陆手机号").css("display", "inline-block").css("color", "#00A0E9");
     });
     //input离开光标
     $(".form-text").blur(function () {
@@ -36,38 +36,31 @@ $(function () {
         var user_password_one = $.trim($("input[name=user_password_one]").val());
         //电话号码
         var user_phone = $.trim($("input[name=user_phone]").val());
-
-        //验证密码的格式 包含数字和英文字母
-        var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
-        //验证电话号码的格式
-        var reg_phone = new RegExp(/^(13[0-9]|14[5-9]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[13589])\d{8}$/);
+        //验证密码的格式 包含数字和英文字母。4~11位数字、字母、下划线或组合
+        var reg_pwd = new RegExp(/^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{4,11}$/);
         if (user_name == null || user_name === "") {
             $("#user_name").css("border", "1px solid red")
-                .next().text("请输入你的用户名称").css("display", "inline-block").css("color", "red");
+                .next().text("请输入用户名！").css("display", "inline-block").css("color", "red");
+            return false;
+        } else if (user_phone == null || user_phone === "") {
+            $("#user_phone").css("border", "1px solid red")
+                .next().text("请输入电话号码！").css("display", "inline-block").css("color", "red");
             return false;
         } else if (user_password == null || user_password === "") {
             $("#user_password").css("border", "1px solid red")
-                .next().text("请输入要修改的密码").css("display", "inline-block").css("color", "red");
+                .next().text("请输入要修改的密码！").css("display", "inline-block").css("color", "red");
             return false;
         } else if (user_password_one == null || user_password_one === "") {
             $("#user_password_one").css("border", "1px solid red")
-                .next().text("请勿重复输入密码").css("display", "inline-block").css("color", "red");
+                .next().text("请确认密码！").css("display", "inline-block").css("color", "red");
             return false;
-        } else if (!reg.test(user_password)) {
+        } else if (!reg_pwd.test(user_password)) {
             $("#user_password").css("border", "1px solid red")
-                .next().text("密码格式必须包含数字和字母").css("display", "inline-block").css("color", "red");
+                .next().text("密码格式错误！").css("display", "inline-block").css("color", "red");
             return false;
         } else if (user_password !== user_password_one) {
             $("#user_password_one").css("border", "1px solid red")
-                .next().text("两次输入密码不相同").css("display", "inline-block").css("color", "red");
-            return false;
-        }else if (user_phone == null || user_phone === "") {
-            $("#user_phone").css("border", "1px solid red")
-                .next().text("请输入你的电话号码").css("display", "inline-block").css("color", "red");
-            return false;
-        } else if (!reg_phone.test(user_phone)) {
-            $("#user_phone").css("border", "1px solid red")
-                .next().text("请输入正确的电话号码").css("display", "inline-block").css("color", "red");
+                .next().text("两次输入密码不相同！").css("display", "inline-block").css("color", "red");
             return false;
         }
         $.ajax({

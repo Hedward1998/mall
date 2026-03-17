@@ -77,9 +77,13 @@
         <div class="form-item">
             <label class="form-label tsl">性别：</label>
             <input name="user_gender" type="radio" id="form_radion" value="0" checked="checked">
-            <span class="radio_value">男</span>
+            <label for="form_radion" class="radio_label">
+                <span class="radio_value">男</span>
+            </label>
             <input name="user_gender" type="radio" id="form_radions" value="1">
-            <span class="radio_value">女</span>
+            <label for="form_radions" class="radio_label">
+                <span class="radio_value">女</span>
+            </label>
         </div>
         <div class="form-item">
             <label class="form-label tsl">出生日期：</label>
@@ -87,8 +91,8 @@
             <span class="form_span"></span>
         </div>
         <div class="form-item">
-            <label class="form-label tsl">联系电话：</label>
-            <input name="user_phone" id="user_phone" class="form-text err-input" placeholder="请输入联系电话"
+            <label class="form-label tsl">电话号码：</label>
+            <input name="user_phone" id="user_phone" class="form-text err-input" placeholder="请输入中国大陆手机号"
                    maxlength="20">
             <span class="form_span"></span>
         </div>

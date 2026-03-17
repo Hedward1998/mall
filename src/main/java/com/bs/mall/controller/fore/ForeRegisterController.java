@@ -7,6 +7,7 @@ import com.bs.mall.entity.User;
 import com.bs.mall.service.AddressService;
 import com.bs.mall.service.UserService;
 import com.bs.mall.util.Md5Util;
+import com.bs.mall.util.Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,7 +49,7 @@ public class ForeRegisterController extends BaseController{
         logger.info("转到前台-用户注册页");
         return "fore/register";
     }
-
+    
     //商城前台-用户注册-ajax
     @ResponseBody
     @RequestMapping(value = "register/doRegister", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -61,13 +62,61 @@ public class ForeRegisterController extends BaseController{
             @RequestParam(value = "user_phone") String user_phone /*用户电话*/,
             @RequestParam(value = "user_address") String user_address  /*用户所在地 */
     ) throws ParseException {
+        logger.info("验证用户名符合规范");  // 4~11位数字、中英文、下划线或组合，不可重复
+        if (Util.validData("^[\\u4e00-\\u9fa5a-zA-Z0-9_]{4,11}$", user_name)) {
+            logger.info("用户名不符合规范，返回错误信息!");
+            JSONObject object = new JSONObject();
+            object.put("success", false);
+            object.put("message", "用户名格式错误！");
+            return object.toJSONString();
+        }
+        logger.info("验证密码符合规范");  // 4~11位数字、字母，必须包含数字和字母
+        if (Util.validData("^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{4,11}$", user_password)) {
+            logger.info("密码不符合规范，返回错误信息!");
+            JSONObject object = new JSONObject();
+            object.put("success", false);
+            object.put("message", "密码格式错误！");
+            return object.toJSONString();
+        }
+        logger.info("验证昵称符合规范");  // 4~11位数字、中英文、下划线或组合
+        if (Util.validData("^[\\u4e00-\\u9fa5a-zA-Z0-9_]{4,11}$", user_nickname)) {
+            logger.info("昵称不符合规范，返回错误信息!");
+            JSONObject object = new JSONObject();
+            object.put("success", false);
+            object.put("message", "昵称格式错误！");
+            return object.toJSONString();
+        }
+        logger.info("验证性别是否符合规范");
+        if (Util.isValidGender(user_gender)) {
+            logger.info("性别不符合规范，返回错误信息!");
+            JSONObject object = new JSONObject();
+            object.put("success", false);
+            object.put("message", "性别格式错误！");
+            return object.toJSONString();
+        }
+        logger.info("验证电话号码是否符合规范");
+        if (Util.isValidPhone(user_phone)) {
+            logger.info("电话号码不符合规范，返回错误信息!");
+            JSONObject object = new JSONObject();
+            object.put("success", false);
+            object.put("message", "电话号码格式错误！");
+            return object.toJSONString();
+        }
         logger.info("验证用户名是否存在");
         Integer count = userService.getTotal(new User().setUser_name(user_name));
         if (count > 0) {
             logger.info("用户名已存在，返回错误信息!");
             JSONObject object = new JSONObject();
             object.put("success", false);
-            object.put("user_name", "用户名已存在，请重新输入！");
+            object.put("message", "用户名已存在，请重新输入！");
+            return object.toJSONString();
+        }
+        logger.info("验证出生日期是否符合规范");
+        if (Util.validBirthday(user_birthday)) {
+            logger.info("出生日期不符合规范，返回错误信息!");
+            JSONObject object = new JSONObject();
+            object.put("success", false);
+            object.put("message", "出生日期格式错误！");
             return object.toJSONString();
         }
         logger.info("验证电话号码是否存在");
@@ -76,7 +125,7 @@ public class ForeRegisterController extends BaseController{
             logger.info("用户电话已存在，返回错误信息!");
             JSONObject object = new JSONObject();
             object.put("success", false);
-            object.put("user_phone", "用户联系电话已存在，请重新输入！");
+            object.put("message", "电话号码已存在，请重新输入！");
             return object.toJSONString();
         }
         logger.info("创建用户对象");
@@ -94,6 +143,7 @@ public class ForeRegisterController extends BaseController{
             logger.info("注册成功");
             JSONObject object = new JSONObject();
             object.put("success", true);
+            object.put("message", "注册成功！");
             return object.toJSONString();
         } else {
             throw new RuntimeException();

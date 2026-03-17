@@ -42,6 +42,7 @@ public class ForeLoginController extends BaseController {
                 logger.info("登录验证成功，用户ID传入会话");
                 session.setAttribute("userId", user.getUser_id());
                 object.put("success",true);
+                object.put("message", "登录成功！");
             } else {
                 logger.info("用户登录-密码错误");
                 object.put("message", "密码错误！");
@@ -49,7 +50,7 @@ public class ForeLoginController extends BaseController {
             }
         } else {
             logger.info("用户登录-用户不存在");
-            object.put("message", "不存在此账号！");
+            object.put("message", "用户名或手机号不存在！");
             object.put("success",false);
         }
         return object.toJSONString();

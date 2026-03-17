@@ -98,6 +98,8 @@ $(function () {
     });
     //出生日期input获取光标
     $("#user_birthday").focus(function () {
+        let today = new Date().toISOString().split('T')[0];
+        $(this).attr('max', today);
         $(this).css("border", "1px solid #3879D9")
             .next().text("请输入出生日期").css("display", "inline-block").css("color", "#00A0E9");
     });

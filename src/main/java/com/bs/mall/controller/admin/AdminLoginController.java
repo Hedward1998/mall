@@ -5,6 +5,7 @@ import com.bs.mall.controller.BaseController;
 import com.bs.mall.entity.Admin;
 import com.bs.mall.service.AdminService;
 import com.bs.mall.util.Md5Util;
+import com.bs.mall.util.Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

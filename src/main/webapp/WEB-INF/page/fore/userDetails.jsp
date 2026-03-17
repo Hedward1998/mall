@@ -102,7 +102,8 @@
                 <div class="form-item">
                     <label class="form-label tsl">性别：</label>
                     <input name="user_gender" type="radio" id="form_radion" value="0"
-                           <c:if test="${requestScope.user.user_gender == 0}">checked="checked"</c:if>><span
+                           <c:if test="${requestScope.user.user_gender == 0}">checked="checked"</c:if>>
+                    <span
                         class="radio_value">男</span>
                     <input name="user_gender" type="radio" id="form_radions" value="1"
                            <c:if test="${requestScope.user.user_gender == 1}">checked="checked"</c:if>><span

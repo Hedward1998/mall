@@ -124,6 +124,13 @@ nav {
     line-height: 10px;
     margin: 12px 0 0 10px;
 }
+.radio_label {
+    cursor: pointer;
+    margin-right: 20px;
+}
+.radio_label:hover {
+    color: #1890ff;
+}
 /*修改bootstrap-select下拉框样式*/
 .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
     width: 120px;
@@ -198,4 +205,9 @@ nav {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    /* 新增属性 */
+    z-index: 9999; /* 确保在最上层 */
+    pointer-events: none; /* 允许点击背后的元素 */
+    transition: opacity 0.3s ease; /* 添加淡入淡出效果 */
 }
