@@ -896,7 +896,7 @@ public class ForeOrderController extends BaseController {
         JSONObject orderItemString = JSON.parseObject(orderItemMap);
         Set<String> orderItemIDSet = orderItemString.keySet();
         if (orderItemIDSet.size() > 0) {
-            logger.info("更新产品订单项数量");
+            logger.info("更新商品订单项数量");
             for (String key : orderItemIDSet) {
                 ProductOrderItem productOrderItem = productOrderItemService.get(Integer.valueOf(key));
                 if (productOrderItem == null || !productOrderItem.getProductOrderItem_user().getUser_id().equals(userId)) {
@@ -911,9 +911,9 @@ public class ForeOrderController extends BaseController {
                 }
                 Short number = Short.valueOf(orderItemString.getString(key));
                 if (number <= 0 || number > 500) {
-                    logger.warn("订单项产品数量不合法！");
+                    logger.warn("订单项商品数量不合法！");
                     object.put("success", false);
-                    object.put("message", "订单项产品数量不合法！");
+                    object.put("message", "订单项商品数量不合法！");
                     return object.toJSONString();
                 }
                 double price = productOrderItem.getProductOrderItem_price() / productOrderItem.getProductOrderItem_number();
