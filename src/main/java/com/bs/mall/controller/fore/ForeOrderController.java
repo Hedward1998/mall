@@ -253,7 +253,7 @@ public class ForeOrderController extends BaseController {
             return "redirect:/cart";
         }
         for (ProductOrderItem orderItem : orderItemList) {
-            if (orderItem.getProductOrderItem_user().getUser_id() != userId) {
+            if (!orderItem.getProductOrderItem_user().getUser_id().equals(userId)) {
                 logger.warn("用户订单项与用户不匹配，回到购物车页");
                 return "redirect:/cart";
             }
