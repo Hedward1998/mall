@@ -55,6 +55,9 @@
                         if (data.success) {
                             down(obj);
                         }
+                        if (data.message != null) {
+                            swal(data.message);
+                        }
                     },
                     beforeSend: function () {
 
