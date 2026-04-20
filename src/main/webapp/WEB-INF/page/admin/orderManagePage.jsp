@@ -187,7 +187,7 @@
 <div class="frm_div text_info">
     <div class="frm_group">
         <label class="frm_label" id="lbl_productOrder_code" for="input_productOrder_code">订单号</label>
-        <input class="frm_input" id="input_productOrder_code" type="text" maxlength="20"/>
+        <input class="frm_input" id="input_productOrder_code" type="text" maxlength="30"/>
         <label class="frm_label" id="lbl_productOrder_post" for="input_productOrder_post">邮政编码</label>
         <input class="frm_input" id="input_productOrder_post" type="text" maxlength="6"/>
         <input class="frm_btn" id="btn_productOrder_submit" type="button" value="查询"/>

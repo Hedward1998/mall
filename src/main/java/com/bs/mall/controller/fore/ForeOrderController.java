@@ -982,10 +982,15 @@ public class ForeOrderController extends BaseController {
             //存储Cookie
             response.addCookie(cookie);
         }
+        // 17位时间号 + 4位用户标识 + 2位随机数标识
         StringBuffer productOrder_code = new StringBuffer()
-                .append(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()))
-                .append(0)
-                .append(userId);
+                .append(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()))
+                .append(String.format("%04d", Integer.parseInt(String.valueOf(userId))))
+                .append(String.format("%02d", new Random().nextInt(100)));
+//        StringBuffer productOrder_code = new StringBuffer()
+//                .append(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()))
+//                .append(0)
+//                .append(userId);
         logger.info("生成的订单号为：{}", productOrder_code);
         logger.info("整合订单对象");
         ProductOrder productOrder = new ProductOrder()
@@ -1107,10 +1112,16 @@ public class ForeOrderController extends BaseController {
             //存储Cookie
             response.addCookie(cookie);
         }
+        // TODO 同一用户不能一秒内再下单 优化使用雪花算法生成code
+        // 17位时间号 + 4位用户标识 + 2位随机数标识
         StringBuffer productOrder_code = new StringBuffer()
-                .append(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()))
-                .append(0)
-                .append(userId);
+                .append(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()))
+                .append(String.format("%04d", Integer.parseInt(String.valueOf(userId))))
+                .append(String.format("%02d", new Random().nextInt(100)));
+//        StringBuffer productOrder_code = new StringBuffer()
+//                .append(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()))
+//                .append(0)
+//                .append(userId);
         logger.info("生成的订单号为：{}", productOrder_code);
         logger.info("整合订单对象");
         ProductOrder productOrder = new ProductOrder()
