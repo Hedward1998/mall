@@ -965,6 +965,21 @@ public class ForeOrderController extends BaseController {
             object.put("message", "商品不存在！");
             return object.toJSONString();
         }
+        if (orderItem_number <= 0) {
+            object.put("success", false);
+            object.put("url", "/");
+            object.put("message", "商品数量错误！");
+            return object.toJSONString();
+        }
+        //查询剩余产品库存
+        Integer product_stocks_now = productService.selectStocks(orderItem_product_id);
+        if (orderItem_number > product_stocks_now) {
+            logger.warn("产品库存不足");
+            object.put("success", false);
+            object.put("url", "/");
+            object.put("message", "商品库存不足！");
+            return object.toJSONString();
+        }
         logger.info("将收货地址等相关信息存入Cookie中,便于下次使用");
         Cookie[] cookies = new Cookie[]{
                 new Cookie("addressId", addressId),
@@ -1019,15 +1034,6 @@ public class ForeOrderController extends BaseController {
         yn = productOrderItemService.add(productOrderItem);
         if (!yn) {
             throw new RuntimeException();
-        }
-        //查询剩余产品库存
-        Integer product_stocks_now = productService.selectStocks(orderItem_product_id);
-        if (orderItem_number > product_stocks_now) {
-            logger.warn("产品库存不足");
-            object.put("success", false);
-            object.put("url", "/");
-            object.put("message", "商品库存不足！");
-            return object.toJSONString();
         }
         yn = productService.decreaseStocks(Integer.valueOf(orderItem_number), orderItem_product_id);
         if (!yn) {

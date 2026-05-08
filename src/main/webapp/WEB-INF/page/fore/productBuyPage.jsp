@@ -209,6 +209,7 @@
                 success: function (data) {
                     if (data.success) {
                         location.href = "/mall" + data.url;
+                        return true;
                     } else {
                         alert("订单创建失败，请稍后再试！");
                         location.reload(true);
